@@ -31,7 +31,7 @@ export const projects: Project[] = [
     stack: ["Laravel 12", "PHP 8.5+", "MySQL 8.4", "Redis", "Stripe", "Meilisearch", "Filament v3", "Docker"],
     result:
       "Une API e-commerce complète et prête pour la production : 325+ endpoints, paiements Stripe, admin Filament et 100% de couverture de tests.",
-    image: "/projets/laracommerce.png",
+    image: "/projets/laracommerce.webp",
     demoUrl: "https://amazscript.com/products/laracommerce-api-complete-e-commerce-backend-laravel-12-x9jkbo",
     problem:
       "Les boutiques qui veulent un front sur mesure (Vue, Next.js, mobile) ont besoin d'un back-end e-commerce fiable et découplé, sans s'enfermer dans un CMS monolithique.",
@@ -62,7 +62,7 @@ export const projects: Project[] = [
     stack: ["Vue 3", "Tailwind CSS v4", "Node.js 20", "Express", "Sequelize", "PostgreSQL 16", "MinIO", "Docker"],
     result:
       "Un système de réservation complet et auto-hébergé : calendrier sur mesure (6 vues), formulaires personnalisables et zéro double réservation.",
-    image: "/projets/booking.png",
+    image: "/projets/booking.webp",
     demoUrl: "https://amazscript.com/products/booking-system-multi-resource-booking-calendar-vuejs-3-nodejs-7qjqp2",
     problem:
       "Les activités sur rendez-vous (salons, cliniques, studios, coachs) ont besoin d'un outil de réservation qu'elles maîtrisent — sans commission ni abonnement mensuel, et sans dépendre d'un agenda tiers.",
@@ -92,7 +92,7 @@ export const projects: Project[] = [
     stack: ["WordPress", "WooCommerce", "PHP", "JavaScript (vanilla)", "PDF"],
     result:
       "Un plugin de devis ultra-léger qui remplace « Ajouter au panier » par « Demander un devis » — avec e-mails pro, PDF et tableau de bord.",
-    image: "/projets/litequote.png",
+    image: "/projets/litequote.webp",
     demoUrl: "https://amazscript.com/products/litequote-for-woocommerce-request-a-quote-plugin-i7f0cs",
     problem:
       "Beaucoup de boutiques B2B ou d'artisans vendent des produits qui se négocient : le tunnel d'achat classique ne convient pas, il faut demander un devis plutôt que payer immédiatement.",
@@ -122,7 +122,7 @@ export const projects: Project[] = [
     stack: ["JavaScript", "Chrome Extension API", "Chrome i18n", "LLM (5 fournisseurs)"],
     result:
       "Range des dizaines d'onglets en groupes intelligents et colorés en un clic, avec le moteur IA de son choix — dont Ollama 100% local.",
-    image: "/projets/tab-manager.png",
+    image: "/projets/tab-manager.webp",
     demoUrl: "https://amazscript.com/products/tab-manager-pro-ai-tab-organizer-rdalkm",
     problem:
       "Les utilisateurs intensifs accumulent des dizaines d'onglets ; les trier et les retrouver devient un frein. Un assistant IA peut regrouper, nommer et sauvegarder tout ça en un clic.",

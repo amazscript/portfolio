@@ -322,6 +322,195 @@ export const posts: Post[] = [
       },
     ],
   },
+  {
+    slug: "freelance-ou-agence-web-lequel-choisir",
+    title: "Freelance ou agence web : lequel choisir pour votre projet ?",
+    excerpt:
+      "Deux options, deux logiques de coût et de relation. Voici les vrais critères pour décider — sans le discours commercial de l'un ou de l'autre.",
+    category: "Business & Freelance",
+    tags: ["Freelance", "Agence", "Budget", "Projet"],
+    icon: "handshake",
+    date: "2026-07-10",
+    dateLabel: "10 juillet 2026",
+    readMin: 6,
+    featured: false,
+    content: [
+      {
+        type: "p",
+        text: "« Je prends une agence ou un freelance ? » C'est souvent la première question quand on lance un projet web. Les deux peuvent livrer un excellent résultat — le bon choix dépend surtout de la taille du projet, de votre budget et de la relation que vous voulez.",
+      },
+      { type: "h2", text: "La vraie différence n'est pas le prix" },
+      {
+        type: "p",
+        text: "On imagine souvent le freelance « moins cher » et l'agence « plus chère ». C'est réducteur. La vraie différence, c'est la structure : une agence, c'est une équipe et des frais de fonctionnement ; un freelance, c'est un interlocuteur unique et peu de frais de structure.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Freelance : contact direct avec la personne qui code, décisions rapides, coûts maîtrisés, forte implication.",
+          "Agence : plusieurs métiers réunis (design, dev, marketing), capacité à absorber de gros volumes, process formalisés.",
+        ],
+      },
+      { type: "h2", text: "Quand un freelance est le bon choix" },
+      {
+        type: "ul",
+        items: [
+          "Vous voulez un interlocuteur unique qui comprend votre projet de bout en bout.",
+          "Votre projet est un site, une application ou une API sur mesure — pas une campagne multi-services.",
+          "Vous cherchez de la réactivité et une relation directe, sans intermédiaire.",
+          "Votre budget doit aller dans le produit, pas dans une structure.",
+        ],
+      },
+      { type: "h2", text: "Quand une agence a du sens" },
+      {
+        type: "ul",
+        items: [
+          "Vous avez besoin de plusieurs métiers en même temps (branding, pub, rédaction, dev) sous un même toit.",
+          "Le projet est très volumineux et doit avancer sur plusieurs fronts en parallèle.",
+          "Vous voulez une garantie de continuité assurée par une équipe entière.",
+        ],
+      },
+      {
+        type: "callout",
+        text: "Bon à savoir : beaucoup d'agences sous-traitent justement le développement à des freelances. En passant en direct, vous supprimez cet intermédiaire — et sa marge.",
+      },
+      { type: "h2", text: "Le compromis que j'observe le plus souvent" },
+      {
+        type: "p",
+        text: "Pour la majorité des projets de PME et de porteurs de projet, un développeur full-stack indépendant et senior couvre l'essentiel : conception, développement, mise en ligne et suivi. Vous gardez la simplicité d'un seul interlocuteur, avec la maîtrise technique d'un profil complet — et je m'entoure ponctuellement (design, rédaction) quand le projet le demande.",
+      },
+      {
+        type: "quote",
+        text: "Le bon prestataire n'est pas « freelance » ou « agence » : c'est celui qui comprend votre besoin et le livre vraiment.",
+      },
+      {
+        type: "p",
+        text: "Vous hésitez encore pour votre projet ? Décrivez-le moi en quelques lignes : je vous dis honnêtement si c'est un projet pour moi ou si une agence serait plus adaptée.",
+      },
+    ],
+  },
+  {
+    slug: "combien-de-temps-creer-site-application",
+    title: "Combien de temps faut-il pour créer un site ou une application ?",
+    excerpt:
+      "Un site vitrine, une boutique, une application métier : les délais n'ont rien à voir. Voici des fourchettes réalistes et ce qui les fait vraiment varier.",
+    category: "Business & Freelance",
+    tags: ["Délais", "Planning", "Projet"],
+    icon: "clock",
+    date: "2026-06-05",
+    dateLabel: "5 juin 2026",
+    readMin: 5,
+    featured: false,
+    content: [
+      {
+        type: "p",
+        text: "« C'est faisable pour quand ? » Question légitime, mais la réponse dépend énormément de ce qu'on construit. Voici des ordres de grandeur réalistes pour un travail sur mesure et soigné — pas un template monté en un après-midi.",
+      },
+      { type: "h2", text: "Des fourchettes réalistes" },
+      {
+        type: "ul",
+        items: [
+          "Site vitrine sur mesure (5 à 10 pages) : 2 à 4 semaines.",
+          "Boutique e-commerce : 4 à 8 semaines selon le catalogue et les paiements.",
+          "Application métier (réservation, gestion, tableau de bord) : 8 à 16 semaines, voire plus.",
+          "Application mobile : à partir de 8 à 12 semaines.",
+        ],
+      },
+      { type: "h2", text: "Ce qui allonge (ou raccourcit) les délais" },
+      {
+        type: "ul",
+        items: [
+          "Le contenu : textes, photos et logos prêts font gagner des semaines ; à produire, ils ralentissent tout.",
+          "La rapidité de validation : chaque aller-retour de décision compte.",
+          "Le périmètre : un besoin clair et stable avance vite ; un cahier des charges qui bouge, non.",
+          "Les intégrations tierces (paiement, CRM, API externes) ajoutent du temps de branchement et de test.",
+        ],
+      },
+      {
+        type: "callout",
+        text: "Le retard n°1 sur un projet web n'est presque jamais technique : c'est l'attente du contenu et des validations côté client. Préparer ça en amont, c'est livrer plus tôt.",
+      },
+      { type: "h2", text: "Comment je tiens les délais" },
+      {
+        type: "ol",
+        items: [
+          "Cadrage précis au départ : on fige le périmètre et les priorités.",
+          "Planning par jalons : vous savez ce qui est livré et quand.",
+          "Livraisons par étapes : vous voyez le projet avancer, vous validez au fil de l'eau.",
+          "Un seul interlocuteur : pas de temps perdu en coordination.",
+        ],
+      },
+      {
+        type: "quote",
+        text: "Un délai tenu se prépare au cadrage, pas à la dernière semaine.",
+      },
+      {
+        type: "p",
+        text: "Vous avez une échéance en tête (un lancement, un salon, une saison) ? Dites-la moi : je vous dis franchement si c'est tenable et comment on s'organise pour y arriver.",
+      },
+    ],
+  },
+  {
+    slug: "pourquoi-votre-site-est-lent",
+    title: "Pourquoi votre site est lent (et ce que ça vous coûte)",
+    excerpt:
+      "Un site lent fait fuir les visiteurs ET vous fait perdre des places sur Google. Voici les causes les plus fréquentes — et comment savoir où vous en êtes.",
+    category: "SEO & Migration",
+    tags: ["Performance", "SEO", "Core Web Vitals", "Conversion"],
+    icon: "bolt",
+    date: "2026-05-08",
+    dateLabel: "8 mai 2026",
+    readMin: 6,
+    featured: false,
+    content: [
+      {
+        type: "p",
+        text: "La vitesse d'un site n'est pas un détail de développeur : c'est un enjeu business. Au-delà de 3 secondes de chargement, une grande partie des visiteurs abandonne — avant même d'avoir vu votre offre. Et Google, lui, le remarque.",
+      },
+      { type: "h2", text: "Ce que la lenteur vous coûte vraiment" },
+      {
+        type: "ul",
+        items: [
+          "Des visiteurs perdus : chaque seconde de chargement en plus fait chuter le taux de conversion.",
+          "Du référencement en moins : la vitesse (Core Web Vitals) est un critère de classement Google.",
+          "Une image de marque écornée : un site lent renvoie l'idée d'une entreprise peu soignée.",
+        ],
+      },
+      { type: "h2", text: "Les causes les plus fréquentes" },
+      {
+        type: "ul",
+        items: [
+          "Des images non optimisées (photos de plusieurs Mo servies telles quelles).",
+          "Trop de scripts et de plugins qui s'accumulent, surtout sur WordPress.",
+          "Un hébergement mutualisé bas de gamme, saturé aux heures de pointe.",
+          "L'absence de cache et de compression côté serveur.",
+          "Un code lourd qui charge tout, tout le temps, même l'inutile.",
+        ],
+      },
+      {
+        type: "callout",
+        text: "Google mesure la vitesse réelle vécue par vos visiteurs (les Core Web Vitals), pas une valeur théorique. Optimiser, c'est donc améliorer à la fois l'expérience ET le référencement.",
+      },
+      { type: "h2", text: "Comment savoir où vous en êtes" },
+      {
+        type: "ol",
+        items: [
+          "Testez votre page sur PageSpeed Insights (gratuit, par Google).",
+          "Regardez surtout la version mobile : c'est celle que Google privilégie.",
+          "Surveillez le LCP (temps d'affichage du contenu principal) et le CLS (stabilité visuelle).",
+          "Comparez avant / après chaque optimisation pour mesurer le gain réel.",
+        ],
+      },
+      {
+        type: "quote",
+        text: "La performance n'est pas une option technique : c'est la première impression que votre site donne.",
+      },
+      {
+        type: "p",
+        text: "Votre site vous semble lent, ou PageSpeed vous met au rouge ? Envoyez-moi l'adresse : je vous dis ce qui coince et ce qu'on peut gagner, concrètement.",
+      },
+    ],
+  },
 ];
 
 export const blogCategories = [

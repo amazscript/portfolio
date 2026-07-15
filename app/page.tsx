@@ -40,7 +40,7 @@ export default function HomePage() {
               {site.availability} — {site.area}
             </p>
             <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
-              Développeur full-stack qui livre des{" "}
+              Développeur full-stack freelance qui livre des{" "}
               <span className="text-gradient">produits qui tournent</span>.
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-[var(--muted)]">
