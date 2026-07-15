@@ -125,6 +125,10 @@ prod-init: ## Configure le remote git de prod (à lancer une seule fois)
 prod-logs: ## Suit les logs du conteneur de prod sur le VPS
 	ssh $(PROD_HOST) 'cd $(PROD_DIR) && docker compose -f docker-compose.prod.yml logs -f --tail 80'
 
+.PHONY: prod-restart
+prod-restart: ## Recharge le conteneur de prod (prend en compte .env.local, sans rebuild)
+	ssh $(PROD_HOST) 'cd $(PROD_DIR) && docker compose -f docker-compose.prod.yml up -d'
+
 .PHONY: prod-status
 prod-status: ## État du conteneur de prod + HTTP du site en ligne
 	@ssh $(PROD_HOST) 'docker ps --filter name=portfolio-app --format "{{.Names}} → {{.Status}}"'

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import nodemailer from "nodemailer";
 import { site } from "@/lib/site";
 
 export const runtime = "nodejs";
@@ -27,8 +28,17 @@ const escapeHtml = (v: string) =>
 
 // Config via variables d'environnement — aucune clé exposée côté client (CDC §4.4).
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
+// SMTP (ex : Gandi) — prioritaire s'il est configuré.
+const SMTP_HOST = process.env.SMTP_HOST;
+const SMTP_PORT = Number(process.env.SMTP_PORT ?? 465);
+const SMTP_USER = process.env.SMTP_USER;
+const SMTP_PASSWORD = process.env.SMTP_PASSWORD;
+
 const CONTACT_TO = process.env.CONTACT_TO_EMAIL || site.email;
-const CONTACT_FROM = process.env.CONTACT_FROM_EMAIL || "Portfolio <onboarding@resend.dev>";
+// En SMTP, l'expéditeur doit être la boîte authentifiée, sinon le serveur rejette.
+const CONTACT_FROM =
+  process.env.CONTACT_FROM_EMAIL ||
+  (SMTP_USER ? `Portfolio <${SMTP_USER}>` : "Portfolio <onboarding@resend.dev>");
 
 export async function POST(req: Request) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
@@ -71,9 +81,35 @@ export async function POST(req: Request) {
       <p style="font-size:12px;color:#64748b">IP : ${escapeHtml(ip)}</p>
     </div>`;
 
-  // Repli gracieux : sans clé configurée, on journalise (utile en dev/CI) sans casser l'UX.
+  // 1) SMTP (ex : Gandi) — prioritaire s'il est configuré.
+  if (SMTP_HOST && SMTP_USER && SMTP_PASSWORD) {
+    try {
+      const transporter = nodemailer.createTransport({
+        host: SMTP_HOST,
+        port: SMTP_PORT,
+        secure: SMTP_PORT === 465, // 465 = SSL implicite, 587 = STARTTLS
+        auth: { user: SMTP_USER, pass: SMTP_PASSWORD },
+      });
+      await transporter.sendMail({
+        from: CONTACT_FROM,
+        to: CONTACT_TO,
+        replyTo: email, // répondre directement au prospect
+        subject: subjectLine,
+        html,
+      });
+      return NextResponse.json({ ok: true, delivered: true });
+    } catch (err) {
+      console.error("[contact] SMTP error:", err);
+      return NextResponse.json(
+        { error: "L'envoi a échoué. Réessayez ou écrivez-moi directement." },
+        { status: 502 }
+      );
+    }
+  }
+
+  // 2) Repli gracieux : sans SMTP ni clé Resend, on journalise sans casser l'UX.
   if (!RESEND_API_KEY) {
-    console.warn("[contact] RESEND_API_KEY absente — message non envoyé, journalisé :", {
+    console.warn("[contact] Aucun transport configuré (SMTP/Resend) — message journalisé :", {
       name,
       email,
       subject,
@@ -82,6 +118,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true, delivered: false });
   }
 
+  // 3) Resend (repli si clé présente).
   try {
     const resend = new Resend(RESEND_API_KEY);
     const { error } = await resend.emails.send({
