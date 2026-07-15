@@ -1,0 +1,103 @@
+import { NextResponse } from "next/server";
+import { Resend } from "resend";
+import { site } from "@/lib/site";
+
+export const runtime = "nodejs";
+
+// Rate-limiting mémoire simple (par IP) — suffisant pour un portfolio.
+// En production multi-instance, remplacer par un store partagé (Upstash, Redis).
+const hits = new Map<string, { count: number; ts: number }>();
+const WINDOW_MS = 60_000;
+const MAX_PER_WINDOW = 5;
+
+function limited(ip: string) {
+  const now = Date.now();
+  const entry = hits.get(ip);
+  if (!entry || now - entry.ts > WINDOW_MS) {
+    hits.set(ip, { count: 1, ts: now });
+    return false;
+  }
+  entry.count += 1;
+  return entry.count > MAX_PER_WINDOW;
+}
+
+const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+const escapeHtml = (v: string) =>
+  v.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c] as string));
+
+// Config via variables d'environnement — aucune clé exposée côté client (CDC §4.4).
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const CONTACT_TO = process.env.CONTACT_TO_EMAIL || site.email;
+const CONTACT_FROM = process.env.CONTACT_FROM_EMAIL || "Portfolio <onboarding@resend.dev>";
+
+export async function POST(req: Request) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  if (limited(ip)) {
+    return NextResponse.json({ error: "Trop de requêtes. Réessayez dans une minute." }, { status: 429 });
+  }
+
+  let body: Record<string, unknown>;
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Requête invalide." }, { status: 400 });
+  }
+
+  // Honeypot : si rempli, c'est un bot → on répond OK sans rien traiter.
+  if (typeof body.company === "string" && body.company.trim() !== "") {
+    return NextResponse.json({ ok: true });
+  }
+
+  const name = String(body.name ?? "").trim();
+  const email = String(body.email ?? "").trim();
+  const subject = String(body.subject ?? "").trim();
+  const message = String(body.message ?? "").trim();
+
+  if (name.length < 2) return NextResponse.json({ error: "Nom requis." }, { status: 400 });
+  if (!isEmail(email)) return NextResponse.json({ error: "E-mail invalide." }, { status: 400 });
+  if (message.length < 10)
+    return NextResponse.json({ error: "Message trop court." }, { status: 400 });
+
+  const subjectLine = subject ? `Contact portfolio — ${subject}` : "Nouveau message depuis le portfolio";
+  const html = `
+    <div style="font-family:system-ui,sans-serif;line-height:1.6;color:#0f172a">
+      <h2 style="margin:0 0 12px">Nouveau message depuis le portfolio</h2>
+      <p><strong>Nom :</strong> ${escapeHtml(name)}</p>
+      <p><strong>E-mail :</strong> ${escapeHtml(email)}</p>
+      ${subject ? `<p><strong>Sujet :</strong> ${escapeHtml(subject)}</p>` : ""}
+      <p><strong>Message :</strong></p>
+      <p style="white-space:pre-wrap;padding:12px;background:#f8fafc;border-radius:8px">${escapeHtml(message)}</p>
+      <hr style="border:none;border-top:1px solid #e2e8f0;margin:16px 0"/>
+      <p style="font-size:12px;color:#64748b">IP : ${escapeHtml(ip)}</p>
+    </div>`;
+
+  // Repli gracieux : sans clé configurée, on journalise (utile en dev/CI) sans casser l'UX.
+  if (!RESEND_API_KEY) {
+    console.warn("[contact] RESEND_API_KEY absente — message non envoyé, journalisé :", {
+      name,
+      email,
+      subject,
+      ip,
+    });
+    return NextResponse.json({ ok: true, delivered: false });
+  }
+
+  try {
+    const resend = new Resend(RESEND_API_KEY);
+    const { error } = await resend.emails.send({
+      from: CONTACT_FROM,
+      to: CONTACT_TO,
+      replyTo: email, // répondre directement au prospect
+      subject: subjectLine,
+      html,
+    });
+    if (error) {
+      console.error("[contact] Resend error:", error);
+      return NextResponse.json({ error: "L'envoi a échoué. Réessayez ou écrivez-moi directement." }, { status: 502 });
+    }
+    return NextResponse.json({ ok: true, delivered: true });
+  } catch (err) {
+    console.error("[contact] Exception:", err);
+    return NextResponse.json({ error: "Une erreur est survenue. Réessayez plus tard." }, { status: 500 });
+  }
+}

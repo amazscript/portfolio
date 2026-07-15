@@ -1,0 +1,40 @@
+# Déploiement production sur le VPS (routé par Traefik, SSL Let's Encrypt auto).
+# Utilisé par le hook post-receive : `docker compose -f docker-compose.prod.yml up -d --build`.
+# Le conteneur écoute sur 3000 (Next standalone) ; aucun port n'est publié sur l'hôte,
+# Traefik route decilapdenis.fr + www.decilapdenis.fr vers lui via le réseau 'web'.
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_PLAUSIBLE_DOMAIN: ${NEXT_PUBLIC_PLAUSIBLE_DOMAIN:-}
+        NEXT_PUBLIC_PLAUSIBLE_SRC: ${NEXT_PUBLIC_PLAUSIBLE_SRC:-}
+    container_name: portfolio-app
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+    env_file:
+      # Fournit RESEND_API_KEY / CONTACT_* au runtime si présent. Absent = repli journalisé.
+      - path: .env.local
+        required: false
+    networks:
+      - web
+    labels:
+      - 'traefik.enable=true'
+      # Router HTTPS pour l'apex + le www
+      - 'traefik.http.routers.portfolio.rule=Host(`decilapdenis.fr`) || Host(`www.decilapdenis.fr`)'
+      - 'traefik.http.routers.portfolio.entrypoints=websecure'
+      - 'traefik.http.routers.portfolio.tls.certresolver=letsencrypt'
+      - 'traefik.http.routers.portfolio.middlewares=secure-headers@file,portfolio-www'
+      - 'traefik.http.services.portfolio.loadbalancer.server.port=3000'
+      # Redirection www → apex (301)
+      - 'traefik.http.middlewares.portfolio-www.redirectregex.regex=^https://www\.decilapdenis\.fr/(.*)'
+      - 'traefik.http.middlewares.portfolio-www.redirectregex.replacement=https://decilapdenis.fr/$${1}'
+      - 'traefik.http.middlewares.portfolio-www.redirectregex.permanent=true'
+
+networks:
+  web:
+    external: true

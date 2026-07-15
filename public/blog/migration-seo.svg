@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" fill="none" role="img" aria-label="Migration et SEO">
+  <defs>
+    <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="0.45" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#06b6d4"/>
+    </linearGradient>
+    <filter id="soft1" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="55"/></filter>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg1)"/>
+  <circle cx="980" cy="120" r="220" fill="#ffffff" opacity="0.10" filter="url(#soft1)"/>
+  <circle cx="180" cy="620" r="200" fill="#0b1220" opacity="0.12" filter="url(#soft1)"/>
+  <g stroke="#ffffff" stroke-opacity="0.08" stroke-width="1.5">
+    <path d="M0 168.75 H1200 M0 337.5 H1200 M0 506.25 H1200 M200 0 V675 M400 0 V675 M600 0 V675 M800 0 V675 M1000 0 V675"/>
+  </g>
+  <!-- Ancien site (gauche, estompé) -->
+  <g opacity="0.5">
+    <rect x="150" y="235" width="180" height="205" rx="16" fill="#ffffff" opacity="0.18"/>
+    <rect x="176" y="266" width="128" height="16" rx="8" fill="#ffffff" opacity="0.55"/>
+    <rect x="176" y="298" width="90" height="12" rx="6" fill="#ffffff" opacity="0.4"/>
+    <rect x="176" y="330" width="110" height="12" rx="6" fill="#ffffff" opacity="0.4"/>
+    <rect x="176" y="384" width="70" height="30" rx="8" fill="#ffffff" opacity="0.6"/>
+  </g>
+  <!-- Nouveau site (droite, net) -->
+  <g>
+    <rect x="760" y="215" width="230" height="245" rx="20" fill="#ffffff"/>
+    <rect x="792" y="250" width="150" height="18" rx="9" fill="#3b82f6"/>
+    <rect x="792" y="288" width="110" height="12" rx="6" fill="#cbd5e1"/>
+    <rect x="792" y="316" width="140" height="12" rx="6" fill="#cbd5e1"/>
+    <rect x="792" y="400" width="90" height="34" rx="10" fill="#06b6d4"/>
+  </g>
+  <!-- Flèche 301 -->
+  <g>
+    <path d="M370 337 H700" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-dasharray="2 26"/>
+    <path d="M690 312 L735 337 L690 362 Z" fill="#ffffff"/>
+    <rect x="484" y="300" width="110" height="46" rx="23" fill="#0b1220" opacity="0.35"/>
+    <text x="539" y="332" font-family="ui-monospace, Menlo, monospace" font-size="26" font-weight="700" fill="#ffffff" text-anchor="middle">301</text>
+  </g>
+  <!-- Loupe SEO -->
+  <g transform="translate(560 470)" stroke="#ffffff" stroke-width="8" stroke-linecap="round">
+    <circle cx="0" cy="0" r="40" fill="#ffffff" fill-opacity="0.12"/>
+    <line x1="30" y1="30" x2="66" y2="66"/>
+  </g>
+</svg>
