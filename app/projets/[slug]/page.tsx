@@ -130,6 +130,20 @@ export default async function ProjetPage({ params }: { params: Promise<{ slug: s
       </section>
 
       <Container className="py-14">
+        {/* Image du projet (si fournie) */}
+        {p.image && (
+          <Reveal>
+            <div className="mb-12 overflow-hidden rounded-[var(--radius-card)] border border-[var(--border)] shadow-[var(--shadow-card)]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={p.image}
+                alt={`Aperçu de ${p.title}`}
+                className="aspect-[16/9] w-full object-cover"
+              />
+            </div>
+          </Reveal>
+        )}
+
         {/* Métriques animées */}
         <Reveal>
           <div className="grid gap-4 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-card)] sm:grid-cols-3">

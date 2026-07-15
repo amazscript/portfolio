@@ -3,18 +3,28 @@ import type { Project } from "@/lib/projects";
 import { Badge } from "@/components/ui";
 import { Icon, ArrowUpRight, ArrowRight } from "@/components/icons";
 
-// Visuel généré (dégradé de marque + filigrane d'icône de catégorie).
-// À remplacer par next/image + capture optimisée quand disponible (CDC §3.3).
+// Visuel de projet : image si `project.image` est fourni (URL ou /fichier dans public/),
+// sinon visuel généré (dégradé de marque + filigrane d'icône de catégorie).
 function ProjectVisual({ project }: { project: Project }) {
   return (
-    <div className="relative aspect-[16/10] overflow-hidden rounded-t-[var(--radius-card)]" aria-hidden="true">
-      <div className="absolute inset-0" style={{ backgroundImage: "var(--brand-gradient)", opacity: 0.14 }} />
-      <div className="absolute inset-0 bg-grid opacity-60" />
-      <div
-        className="absolute -right-6 -top-8 text-[var(--accent)] opacity-20 transition-transform duration-500 group-hover:scale-110 group-hover:opacity-30"
-      >
-        <Icon name={project.category} size={150} strokeWidth={1} />
-      </div>
+    <div className="relative aspect-[16/10] overflow-hidden rounded-t-[var(--radius-card)]">
+      {project.image ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={project.image}
+          alt={project.title}
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      ) : (
+        <div aria-hidden="true" className="absolute inset-0">
+          <div className="absolute inset-0" style={{ backgroundImage: "var(--brand-gradient)", opacity: 0.14 }} />
+          <div className="absolute inset-0 bg-grid opacity-60" />
+          <div className="absolute -right-6 -top-8 text-[var(--accent)] opacity-20 transition-transform duration-500 group-hover:scale-110 group-hover:opacity-30">
+            <Icon name={project.category} size={150} strokeWidth={1} />
+          </div>
+        </div>
+      )}
       <div className="absolute inset-x-5 bottom-4 flex items-center gap-2">
         <span
           className="grid h-10 w-10 place-items-center rounded-xl text-white shadow-[var(--glow)]"
@@ -22,7 +32,7 @@ function ProjectVisual({ project }: { project: Project }) {
         >
           <Icon name={project.category} size={20} />
         </span>
-        <span className="text-base font-bold text-[var(--fg)]">{project.title}</span>
+        <span className="rounded-md bg-[var(--surface)]/90 px-2 py-0.5 text-base font-bold text-[var(--fg)]">{project.title}</span>
       </div>
     </div>
   );
