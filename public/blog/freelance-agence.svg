@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" fill="none" role="img" aria-label="Freelance ou agence">
+  <defs>
+    <linearGradient id="bg5" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="0.45" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#06b6d4"/>
+    </linearGradient>
+    <filter id="soft5" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="55"/></filter>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg5)"/>
+  <circle cx="240" cy="130" r="220" fill="#ffffff" opacity="0.10" filter="url(#soft5)"/>
+  <circle cx="980" cy="600" r="210" fill="#0b1220" opacity="0.12" filter="url(#soft5)"/>
+  <g stroke="#ffffff" stroke-opacity="0.08" stroke-width="1.5">
+    <path d="M0 168.75 H1200 M0 337.5 H1200 M0 506.25 H1200 M200 0 V675 M400 0 V675 M600 0 V675 M800 0 V675 M1000 0 V675"/>
+  </g>
+  <!-- séparateur central "ou" -->
+  <line x1="600" y1="150" x2="600" y2="525" stroke="#ffffff" stroke-opacity="0.35" stroke-width="3" stroke-dasharray="4 14"/>
+  <g transform="translate(600 337)">
+    <circle r="42" fill="#0b1220" opacity="0.35"/>
+    <text x="0" y="12" font-family="sans-serif" font-size="30" font-weight="700" fill="#ffffff" text-anchor="middle">ou</text>
+  </g>
+  <!-- Gauche : 1 personne (freelance) -->
+  <g transform="translate(310 337)">
+    <circle r="120" fill="#ffffff" opacity="0.12"/>
+    <circle cx="0" cy="-34" r="40" fill="#ffffff"/>
+    <path d="M-58 66 a58 58 0 0 1 116 0 Z" fill="#ffffff"/>
+  </g>
+  <!-- Droite : 3 personnes (agence) -->
+  <g transform="translate(890 337)" fill="#ffffff">
+    <circle r="120" fill="#ffffff" opacity="0.12"/>
+    <g opacity="0.8">
+      <circle cx="-52" cy="-20" r="26"/><path d="M-90 42 a38 38 0 0 1 76 0 Z"/>
+      <circle cx="52" cy="-20" r="26"/><path d="M14 42 a38 38 0 0 1 76 0 Z"/>
+    </g>
+    <circle cx="0" cy="-40" r="32"/><path d="M-46 40 a46 46 0 0 1 92 0 Z"/>
+  </g>
+</svg>

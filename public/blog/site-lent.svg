@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" fill="none" role="img" aria-label="Performance et vitesse d'un site">
+  <defs>
+    <linearGradient id="bg7" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="0.45" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#06b6d4"/>
+    </linearGradient>
+    <filter id="soft7" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="55"/></filter>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg7)"/>
+  <circle cx="250" cy="150" r="220" fill="#ffffff" opacity="0.10" filter="url(#soft7)"/>
+  <circle cx="990" cy="590" r="210" fill="#0b1220" opacity="0.12" filter="url(#soft7)"/>
+  <g stroke="#ffffff" stroke-opacity="0.08" stroke-width="1.5">
+    <path d="M0 168.75 H1200 M0 337.5 H1200 M0 506.25 H1200 M200 0 V675 M400 0 V675 M600 0 V675 M800 0 V675 M1000 0 V675"/>
+  </g>
+  <!-- Compteur de vitesse -->
+  <g transform="translate(600 400)">
+    <path d="M-180 0 A180 180 0 0 1 180 0" fill="none" stroke="#ffffff" stroke-opacity="0.25" stroke-width="26" stroke-linecap="round"/>
+    <path d="M-180 0 A180 180 0 0 1 128 -128" fill="none" stroke="#a7f3d0" stroke-width="26" stroke-linecap="round"/>
+    <!-- graduations -->
+    <g stroke="#ffffff" stroke-width="4" opacity="0.6">
+      <path d="M-180 0 l-24 0 M-155 -90 l-20 -12 M-90 -155 l-12 -20 M0 -180 l0 -24 M90 -155 l12 -20 M155 -90 l20 -12 M180 0 l24 0"/>
+    </g>
+    <!-- aiguille vers le rapide -->
+    <line x1="0" y1="0" x2="120" y2="-118" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+    <circle r="18" fill="#ffffff"/>
+    <circle r="8" fill="#3b82f6"/>
+  </g>
+  <!-- lignes de vitesse -->
+  <g stroke="#ffffff" stroke-width="7" stroke-linecap="round" opacity="0.8">
+    <path d="M170 250 h120"/>
+    <path d="M120 300 h90" opacity="0.6"/>
+    <path d="M200 350 h150" opacity="0.9"/>
+  </g>
+  <!-- éclair -->
+  <path transform="translate(910 250)" d="M18 -40 L-14 6 h20 l-10 40 32 -50 h-20 z" fill="#a7f3d0"/>
+</svg>
