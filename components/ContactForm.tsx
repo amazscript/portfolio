@@ -1,21 +1,68 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Script from "next/script";
 import { track, events } from "@/lib/analytics";
 import { User, Mail, Tag, MessageSquare, Send, CheckCircle } from "@/components/icons";
 
 type Status = "idle" | "sending" | "ok" | "error";
 
-export function ContactForm() {
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (el: HTMLElement, opts: { sitekey: string; theme?: string }) => string;
+      getResponse: (id?: string) => string | undefined;
+      reset: (id?: string) => void;
+      remove: (id?: string) => void;
+    };
+  }
+}
+
+export function ContactForm({ turnstileSiteKey }: { turnstileSiteKey?: string }) {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
+  const [tsReady, setTsReady] = useState(false);
+  const widgetRef = useRef<HTMLDivElement>(null);
+  const widgetId = useRef<string | null>(null);
+
+  // Le script est peut-être déjà chargé (navigation interne).
+  useEffect(() => {
+    if (window.turnstile) setTsReady(true);
+  }, []);
+
+  // Rend le widget Turnstile quand le script est prêt et que le formulaire est visible.
+  useEffect(() => {
+    if (!turnstileSiteKey || !tsReady || status === "ok") return;
+    const el = widgetRef.current;
+    const ts = window.turnstile;
+    if (!el || !ts) return;
+    widgetId.current = ts.render(el, { sitekey: turnstileSiteKey, theme: "auto" });
+    return () => {
+      try {
+        if (widgetId.current) ts.remove(widgetId.current);
+      } catch {}
+      widgetId.current = null;
+    };
+  }, [turnstileSiteKey, tsReady, status]);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const form = e.currentTarget;
+    const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
+
+    // Anti-robot : on récupère le jeton Turnstile avant d'envoyer.
+    if (turnstileSiteKey) {
+      const token = window.turnstile?.getResponse(widgetId.current ?? undefined);
+      if (!token) {
+        setStatus("error");
+        setError("Merci de confirmer que vous n'êtes pas un robot.");
+        return;
+      }
+      data["cf-turnstile-response"] = token;
+    }
+
     setStatus("sending");
     setError("");
-    const form = e.currentTarget;
-    const data = Object.fromEntries(new FormData(form).entries());
 
     try {
       const res = await fetch("/api/contact", {
@@ -34,6 +81,8 @@ export function ContactForm() {
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Une erreur est survenue.");
+      // Le jeton Turnstile est à usage unique : on le régénère pour un nouvel essai.
+      if (widgetId.current) window.turnstile?.reset(widgetId.current);
     }
   }
 
@@ -129,6 +178,19 @@ export function ContactForm() {
           />
         </div>
       </div>
+
+      {/* Anti-robot Cloudflare Turnstile (invisible/discret, RGPD-friendly).
+          Affiché uniquement si la clé publique est configurée. */}
+      {turnstileSiteKey && (
+        <>
+          <Script
+            src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+            strategy="afterInteractive"
+            onLoad={() => setTsReady(true)}
+          />
+          <div ref={widgetRef} className="mt-5" />
+        </>
+      )}
 
       {status === "error" && (
         <p className="mt-4 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-500">

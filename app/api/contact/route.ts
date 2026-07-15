@@ -34,6 +34,9 @@ const SMTP_PORT = Number(process.env.SMTP_PORT ?? 465);
 const SMTP_USER = process.env.SMTP_USER;
 const SMTP_PASSWORD = process.env.SMTP_PASSWORD;
 
+// Anti-robot Cloudflare Turnstile — vérifié seulement si la clé secrète est configurée.
+const TURNSTILE_SECRET = process.env.TURNSTILE_SECRET_KEY;
+
 const CONTACT_TO = process.env.CONTACT_TO_EMAIL || site.email;
 // En SMTP, l'expéditeur doit être la boîte authentifiée, sinon le serveur rejette.
 const CONTACT_FROM =
@@ -56,6 +59,27 @@ export async function POST(req: Request) {
   // Honeypot : si rempli, c'est un bot → on répond OK sans rien traiter.
   if (typeof body.company === "string" && body.company.trim() !== "") {
     return NextResponse.json({ ok: true });
+  }
+
+  // Anti-robot Turnstile : validé côté serveur si la clé secrète est configurée.
+  if (TURNSTILE_SECRET) {
+    const token = String(body["cf-turnstile-response"] ?? "");
+    if (!token) {
+      return NextResponse.json({ error: "Validation anti-robot manquante." }, { status: 400 });
+    }
+    try {
+      const verify = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({ secret: TURNSTILE_SECRET, response: token, remoteip: ip }),
+      });
+      const outcome = (await verify.json()) as { success?: boolean };
+      if (!outcome.success) {
+        return NextResponse.json({ error: "Validation anti-robot échouée. Réessayez." }, { status: 400 });
+      }
+    } catch {
+      return NextResponse.json({ error: "Vérification anti-robot indisponible. Réessayez." }, { status: 502 });
+    }
   }
 
   const name = String(body.name ?? "").trim();

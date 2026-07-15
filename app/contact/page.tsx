@@ -14,6 +14,10 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
 };
 
+// Rendu à l'exécution pour lire la clé Turnstile depuis l'environnement du serveur
+// (au lieu de la figer au build). Sans clé configurée, le formulaire marche sans anti-robot.
+export const dynamic = "force-dynamic";
+
 const reassurance = [
   { icon: Clock, title: "Réponse sous 24 h", text: "Un premier retour rapide, en français, sans jargon." },
   { icon: ShieldCheck, title: "Sans engagement", text: "Le premier échange et le devis sont gratuits." },
@@ -57,7 +61,7 @@ export default function ContactPage() {
         <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
           {/* Formulaire */}
           <Reveal>
-            <ContactForm />
+            <ContactForm turnstileSiteKey={process.env.TURNSTILE_SITE_KEY} />
           </Reveal>
 
           {/* Colonne latérale */}
