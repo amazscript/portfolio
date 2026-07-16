@@ -123,7 +123,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 <h2 className="text-lg font-bold">Un projet en tête&nbsp;?</h2>
                 <p className="mt-1 text-sm text-[var(--muted)]">{site.responseTime}, sans engagement.</p>
               </div>
-              <Button href="/contact" className="plausible-event-name=Contact-CTA shrink-0">
+              <Button href="/contact" className="shrink-0" data-umami-event="Contact-CTA">
                 Discuter de mon projet <ArrowRight size={16} />
               </Button>
             </div>

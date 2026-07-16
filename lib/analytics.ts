@@ -1,16 +1,16 @@
-// Suivi d'événements de conversion (CDC §4.5). Fonctionne avec Plausible ;
-// no-op silencieux si l'analytics n'est pas chargé (dev, ou domaine non configuré).
+// Suivi d'événements de conversion. Fonctionne avec Umami ;
+// no-op silencieux si l'analytics n'est pas chargé (dev, ou script non présent).
 type Props = Record<string, string | number | boolean>;
 
 declare global {
   interface Window {
-    plausible?: (event: string, options?: { props?: Props; callback?: () => void }) => void;
+    umami?: { track: (event: string, data?: Props) => void };
   }
 }
 
 export function track(event: string, props?: Props) {
-  if (typeof window !== "undefined" && typeof window.plausible === "function") {
-    window.plausible(event, props ? { props } : undefined);
+  if (typeof window !== "undefined" && window.umami) {
+    window.umami.track(event, props);
   }
 }
 

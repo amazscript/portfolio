@@ -102,7 +102,7 @@ export default function ServicesPage() {
             <h2 className="text-xl font-bold">Un besoin qui ne rentre pas dans une case&nbsp;?</h2>
             <p className="mt-1 text-[var(--muted)]">Décrivez-moi votre projet, je vous réponds sous 24 h.</p>
           </div>
-          <Button href="/contact" className="plausible-event-name=Contact-CTA">
+          <Button href="/contact" data-umami-event="Contact-CTA">
             Discuter de mon projet
             <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-0.5" />
           </Button>

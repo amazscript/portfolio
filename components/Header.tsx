@@ -46,7 +46,7 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Button href="/contact" className="plausible-event-name=Contact-CTA hidden sm:inline-flex">
+          <Button href="/contact" className="hidden sm:inline-flex" data-umami-event="Contact-CTA">
             Me contacter
             <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-0.5" />
           </Button>

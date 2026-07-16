@@ -74,7 +74,8 @@ export function ProjectCard({ project }: { project: Project }) {
               href={project.demoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="plausible-event-name=Demo-Click inline-flex items-center gap-1 text-sm font-semibold text-[var(--accent)] hover:underline"
+              data-umami-event="Demo-Click"
+              className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--accent)] hover:underline"
             >
               Voir le site <ArrowUpRight size={14} />
             </a>

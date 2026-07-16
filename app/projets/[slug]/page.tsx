@@ -120,7 +120,7 @@ export default async function ProjetPage({ params }: { params: Promise<{ slug: s
             {/* CTA au-dessus de la ligne de flottaison (CDC §2.3 / §3.3) */}
             <div className="mt-6 flex flex-wrap gap-3">
               {p.demoUrl && (
-                <Button href={p.demoUrl} external className="plausible-event-name=Demo-Click" aria-label={`Voir ${p.title} en ligne`}>
+                <Button href={p.demoUrl} external data-umami-event="Demo-Click" aria-label={`Voir ${p.title} en ligne`}>
                   Voir le site <ArrowUpRight size={16} />
                 </Button>
               )}
@@ -189,7 +189,7 @@ export default async function ProjetPage({ params }: { params: Promise<{ slug: s
                 </div>
                 <div className="mt-6 border-t border-[var(--border)] pt-6">
                   <p className="text-sm text-[var(--muted)]">Un projet similaire en tête&nbsp;?</p>
-                  <Button href="/contact" className="plausible-event-name=Contact-CTA mt-3 w-full">
+                  <Button href="/contact" className="mt-3 w-full" data-umami-event="Contact-CTA">
                     Me contacter <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-0.5" />
                   </Button>
                 </div>

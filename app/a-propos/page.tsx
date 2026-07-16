@@ -102,7 +102,7 @@ export default function AProposPage() {
                   <span className="pulse-dot h-2 w-2 rounded-full bg-green-500" />
                   {site.availability}
                 </div>
-                <Button href="/contact" className="plausible-event-name=Contact-CTA mt-5 w-full">
+                <Button href="/contact" className="mt-5 w-full" data-umami-event="Contact-CTA">
                   Me contacter <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-0.5" />
                 </Button>
                 <a
@@ -198,7 +198,8 @@ export default function AProposPage() {
               </div>
               <a
                 href="/contact"
-                className="plausible-event-name=Contact-CTA group/cta inline-flex shrink-0 items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-bold text-[var(--accent)] shadow-lg transition-transform hover:scale-[1.03]"
+                data-umami-event="Contact-CTA"
+                className="group/cta inline-flex shrink-0 items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-bold text-[var(--accent)] shadow-lg transition-transform hover:scale-[1.03]"
               >
                 Me contacter
                 <ArrowUpRight size={17} className="transition-transform group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />

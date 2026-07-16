@@ -1,15 +1,21 @@
 import Script from "next/script";
 
-// Analytics sans cookie, respectueux de la vie privée (CDC §4.5).
-// Activé uniquement si NEXT_PUBLIC_PLAUSIBLE_DOMAIN est défini → aucun script mort en dev,
-// pas de bannière RGPD. Variante "tagged-events" pour tracker des clics en déclaratif
-// (classe CSS "plausible-event-name=...") en plus des événements manuels via track().
+// Analytics Umami auto-hébergé — sans cookie, respectueux de la vie privée (RGPD),
+// pas de bannière de consentement. Chargé uniquement en production (pas en dev/local).
+// Événements déclaratifs via l'attribut data-umami-event="...", + événements manuels via track().
+const UMAMI_SRC = "https://stats.decilapdenis.fr/script.js";
+const UMAMI_WEBSITE_ID = "3bd432be-caa9-48e5-bfae-0093f9c1bb90";
+
 export function Analytics() {
-  const domain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
-  if (!domain) return null;
+  if (process.env.NODE_ENV !== "production") return null;
 
-  const src =
-    process.env.NEXT_PUBLIC_PLAUSIBLE_SRC || "https://plausible.io/js/script.tagged-events.js";
-
-  return <Script defer data-domain={domain} src={src} strategy="afterInteractive" />;
+  return (
+    <Script
+      defer
+      src={UMAMI_SRC}
+      data-website-id={UMAMI_WEBSITE_ID}
+      data-domains="decilapdenis.fr"
+      strategy="afterInteractive"
+    />
+  );
 }
