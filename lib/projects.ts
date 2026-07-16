@@ -4,7 +4,7 @@ export type Project = {
   tagline: string;
   featured: boolean;
   order: number;
-  category: "API" | "Application" | "E-commerce" | "Extension" | "Migration";
+  category: "Marketplace" | "API" | "Application" | "E-commerce" | "Extension" | "Migration";
   stack: string[];
   result: string;
   image?: string; // lien de l'image (URL externe ou /fichier dans public/) — optionnel, sinon visuel généré
@@ -21,6 +21,38 @@ export type Project = {
 // Réalisations réelles — servent de cas d'étude crédibles (cf. CDC §3.4).
 // Les liens démo/code sont à renseigner ; NE PAS laisser de lien mort en prod (CDC §2.3).
 export const projects: Project[] = [
+  {
+    slug: "amazscript-marketplace",
+    title: "AmazScript — Marketplace",
+    tagline:
+      "Marketplace full-stack pour vendre des scripts : paiements Stripe, payouts internationaux, licences et scan de sécurité.",
+    featured: true,
+    order: 1,
+    category: "Marketplace",
+    stack: ["Laravel 12", "Next.js 14", "TypeScript", "PostgreSQL", "Stripe", "Wise", "Filament v3", "Docker"],
+    result:
+      "Une marketplace complète et opérée en production : les auteurs sont payés à l'international et chaque produit est scanné avant publication — paiements Stripe, payouts Wise, licences et conformité fiscale inclus.",
+    image: "/projets/amazscript.webp",
+    demoUrl: "https://amazscript.com",
+    problem:
+      "Les développeurs qui vendent leurs scripts se heurtent aux commissions élevées des places de marché généralistes, qui ignorent les besoins spécifiques du code : livraison sous licence, protection anti-fuite, payouts transfrontaliers et conformité fiscale (DAC7).",
+    solution: [
+      "Marketplace à deux faces (auteurs / acheteurs) : dépôt de produit, checkout, avis, litiges et back-office — API Laravel 12 (181+ endpoints) découplée d'un front Next.js 14 (52 pages, App Router).",
+      "Paiements Stripe complets (PaymentIntents, 3D Secure, webhooks), reversement aux auteurs via Wise (virement IBAN) et système de solde interne ; Stripe Connect pour les extensions de support.",
+      "Livraison sécurisée : génération et téléchargement de ZIP filigranés (watermark) par acheteur pour tracer les fuites.",
+      "Sécurité produit automatisée : chaque ZIP uploadé est scanné (antivirus ClamAV + analyse SAST) avant mise en vente ; 2FA, OAuth (Google/GitHub) et KYC via Stripe Identity.",
+      "Conformité & ops : reporting fiscal DAC7, tableaux de bord Filament v3 (21 écrans), files d'attente Laravel Horizon, stockage Cloudflare R2, déploiement Docker Compose sur VPS derrière Traefik.",
+    ],
+    decisions:
+      "Architecture headless Laravel + Next.js pour découpler un back robuste d'un front rapide et SEO-friendly ; séparation nette paiements (Stripe) / payouts (Wise + solde interne) pour absorber les contraintes bancaires transfrontalières sans dépendre d'un seul fournisseur ; scans SAST + ClamAV en jobs asynchrones pour garantir la sûreté du catalogue sans bloquer l'upload ; 1 200+ tests automatisés pour verrouiller les parcours critiques (paiement, licence, payout).",
+    metrics: [
+      { label: "Endpoints REST", value: "181+" },
+      { label: "Tests automatisés", value: "1 200+" },
+      { label: "Modèles Eloquent", value: "44" },
+    ],
+    learned:
+      "Construire une marketplace, c'est surtout orchestrer des tiers — Stripe, Wise, KYC, fiscalité DAC7 — sans jamais compromettre l'intégrité des paiements. La discipline de test et l'isolation des flux (checkout, payout, licence) sont ce qui permet d'itérer sereinement sur un domaine où la moindre erreur touche à l'argent.",
+  },
   {
     slug: "laracommerce-api",
     title: "LaraCommerce API",
@@ -151,4 +183,4 @@ export const getAllSorted = () => [...projects].sort((a, b) => a.order - b.order
 
 export const getProject = (slug: string) => projects.find((p) => p.slug === slug);
 
-export const categories = ["Tous", "API", "Application", "E-commerce", "Extension", "Migration"] as const;
+export const categories = ["Tous", "Marketplace", "API", "Application", "E-commerce", "Extension", "Migration"] as const;

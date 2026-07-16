@@ -44,9 +44,9 @@ export default function HomePage() {
               <span className="text-gradient">produits qui tournent</span>.
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-[var(--muted)]">
-              Sites rapides, applications métier et API robustes en{" "}
-              <span className="font-medium text-[var(--fg-soft)]">{site.stack.slice(0, 4).join(", ")}</span>. Du
-              besoin au déploiement, avec un souci constant de performance et de référencement — en {site.area}.
+              Sites rapides, applications métier et API robustes —{" "}
+              <span className="font-medium text-[var(--fg-soft)]">PHP, JavaScript/TypeScript ou Python</span>, selon ce
+              qui sert votre projet. Du besoin au déploiement, avec un souci constant de performance et de référencement — en {site.area}.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button href="/projets">

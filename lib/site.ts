@@ -8,10 +8,10 @@ export const site = {
   area: "Île-de-France (93)",
   availability: "Disponible pour missions freelance",
   responseTime: "Réponse sous 24 h",
-  stack: ["Laravel", "Vue", "Node.js", "Next.js", "PostgreSQL", "Docker"],
+  stack: ["Laravel", "Symfony", "Vue", "React", "Next.js", "Node.js", "Python", "PostgreSQL", "Docker"],
   title: "Développeur full-stack freelance — sites & applications sur mesure en Île-de-France",
   description:
-    "Denis Decilap, développeur full-stack freelance en Île-de-France (93). Je conçois des sites, applications métier et API robustes en Laravel, Vue, Node.js et Next.js.",
+    "Denis Decilap, développeur full-stack freelance en Île-de-France (93). Je conçois sites, applications métier et API robustes — en PHP (Laravel, Symfony), JavaScript/TypeScript (Vue, React, Next.js, Node) ou Python, selon votre projet.",
   social: {
     github: "https://github.com/amazscript",
     linkedin: "https://www.linkedin.com/in/denis-decilap",

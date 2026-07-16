@@ -141,6 +141,7 @@ export const iconMap = {
   mobile: Smartphone,
   cart: Cart,
   commerce: Cart,
+  marketplace: Cart,
   api: Server,
   application: Layers,
   "e-commerce": Cart,
