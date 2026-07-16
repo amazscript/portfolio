@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Container, SectionHeading, Button } from "@/components/ui";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Reveal";
 import { Icon, Check, ArrowRight } from "@/components/icons";
 import { services } from "@/lib/services";
-import { breadcrumbSchema } from "@/lib/schema";
+import { faqs } from "@/lib/faq";
+import { breadcrumbSchema, faqSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -17,10 +19,13 @@ export default function ServicesPage() {
   return (
     <Container className="py-16">
       <JsonLd
-        data={breadcrumbSchema([
-          { name: "Accueil", path: "/" },
-          { name: "Services", path: "/services" },
-        ])}
+        data={[
+          breadcrumbSchema([
+            { name: "Accueil", path: "/" },
+            { name: "Services", path: "/services" },
+          ]),
+          faqSchema(faqs),
+        ]}
       />
       <Reveal>
         <SectionHeading
@@ -60,6 +65,36 @@ export default function ServicesPage() {
           </Reveal>
         ))}
       </div>
+
+      {/* FAQ — accordéon natif (SEO : schema FAQPage, contenu dans le HTML) */}
+      <section className="mt-20">
+        <Reveal>
+          <SectionHeading eyebrow="FAQ" title="Questions fréquentes" />
+        </Reveal>
+        <div className="mt-8 max-w-3xl divide-y divide-[var(--border)] overflow-hidden rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]">
+          {faqs.map((f) => (
+            <details key={f.question} className="group px-6">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-semibold marker:hidden">
+                {f.question}
+                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[var(--accent-soft)] text-[var(--accent)] transition-transform group-open:rotate-45">
+                  <ArrowRight size={15} className="rotate-[-45deg]" />
+                </span>
+              </summary>
+              <p className="pb-5 text-[var(--muted)]">{f.answer}</p>
+            </details>
+          ))}
+        </div>
+        {/* Maillage interne : renvoi vers le blog */}
+        <Reveal>
+          <p className="mt-6 text-sm text-[var(--muted)]">
+            Envie d&apos;aller plus loin&nbsp;? Je détaille prix, délais et choix techniques dans{" "}
+            <Link href="/blog" className="font-semibold text-[var(--accent)] hover:underline">
+              mes articles de blog
+            </Link>
+            .
+          </p>
+        </Reveal>
+      </section>
 
       <Reveal>
         <div className="mt-14 flex flex-col items-start gap-4 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface-2)] p-8 sm:flex-row sm:items-center sm:justify-between">

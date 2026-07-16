@@ -1,6 +1,8 @@
 import { site } from "@/lib/site";
 import type { Project } from "@/lib/projects";
 import type { Post } from "@/lib/blog";
+import type { Faq } from "@/lib/faq";
+import { services } from "@/lib/services";
 
 // Données structurées Schema.org — présentes dans le HTML initial (CDC §5.1).
 
@@ -26,10 +28,36 @@ export function professionalServiceSchema() {
     description: site.description,
     url: site.url,
     email: `mailto:${site.email}`,
-    areaServed: { "@type": "AdministrativeArea", name: "Île-de-France" },
+    areaServed: [
+      { "@type": "AdministrativeArea", name: "Île-de-France" },
+      { "@type": "Country", name: "France" },
+    ],
     address: { "@type": "PostalAddress", addressRegion: "Île-de-France", addressCountry: "FR" },
     knowsAbout: site.stack,
+    priceRange: "€€",
     provider: { "@type": "Person", name: site.name },
+    // Catalogue des prestations proposées (aide Google à comprendre l'offre).
+    makesOffer: services.map((s) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: s.title,
+        description: s.summary,
+        url: `${site.url}/services`,
+      },
+    })),
+  };
+}
+
+export function faqSchema(items: Faq[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: { "@type": "Answer", text: f.answer },
+    })),
   };
 }
 

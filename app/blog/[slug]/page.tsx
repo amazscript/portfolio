@@ -103,9 +103,22 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             ))}
           </div>
 
+          {/* Maillage interne : liens contextuels vers services & réalisations */}
+          <p className="mt-6 text-sm text-[var(--muted)]">
+            À découvrir aussi :{" "}
+            <Link href="/services" className="font-semibold text-[var(--accent)] hover:underline">
+              mes services
+            </Link>{" "}
+            et{" "}
+            <Link href="/projets" className="font-semibold text-[var(--accent)] hover:underline">
+              mes réalisations
+            </Link>
+            .
+          </p>
+
           {/* CTA contact */}
           <Reveal>
-            <div className="mt-10 flex flex-col items-start gap-4 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface-2)] p-7 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mt-6 flex flex-col items-start gap-4 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface-2)] p-7 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <h2 className="text-lg font-bold">Un projet en tête&nbsp;?</h2>
                 <p className="mt-1 text-sm text-[var(--muted)]">{site.responseTime}, sans engagement.</p>
