@@ -22,12 +22,12 @@ import { breadcrumbSchema, personSchema } from "@/lib/schema";
 export const metadata: Metadata = {
   title: "À propos",
   description:
-    "Denis Decilap, développeur full-stack freelance formé à l'École 42. Parcours, compétences, méthode de travail et stack technique (Laravel, Vue, Node.js, Next.js).",
+    "Denis Decilap, développeur full-stack freelance en Île-de-France. Parcours, compétences, méthode de travail et stack technique : PHP (Laravel, Symfony), JavaScript/TypeScript (Vue, React, Next.js) et Python.",
   alternates: { canonical: "/a-propos" },
 };
 
 const highlights = [
-  { icon: Sparkles, label: "Formé à l'École 42" },
+  { icon: Sparkles, label: "Projets réels en production" },
   { icon: MapPin, label: site.area },
   { icon: ShieldCheck, label: site.availability },
 ];
@@ -75,8 +75,8 @@ export default function AProposPage() {
                 Je transforme un besoin en <span className="text-gradient">produit qui tourne</span>.
               </h1>
               <p className="mt-5 max-w-xl text-lg text-[var(--muted)]">
-                Développeur full-stack freelance en {site.area}, formé à l&apos;École 42. J&apos;ai appris à
-                apprendre : résoudre des problèmes concrets, en autonomie, en allant au fond des choses.
+                Développeur full-stack freelance en {site.area}. Je résous des problèmes concrets,
+                en autonomie et en allant au fond des choses — du besoin à la mise en production.
               </p>
               <div className="mt-6 flex flex-wrap gap-2">
                 {highlights.map((h) => (
