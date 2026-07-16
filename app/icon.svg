@@ -1,4 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#1e40af"/>
-  <text x="50%" y="50%" dy="0.35em" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff">DD</text>
+  <defs>
+    <linearGradient id="dd" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="0.5" stop-color="#3b82f6"/>
+      <stop offset="1" stop-color="#06b6d4"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="url(#dd)"/>
+  <g fill="#ffffff">
+    <path fill-rule="evenodd" d="M9 17 H17 A15 15 0 0 1 17 47 H9 Z M17 25 A7 7 0 0 1 17 39 Z"/>
+    <path fill-rule="evenodd" d="M32 17 H40 A15 15 0 0 1 40 47 H32 Z M40 25 A7 7 0 0 1 40 39 Z"/>
+  </g>
 </svg>

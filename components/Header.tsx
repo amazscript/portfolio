@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { nav, site } from "@/lib/site";
 import { Button } from "@/components/ui";
+import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Menu, Close, ArrowRight } from "@/components/icons";
 
@@ -15,13 +16,8 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border)] glass">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-5 sm:px-8">
-        <Link href="/" className="group flex items-center gap-2.5 font-bold tracking-tight">
-          <span
-            className="grid h-9 w-9 place-items-center rounded-xl text-sm text-white shadow-[var(--glow)] transition-transform group-hover:scale-105"
-            style={{ backgroundImage: "var(--brand-gradient)" }}
-          >
-            DD
-          </span>
+        <Link href="/" className="group flex items-center gap-2.5 font-bold tracking-tight" aria-label={`${site.name} — accueil`}>
+          <Logo className="h-9 w-9 rounded-xl shadow-[var(--glow)] transition-transform group-hover:scale-105" />
           <span className="hidden sm:inline">{site.name}</span>
         </Link>
 
