@@ -4,7 +4,7 @@ export const site = {
   // URL de production — à ajuster lors du déploiement (utilisée pour canoniques, OG, sitemap)
   url: "https://decilapdenis.fr",
   locale: "fr_FR",
-  email: "decilapdenis@gmail.com",
+  email: "contact@decilapdenis.fr",
   area: "Île-de-France (93)",
   availability: "Disponible pour missions freelance",
   responseTime: "Réponse sous 24 h",
