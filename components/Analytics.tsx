@@ -1,21 +1,26 @@
 import Script from "next/script";
 
-// Analytics Umami auto-hébergé — sans cookie, respectueux de la vie privée (RGPD),
-// pas de bannière de consentement. Chargé uniquement en production (pas en dev/local).
-// Événements déclaratifs via l'attribut data-umami-event="...", + événements manuels via track().
-const UMAMI_SRC = "https://stats.decilapdenis.fr/script.js";
-const UMAMI_WEBSITE_ID = "3bd432be-caa9-48e5-bfae-0093f9c1bb90";
+// Google Analytics 4 (gtag.js).
+// ⚠️ GA dépose des cookies et collecte des données personnelles → une bannière de
+// consentement RGPD est nécessaire pour être conforme en France.
+// Chargé uniquement en production ET si l'ID de mesure est renseigné ci-dessous.
+const GA_MEASUREMENT_ID = ""; // ← colle ton ID GA4 (format "G-XXXXXXXXXX")
 
 export function Analytics() {
-  if (process.env.NODE_ENV !== "production") return null;
+  if (process.env.NODE_ENV !== "production" || !GA_MEASUREMENT_ID) return null;
 
   return (
-    <Script
-      defer
-      src={UMAMI_SRC}
-      data-website-id={UMAMI_WEBSITE_ID}
-      data-domains="decilapdenis.fr"
-      strategy="afterInteractive"
-    />
+    <>
+      <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+        strategy="afterInteractive"
+      />
+      <Script id="ga4-init" strategy="afterInteractive">
+        {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_MEASUREMENT_ID}');`}
+      </Script>
+    </>
   );
 }
