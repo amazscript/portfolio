@@ -6,7 +6,7 @@ import { readConsent, CONSENT_EVENT } from "@/lib/consent";
 
 // Google Analytics 4 (gtag.js) — chargé UNIQUEMENT après consentement (RGPD),
 // en production, et si l'ID de mesure est renseigné ci-dessous.
-const GA_MEASUREMENT_ID = ""; // ← colle ton ID GA4 (format "G-XXXXXXXXXX")
+const GA_MEASUREMENT_ID = "G-058PWPVQ55";
 
 export function Analytics() {
   const [granted, setGranted] = useState(false);
