@@ -40,7 +40,7 @@ function ProjectVisual({ project }: { project: Project }) {
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1.5 hover:border-[var(--accent)] hover:shadow-[var(--shadow-card-hover)]">
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1.5 hover:border-[var(--accent)] hover:shadow-[var(--shadow-card-hover)]">
       <Link href={`/projets/${project.slug}`} aria-label={`Voir le cas d'étude : ${project.title}`}>
         <ProjectVisual project={project} />
       </Link>
@@ -68,7 +68,7 @@ export function ProjectCard({ project }: { project: Project }) {
         </div>
 
         {/* CTA visibles au-dessus de la ligne de flottaison de la carte (CDC §2.3) */}
-        <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-[var(--border)] pt-4">
+        <div className="mt-auto flex flex-wrap items-center gap-3 border-t border-[var(--border)] pt-4">
           {project.demoUrl && (
             <a
               href={project.demoUrl}
