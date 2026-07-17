@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { nav, site } from "@/lib/site";
+import { Logo } from "@/components/Logo";
+import { CookieSettingsButton } from "@/components/CookieSettingsButton";
 import { Github, Linkedin, Mail, MapPin, ArrowUpRight } from "@/components/icons";
 
 export function Footer() {
@@ -9,12 +11,7 @@ export function Footer() {
       <div className="mx-auto grid w-full max-w-6xl gap-8 px-5 py-14 sm:px-8 md:grid-cols-3">
         <div>
           <Link href="/" className="flex items-center gap-2.5 font-bold tracking-tight">
-            <span
-              className="grid h-9 w-9 place-items-center rounded-xl text-sm text-white shadow-[var(--glow)]"
-              style={{ backgroundImage: "var(--brand-gradient)" }}
-            >
-              DD
-            </span>
+            <Logo className="h-9 w-9 rounded-xl shadow-[var(--glow)]" />
             {site.name}
           </Link>
           <p className="mt-3 max-w-xs text-sm text-[var(--muted)]">
@@ -54,6 +51,9 @@ export function Footer() {
               <Link href="/mentions-legales" className="text-[var(--muted)] transition-colors hover:text-[var(--fg)]">
                 Mentions légales
               </Link>
+            </li>
+            <li>
+              <CookieSettingsButton className="text-left text-[var(--muted)] transition-colors hover:text-[var(--fg)]" />
             </li>
           </ul>
         </div>

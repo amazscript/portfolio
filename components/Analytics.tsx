@@ -1,13 +1,24 @@
-import Script from "next/script";
+"use client";
 
-// Google Analytics 4 (gtag.js).
-// ⚠️ GA dépose des cookies et collecte des données personnelles → une bannière de
-// consentement RGPD est nécessaire pour être conforme en France.
-// Chargé uniquement en production ET si l'ID de mesure est renseigné ci-dessous.
+import Script from "next/script";
+import { useEffect, useState } from "react";
+import { readConsent, CONSENT_EVENT } from "@/lib/consent";
+
+// Google Analytics 4 (gtag.js) — chargé UNIQUEMENT après consentement (RGPD),
+// en production, et si l'ID de mesure est renseigné ci-dessous.
 const GA_MEASUREMENT_ID = ""; // ← colle ton ID GA4 (format "G-XXXXXXXXXX")
 
 export function Analytics() {
-  if (process.env.NODE_ENV !== "production" || !GA_MEASUREMENT_ID) return null;
+  const [granted, setGranted] = useState(false);
+
+  useEffect(() => {
+    setGranted(readConsent() === "granted");
+    const handler = (e: Event) => setGranted((e as CustomEvent).detail === "granted");
+    window.addEventListener(CONSENT_EVENT, handler);
+    return () => window.removeEventListener(CONSENT_EVENT, handler);
+  }, []);
+
+  if (process.env.NODE_ENV !== "production" || !GA_MEASUREMENT_ID || !granted) return null;
 
   return (
     <>
