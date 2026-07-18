@@ -19,19 +19,25 @@ export default function MentionsLegalesPage() {
           <section>
             <h2 className="text-lg font-bold text-[var(--fg)]">Éditeur du site</h2>
             <p className="mt-2">
-              {site.name} — {site.role} freelance.<br />
-              {site.area}.<br />
-              Contact : <a href={`mailto:${site.email}`} className="text-[var(--accent)]">{site.email}</a>
-              <br />
-              <span className="text-sm">[SIRET à compléter]</span>
+              <strong className="text-[var(--fg-soft)]">Denis Decilap</strong> — {site.role} freelance
+              (nom commercial&nbsp;: AmazScript).<br />
+              Entrepreneur individuel (EI), immatriculé au RNE le 20/03/2026.<br />
+              SIREN&nbsp;: 102&nbsp;705&nbsp;746 — SIRET&nbsp;: 102&nbsp;705&nbsp;746&nbsp;00018.<br />
+              Code APE&nbsp;: 6201Z (Programmation informatique).<br />
+              Siège social&nbsp;: 1 rue de Marseille, 93800 Épinay-sur-Seine, France.<br />
+              Contact&nbsp;: <a href={`mailto:${site.email}`} className="text-[var(--accent)]">{site.email}</a><br />
+              Directeur de la publication&nbsp;: Denis Decilap.
             </p>
           </section>
 
           <section>
             <h2 className="text-lg font-bold text-[var(--fg)]">Hébergement</h2>
             <p className="mt-2">
-              Site hébergé par [hébergeur à compléter — ex. Vercel Inc.]. <br />
-              <span className="text-sm">Adresse de l&apos;hébergeur à préciser.</span>
+              Site hébergé par <strong className="text-[var(--fg-soft)]">Gandi SAS</strong>.<br />
+              63-65 boulevard Masséna, 75013 Paris, France.<br />
+              <a href="https://www.gandi.net" target="_blank" rel="noopener noreferrer" className="text-[var(--accent)]">
+                gandi.net
+              </a>
             </p>
           </section>
 
