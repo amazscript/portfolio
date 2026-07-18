@@ -92,9 +92,14 @@ export default function AProposPage() {
             <Reveal delay={120}>
               <div className="rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6 text-center shadow-[var(--shadow-card)]">
                 <div className="mx-auto w-fit rounded-full p-[3px]" style={{ backgroundImage: "var(--brand-gradient)" }}>
-                  <div className="grid h-24 w-24 place-items-center rounded-full bg-[var(--surface)]">
-                    <span className="text-gradient text-3xl font-extrabold">DD</span>
-                  </div>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/apropos/denis.webp"
+                    alt={`Photo de ${site.name}, ${site.role} freelance en ${site.area}`}
+                    width={112}
+                    height={112}
+                    className="h-28 w-28 rounded-full object-cover"
+                  />
                 </div>
                 <p className="mt-4 font-bold">{site.name}</p>
                 <p className="text-sm text-[var(--muted)]">{site.role}</p>

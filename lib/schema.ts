@@ -14,6 +14,7 @@ export function personSchema() {
     jobTitle: site.role,
     email: `mailto:${site.email}`,
     url: site.url,
+    image: `${site.url}/apropos/denis.webp`,
     knowsAbout: site.stack,
     sameAs: [site.social.github, site.social.linkedin],
     address: { "@type": "PostalAddress", addressRegion: "Île-de-France", addressCountry: "FR" },
