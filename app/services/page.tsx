@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, SectionHeading, Button } from "@/components/ui";
 import { JsonLd } from "@/components/JsonLd";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Reveal } from "@/components/Reveal";
 import { Icon, Check, ArrowRight } from "@/components/icons";
 import { services } from "@/lib/services";
@@ -27,6 +28,7 @@ export default function ServicesPage() {
           faqSchema(faqs),
         ]}
       />
+      <Breadcrumbs items={[{ name: "Accueil", href: "/" }, { name: "Services" }]} />
       <Reveal>
         <SectionHeading
           eyebrow="Services"

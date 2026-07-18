@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container, Button, Eyebrow } from "@/components/ui";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Reveal";
 import {
@@ -68,6 +69,7 @@ export default function AProposPage() {
         </div>
 
         <Container className="py-16 sm:py-20">
+          <Breadcrumbs items={[{ name: "Accueil", href: "/" }, { name: "À propos" }]} />
           <div className="grid gap-10 lg:grid-cols-[1fr_300px] lg:items-center">
             <Reveal>
               <Eyebrow>À propos</Eyebrow>

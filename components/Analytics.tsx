@@ -22,6 +22,9 @@ export function Analytics() {
 
   return (
     <>
+      {/* preconnect ici (pas globalement) → aucune connexion à Google avant consentement */}
+      <link rel="preconnect" href="https://www.googletagmanager.com" />
+      <link rel="preconnect" href="https://www.google-analytics.com" />
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
         strategy="afterInteractive"

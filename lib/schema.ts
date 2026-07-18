@@ -62,6 +62,17 @@ export function faqSchema(items: Faq[]) {
   };
 }
 
+export function websiteSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: site.name,
+    url: site.url,
+    inLanguage: "fr-FR",
+    publisher: { "@type": "Person", name: site.name },
+  };
+}
+
 export function breadcrumbSchema(items: { name: string; path: string }[]) {
   return {
     "@context": "https://schema.org",

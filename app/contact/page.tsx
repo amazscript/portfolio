@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Container, Eyebrow } from "@/components/ui";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ContactForm } from "@/components/ContactForm";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Reveal";
@@ -58,6 +59,7 @@ export default function ContactPage() {
       </section>
 
       <Container className="py-14">
+        <Breadcrumbs items={[{ name: "Accueil", href: "/" }, { name: "Contact" }]} />
         <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
           {/* Formulaire */}
           <Reveal>
