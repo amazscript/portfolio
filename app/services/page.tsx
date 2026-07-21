@@ -39,8 +39,11 @@ export default function ServicesPage() {
 
       <div className="mt-12 grid gap-6 md:grid-cols-2">
         {services.map((s, i) => (
-          <Reveal key={s.slug} delay={i * 80}>
-            <div className="group h-full rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-7 transition-all hover:-translate-y-1 hover:border-[var(--accent)] hover:shadow-[var(--shadow-card)]">
+          <Reveal key={s.slug} delay={i * 80} className="h-full">
+            <Link
+              href={`/services/${s.slug}`}
+              className="group flex h-full flex-col rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-7 transition-all hover:-translate-y-1 hover:border-[var(--accent)] hover:shadow-[var(--shadow-card)]"
+            >
               <span className="grid h-12 w-12 place-items-center rounded-xl bg-[var(--accent-soft)] text-[var(--accent)] transition-transform group-hover:scale-105">
                 <Icon name={s.icon} size={24} />
               </span>
@@ -56,14 +59,18 @@ export default function ServicesPage() {
                   </li>
                 ))}
               </ul>
-              <div className="mt-5 flex flex-wrap gap-1.5 border-t border-[var(--border)] pt-4">
+              <div className="mt-auto flex flex-wrap gap-1.5 border-t border-[var(--border)] pt-4">
                 {s.tags.map((tag) => (
                   <span key={tag} className="rounded-md bg-[var(--surface-2)] px-2 py-1 font-mono text-[11px] text-[var(--muted)]">
                     {tag}
                   </span>
                 ))}
               </div>
-            </div>
+              <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--accent)]">
+                En savoir plus
+                <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
+              </span>
+            </Link>
           </Reveal>
         ))}
       </div>

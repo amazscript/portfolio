@@ -2,7 +2,7 @@ import { site } from "@/lib/site";
 import type { Project } from "@/lib/projects";
 import type { Post } from "@/lib/blog";
 import type { Faq } from "@/lib/faq";
-import { services } from "@/lib/services";
+import { services, type Service } from "@/lib/services";
 
 // Données structurées Schema.org — présentes dans le HTML initial (CDC §5.1).
 
@@ -47,6 +47,22 @@ export function professionalServiceSchema() {
         url: `${site.url}/services`,
       },
     })),
+  };
+}
+
+export function serviceSchema(s: Service) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: s.title,
+    serviceType: s.title,
+    description: s.metaDescription,
+    url: `${site.url}/services/${s.slug}`,
+    provider: { "@type": "Person", name: site.name, url: site.url },
+    areaServed: [
+      { "@type": "AdministrativeArea", name: "Île-de-France" },
+      { "@type": "Country", name: "France" },
+    ],
   };
 }
 
