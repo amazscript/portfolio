@@ -12,7 +12,7 @@ import { projects } from "@/lib/projects";
 import { site } from "@/lib/site";
 import { serviceSchema, breadcrumbSchema } from "@/lib/schema";
 
-// SSG : une page pré-rendue par prestation (cocon SEO).
+/** SSG : une page pré-rendue par prestation (cocon SEO). */
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
 }

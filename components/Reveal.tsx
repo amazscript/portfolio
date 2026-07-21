@@ -2,8 +2,10 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
-// Révèle son contenu en fondu-montée quand il entre dans le viewport (CDC §2.2 :
-// micro-interaction discrète). Respecte prefers-reduced-motion via la CSS .reveal-item.
+/**
+ * Révèle son contenu en fondu-montée quand il entre dans le viewport
+ * (micro-interaction discrète). Respecte prefers-reduced-motion via la CSS .reveal-item.
+ */
 export function Reveal({
   children,
   delay = 0,

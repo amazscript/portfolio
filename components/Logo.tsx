@@ -1,6 +1,8 @@
-// Logo de marque — monogramme « DD » vectoriel (net à toute taille),
-// aux couleurs de la marque. Utilisé dans le header ; le favicon partage
-// le même dessin (app/icon.svg).
+/**
+ * Logo de marque — monogramme « DD » vectoriel (net à toute taille),
+ * aux couleurs de la marque. Utilisé dans le header ; le favicon partage
+ * le même dessin (app/icon.svg).
+ */
 export function Logo({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 64 64" className={className} role="img" aria-label="Denis Decilap">

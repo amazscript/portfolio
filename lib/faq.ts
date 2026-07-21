@@ -1,5 +1,7 @@
-// Questions fréquentes — servent au visiteur ET au SEO (schema FAQPage,
-// résultats enrichis Google). Rédigées pour capter les recherches de prospects.
+/**
+ * Questions fréquentes — servent au visiteur ET au SEO (schema FAQPage,
+ * résultats enrichis Google). Rédigées pour capter les recherches de prospects.
+ */
 export type Faq = { question: string; answer: string };
 
 export const faqs: Faq[] = [

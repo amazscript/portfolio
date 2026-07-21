@@ -1,7 +1,7 @@
 import type { Block } from "@/lib/blog";
 import { CheckCircle } from "@/components/icons";
 
-// Rend les blocs typés d'un article (lib/blog.ts) avec le design system du site.
+/** Rend les blocs typés d'un article (lib/blog.ts) avec le design system du site. */
 export function ArticleContent({ blocks }: { blocks: Block[] }) {
   return (
     <div className="space-y-6">

@@ -2,8 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// Compteur animé qui démarre quand il devient visible. Préserve un préfixe/suffixe
-// non numérique (ex. "325+", "0"). No-op animé si prefers-reduced-motion.
+/**
+ * Compteur animé qui démarre quand il devient visible. Préserve un préfixe/suffixe
+ * non numérique (ex. "325+", "0"). No-op animé si prefers-reduced-motion.
+ */
 export function Counter({ value, duration = 1400 }: { value: string; duration?: number }) {
   const ref = useRef<HTMLSpanElement | null>(null);
   const [display, setDisplay] = useState(value);

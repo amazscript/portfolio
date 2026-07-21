@@ -18,7 +18,7 @@ import {
 import { projects, getProject, getAllSorted } from "@/lib/projects";
 import { breadcrumbSchema, projectSchema } from "@/lib/schema";
 
-// SSG : une page pré-rendue par projet (CDC §4.2)
+/** SSG : une page pré-rendue par projet. */
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
 }
@@ -117,7 +117,7 @@ export default async function ProjetPage({ params }: { params: Promise<{ slug: s
             <h1 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-5xl">{p.title}</h1>
             <p className="mt-3 text-lg text-[var(--muted)]">{p.tagline}</p>
 
-            {/* CTA au-dessus de la ligne de flottaison (CDC §2.3 / §3.3) */}
+            {/* CTA au-dessus de la ligne de flottaison */}
             <div className="mt-6 flex flex-wrap gap-3">
               {p.demoUrl && (
                 <Button href={p.demoUrl} external data-umami-event="Demo-Click" aria-label={`Voir ${p.title} en ligne`}>
@@ -158,7 +158,7 @@ export default async function ProjetPage({ params }: { params: Promise<{ slug: s
           </div>
         </Reveal>
 
-        {/* Cas d'étude (CDC §3.3) */}
+        {/* Cas d'étude */}
         <div className="mt-12 grid gap-12 lg:grid-cols-[1fr_300px]">
           <article className="max-w-2xl space-y-10">
             {sections.map((s, i) => (

@@ -4,15 +4,17 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { readConsent, writeConsent, OPEN_EVENT, type Consent } from "@/lib/consent";
 
-// Bannière de consentement cookies (conforme CNIL : « Accepter » et « Refuser »
-// aussi accessibles l'un que l'autre, aucun cookie de mesure avant acceptation).
+/**
+ * Bannière de consentement cookies (conforme CNIL : « Accepter » et « Refuser »
+ * aussi accessibles l'un que l'autre, aucun cookie de mesure avant acceptation).
+ */
 export function CookieConsent() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    // Affichée si aucun choix n'a encore été fait.
+    /** Affichée si aucun choix n'a encore été fait. */
     if (!readConsent()) setVisible(true);
-    // Rouverte via le lien « Gérer les cookies » du footer.
+    /** Rouverte via le lien « Gérer les cookies » du footer. */
     const open = () => setVisible(true);
     window.addEventListener(OPEN_EVENT, open);
     return () => window.removeEventListener(OPEN_EVENT, open);

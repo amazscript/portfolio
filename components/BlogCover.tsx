@@ -1,8 +1,10 @@
 import { Icon } from "@/components/icons";
 
-// Visuel de couverture d'article.
-// - Si `image` est fourni (URL externe ou /fichier dans public/), on l'affiche.
-// - Sinon, on génère un visuel de marque (dégradé + filigrane d'icône), comme ProjectVisual.
+/**
+ * Visuel de couverture d'article.
+ * - Si `image` est fourni (URL externe ou /fichier dans public/), on l'affiche.
+ * - Sinon, on génère un visuel de marque (dégradé + filigrane d'icône), comme ProjectVisual.
+ */
 export function BlogCover({
   icon,
   category,
@@ -17,8 +19,10 @@ export function BlogCover({
   size?: "card" | "hero";
 }) {
   const iconSize = size === "hero" ? 260 : 132;
-  // Même ratio (16/9) pour la carte et le hero → l'image s'affiche en entier,
-  // sans rognage vertical (les covers SVG sont en 16/9).
+  /**
+   * Même ratio (16/9) pour la carte et le hero → l'image s'affiche en entier,
+   * sans rognage vertical (les covers SVG sont en 16/9).
+   */
   const aspect = "aspect-[16/9]";
   const radius = size === "card" ? "rounded-t-[var(--radius-card)]" : "rounded-[var(--radius-card)]";
 

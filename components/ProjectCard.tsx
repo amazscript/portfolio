@@ -3,8 +3,10 @@ import type { Project } from "@/lib/projects";
 import { Badge } from "@/components/ui";
 import { Icon, ArrowUpRight, ArrowRight } from "@/components/icons";
 
-// Visuel de projet : image si `project.image` est fourni (URL ou /fichier dans public/),
-// sinon visuel généré (dégradé de marque + filigrane d'icône de catégorie).
+/**
+ * Visuel de projet : image si `project.image` est fourni (URL ou /fichier dans public/),
+ * sinon visuel généré (dégradé de marque + filigrane d'icône de catégorie).
+ */
 function ProjectVisual({ project }: { project: Project }) {
   return (
     <div className="relative aspect-[16/10] overflow-hidden rounded-t-[var(--radius-card)]">
@@ -67,7 +69,7 @@ export function ProjectCard({ project }: { project: Project }) {
           ))}
         </div>
 
-        {/* CTA visibles au-dessus de la ligne de flottaison de la carte (CDC §2.3) */}
+        {/* CTA visibles au-dessus de la ligne de flottaison de la carte */}
         <div className="mt-auto flex flex-wrap items-center gap-3 border-t border-[var(--border)] pt-4">
           {project.demoUrl && (
             <a

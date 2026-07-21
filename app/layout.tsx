@@ -60,7 +60,7 @@ export const viewport: Viewport = {
   ],
 };
 
-// Applique le thème avant le premier paint pour éviter le flash (FOUC).
+/** Applique le thème avant le premier paint pour éviter le flash (FOUC). */
 const themeScript = `(function(){try{var t=localStorage.getItem('theme');var m=window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||(!t&&m)){document.documentElement.classList.add('dark');}}catch(e){}})();`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

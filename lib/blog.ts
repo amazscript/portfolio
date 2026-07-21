@@ -1,7 +1,8 @@
-// Contenu du blog piloté par les données (comme lib/projects.ts).
-// Chaque article = métadonnées + un tableau de blocs typés rendus par
-// <ArticleContent> (components/ArticleContent.tsx).
-
+/**
+ * Contenu du blog piloté par les données (comme lib/projects.ts).
+ * Chaque article = métadonnées + un tableau de blocs typés rendus par
+ * <ArticleContent> (components/ArticleContent.tsx).
+ */
 export type Block =
   | { type: "p"; text: string }
   | { type: "h2"; text: string }
@@ -17,10 +18,14 @@ export type Post = {
   excerpt: string;
   category: string;
   tags: string[];
-  icon: string; // clé iconMap pour le cover généré (repli si pas d'image)
-  image?: string; // lien de l'image de couverture (URL externe ou /fichier dans public/) — optionnel
-  date: string; // ISO — sert au tri et au schema
-  dateLabel: string; // affichage humain (FR)
+  /** Clé iconMap pour le cover généré (repli si pas d'image). */
+  icon: string;
+  /** Lien de l'image de couverture (URL externe ou /fichier dans public/) — optionnel. */
+  image?: string;
+  /** ISO — sert au tri et au schema. */
+  date: string;
+  /** Affichage humain (FR). */
+  dateLabel: string;
   readMin: number;
   featured?: boolean;
   content: Block[];

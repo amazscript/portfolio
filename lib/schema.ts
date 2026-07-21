@@ -4,8 +4,7 @@ import type { Post } from "@/lib/blog";
 import type { Faq } from "@/lib/faq";
 import { services, type Service } from "@/lib/services";
 
-// Données structurées Schema.org — présentes dans le HTML initial (CDC §5.1).
-
+/** Données structurées Schema.org — présentes dans le HTML initial. */
 export function personSchema() {
   return {
     "@context": "https://schema.org",
@@ -37,7 +36,7 @@ export function professionalServiceSchema() {
     knowsAbout: site.stack,
     priceRange: "€€",
     provider: { "@type": "Person", name: site.name },
-    // Catalogue des prestations proposées (aide Google à comprendre l'offre).
+    /** Catalogue des prestations proposées (aide Google à comprendre l'offre). */
     makesOffer: services.map((s) => ({
       "@type": "Offer",
       itemOffered: {

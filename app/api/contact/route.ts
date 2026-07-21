@@ -5,8 +5,10 @@ import { site } from "@/lib/site";
 
 export const runtime = "nodejs";
 
-// Rate-limiting mémoire simple (par IP) — suffisant pour un portfolio.
-// En production multi-instance, remplacer par un store partagé (Upstash, Redis).
+/**
+ * Rate-limiting en mémoire (par IP) — suffisant pour un portfolio.
+ * En production multi-instance, remplacer par un store partagé (Upstash, Redis).
+ */
 const hits = new Map<string, { count: number; ts: number }>();
 const WINDOW_MS = 60_000;
 const MAX_PER_WINDOW = 5;
@@ -26,19 +28,19 @@ const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 const escapeHtml = (v: string) =>
   v.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c] as string));
 
-// Config via variables d'environnement — aucune clé exposée côté client (CDC §4.4).
+/** Config via variables d'environnement — aucune clé exposée côté client. */
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
-// SMTP (ex : Gandi) — prioritaire s'il est configuré.
+/** SMTP (ex : Gandi) — prioritaire s'il est configuré. */
 const SMTP_HOST = process.env.SMTP_HOST;
 const SMTP_PORT = Number(process.env.SMTP_PORT ?? 465);
 const SMTP_USER = process.env.SMTP_USER;
 const SMTP_PASSWORD = process.env.SMTP_PASSWORD;
 
-// Anti-robot Cloudflare Turnstile — vérifié seulement si la clé secrète est configurée.
+/** Anti-robot Cloudflare Turnstile — vérifié seulement si la clé secrète est configurée. */
 const TURNSTILE_SECRET = process.env.TURNSTILE_SECRET_KEY;
 
 const CONTACT_TO = process.env.CONTACT_TO_EMAIL || site.email;
-// En SMTP, l'expéditeur doit être la boîte authentifiée, sinon le serveur rejette.
+/** En SMTP, l'expéditeur doit être la boîte authentifiée, sinon le serveur rejette. */
 const CONTACT_FROM =
   process.env.CONTACT_FROM_EMAIL ||
   (SMTP_USER ? `Portfolio <${SMTP_USER}>` : "Portfolio <onboarding@resend.dev>");
@@ -56,12 +58,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Requête invalide." }, { status: 400 });
   }
 
-  // Honeypot : si rempli, c'est un bot → on répond OK sans rien traiter.
+  /** Honeypot : si rempli, c'est un bot → on répond OK sans rien traiter. */
   if (typeof body.company === "string" && body.company.trim() !== "") {
     return NextResponse.json({ ok: true });
   }
 
-  // Anti-robot Turnstile : validé côté serveur si la clé secrète est configurée.
+  /** Anti-robot Turnstile : validé côté serveur si la clé secrète est configurée. */
   if (TURNSTILE_SECRET) {
     const token = String(body["cf-turnstile-response"] ?? "");
     if (!token) {
@@ -105,19 +107,19 @@ export async function POST(req: Request) {
       <p style="font-size:12px;color:#64748b">IP : ${escapeHtml(ip)}</p>
     </div>`;
 
-  // 1) SMTP (ex : Gandi) — prioritaire s'il est configuré.
+  /** 1) SMTP (ex : Gandi) — prioritaire s'il est configuré. */
   if (SMTP_HOST && SMTP_USER && SMTP_PASSWORD) {
     try {
       const transporter = nodemailer.createTransport({
         host: SMTP_HOST,
         port: SMTP_PORT,
-        secure: SMTP_PORT === 465, // 465 = SSL implicite, 587 = STARTTLS
+        secure: SMTP_PORT === 465,
         auth: { user: SMTP_USER, pass: SMTP_PASSWORD },
       });
       await transporter.sendMail({
         from: CONTACT_FROM,
         to: CONTACT_TO,
-        replyTo: email, // répondre directement au prospect
+        replyTo: email,
         subject: subjectLine,
         html,
       });
@@ -131,7 +133,7 @@ export async function POST(req: Request) {
     }
   }
 
-  // 2) Repli gracieux : sans SMTP ni clé Resend, on journalise sans casser l'UX.
+  /** 2) Repli gracieux : sans SMTP ni clé Resend, on journalise sans casser l'UX. */
   if (!RESEND_API_KEY) {
     console.warn("[contact] Aucun transport configuré (SMTP/Resend) — message journalisé :", {
       name,
@@ -142,13 +144,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true, delivered: false });
   }
 
-  // 3) Resend (repli si clé présente).
+  /** 3) Resend (repli si clé présente). */
   try {
     const resend = new Resend(RESEND_API_KEY);
     const { error } = await resend.emails.send({
       from: CONTACT_FROM,
       to: CONTACT_TO,
-      replyTo: email, // répondre directement au prospect
+      replyTo: email,
       subject: subjectLine,
       html,
     });

@@ -1,7 +1,7 @@
 export const site = {
   name: "Denis Decilap",
   role: "Développeur Full-Stack",
-  // URL de production — à ajuster lors du déploiement (utilisée pour canoniques, OG, sitemap)
+  /** URL de production — utilisée pour les canoniques, l'Open Graph et le sitemap. */
   url: "https://decilapdenis.fr",
   locale: "fr_FR",
   email: "contact@decilapdenis.fr",

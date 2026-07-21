@@ -25,12 +25,12 @@ export function ContactForm({ turnstileSiteKey }: { turnstileSiteKey?: string })
   const widgetRef = useRef<HTMLDivElement>(null);
   const widgetId = useRef<string | null>(null);
 
-  // Le script est peut-être déjà chargé (navigation interne).
+  /** Le script est peut-être déjà chargé (navigation interne). */
   useEffect(() => {
     if (window.turnstile) setTsReady(true);
   }, []);
 
-  // Rend le widget Turnstile quand le script est prêt et que le formulaire est visible.
+  /** Rend le widget Turnstile quand le script est prêt et que le formulaire est visible. */
   useEffect(() => {
     if (!turnstileSiteKey || !tsReady || status === "ok") return;
     const el = widgetRef.current;
@@ -50,7 +50,7 @@ export function ContactForm({ turnstileSiteKey }: { turnstileSiteKey?: string })
     const form = e.currentTarget;
     const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
 
-    // Anti-robot : on récupère le jeton Turnstile avant d'envoyer.
+    /** Anti-robot : on récupère le jeton Turnstile avant d'envoyer. */
     if (turnstileSiteKey) {
       const token = window.turnstile?.getResponse(widgetId.current ?? undefined);
       if (!token) {
@@ -76,12 +76,12 @@ export function ContactForm({ turnstileSiteKey }: { turnstileSiteKey?: string })
       }
       setStatus("ok");
       form.reset();
-      // Conversion principale du site (CDC §4.5)
+      /** Conversion principale du site. */
       track(events.lead);
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Une erreur est survenue.");
-      // Le jeton Turnstile est à usage unique : on le régénère pour un nouvel essai.
+      /** Le jeton Turnstile est à usage unique : on le régénère pour un nouvel essai. */
       if (widgetId.current) window.turnstile?.reset(widgetId.current);
     }
   }
@@ -125,7 +125,7 @@ export function ContactForm({ turnstileSiteKey }: { turnstileSiteKey?: string })
       noValidate
       className="rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-card)] sm:p-8"
     >
-      {/* Honeypot anti-spam : invisible pour l'humain, rempli par les bots (CDC §4.4) */}
+      {/* Honeypot anti-spam : invisible pour l'humain, rempli par les bots */}
       <div className="absolute left-[-9999px]" aria-hidden="true">
         <label htmlFor="company">Ne pas remplir</label>
         <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />

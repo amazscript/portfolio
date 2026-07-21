@@ -19,7 +19,7 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Hero — fond animé (orbes + grille), sans image lourde (CDC §3.2) */}
+      {/* Hero — fond animé (orbes + grille), sans image lourde */}
       <section className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-grid" />
@@ -76,7 +76,7 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* Projets phares — portent 80 % de la conviction (CDC §2.1) */}
+      {/* Projets phares — portent 80 % de la conviction */}
       <section className="py-8">
         <Container>
           <Reveal>
@@ -102,7 +102,7 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* Preuve & indicateurs animés (CDC §3.2) */}
+      {/* Preuve & indicateurs animés */}
       <section className="py-16">
         <Container>
           <div className="grid gap-6 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-8 shadow-[var(--shadow-card)] sm:grid-cols-3">
@@ -123,7 +123,7 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* Aperçu services avec icônes (CDC §3.2) */}
+      {/* Aperçu services avec icônes */}
       <section className="py-8">
         <Container>
           <Reveal>
@@ -150,7 +150,7 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* CTA final en dégradé de marque (CDC §3.2) */}
+      {/* CTA final en dégradé de marque */}
       <section className="py-16">
         <Container>
           <Reveal>

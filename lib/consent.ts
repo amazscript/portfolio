@@ -1,8 +1,12 @@
-// Gestion du consentement cookies (RGPD). Le choix est stocké localement ;
-// Google Analytics n'est chargé que si le consentement est « granted ».
+/**
+ * Gestion du consentement cookies (RGPD). Le choix est stocké localement ;
+ * Google Analytics n'est chargé que si le consentement est « granted ».
+ */
 export const CONSENT_KEY = "cookie-consent";
-export const CONSENT_EVENT = "cookie-consent-changed"; // émis quand le choix change
-export const OPEN_EVENT = "open-cookie-settings"; // rouvre la bannière (lien "Gérer les cookies")
+/** Émis quand le choix de consentement change. */
+export const CONSENT_EVENT = "cookie-consent-changed";
+/** Rouvre la bannière de consentement (lien « Gérer les cookies »). */
+export const OPEN_EVENT = "open-cookie-settings";
 
 export type Consent = "granted" | "denied";
 

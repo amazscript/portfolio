@@ -11,7 +11,7 @@ import { posts, getPost, getAllPosts } from "@/lib/blog";
 import { site } from "@/lib/site";
 import { articleSchema, breadcrumbSchema } from "@/lib/schema";
 
-// SSG : une page pré-rendue par article.
+/** SSG : une page pré-rendue par article. */
 export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }));
 }

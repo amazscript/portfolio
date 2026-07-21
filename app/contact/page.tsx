@@ -15,8 +15,10 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
 };
 
-// Rendu à l'exécution pour lire la clé Turnstile depuis l'environnement du serveur
-// (au lieu de la figer au build). Sans clé configurée, le formulaire marche sans anti-robot.
+/**
+ * Rendu à l'exécution pour lire la clé Turnstile depuis l'environnement du serveur
+ * (au lieu de la figer au build). Sans clé configurée, le formulaire marche sans anti-robot.
+ */
 export const dynamic = "force-dynamic";
 
 const reassurance = [

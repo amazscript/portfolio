@@ -5,7 +5,8 @@ import { CookieSettingsButton } from "@/components/CookieSettingsButton";
 import { Github, Linkedin, Mail, MapPin, ArrowUpRight } from "@/components/icons";
 
 export function Footer() {
-  const year = 2026; // année de mise en ligne — à mettre à jour au build si besoin
+  /** Année de mise en ligne — à mettre à jour au build si besoin. */
+  const year = 2026;
   return (
     <footer className="mt-24 border-t border-[var(--border)] bg-[var(--bg-subtle)]">
       <div className="mx-auto grid w-full max-w-6xl gap-8 px-5 py-14 sm:px-8 md:grid-cols-3">

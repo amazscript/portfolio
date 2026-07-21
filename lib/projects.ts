@@ -7,10 +7,11 @@ export type Project = {
   category: "Marketplace" | "API" | "Application" | "E-commerce" | "Extension" | "Migration";
   stack: string[];
   result: string;
-  image?: string; // lien de l'image (URL externe ou /fichier dans public/) — optionnel, sinon visuel généré
+  /** Lien de l'image (URL externe ou /fichier dans public/) — optionnel, sinon visuel généré. */
+  image?: string;
   demoUrl?: string;
   codeUrl?: string;
-  // Cas d'étude
+  /** Cas d'étude. */
   problem: string;
   solution: string[];
   decisions: string;
@@ -18,8 +19,7 @@ export type Project = {
   learned: string;
 };
 
-// Réalisations réelles — servent de cas d'étude crédibles (cf. CDC §3.4).
-// Les liens démo/code sont à renseigner ; NE PAS laisser de lien mort en prod (CDC §2.3).
+/** Réalisations réelles — servent de cas d'étude crédibles. */
 export const projects: Project[] = [
   {
     slug: "amazscript-marketplace",

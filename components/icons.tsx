@@ -124,7 +124,7 @@ export const Moon = (p: IconProps) => (
   <Base {...p}><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z" /></Base>
 );
 
-// Correspondance slug → composant (services & catégories projets)
+/** Correspondance slug → composant (services & catégories projets). */
 export const iconMap = {
   globe: Globe,
   layers: Layers,

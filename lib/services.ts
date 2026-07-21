@@ -5,7 +5,7 @@ export type Service = {
   points: string[];
   tags: string[];
   icon: string;
-  // --- Contenu de la page dédiée (architecture en cocon SEO) ---
+  /** Contenu de la page dédiée (architecture en cocon SEO). */
   metaTitle: string;
   metaDescription: string;
   h1: string;
@@ -13,7 +13,8 @@ export type Service = {
   problem: string;
   benefits: string[];
   deliverables: string[];
-  relatedCategory?: string; // pour afficher les réalisations liées (match sur project.category)
+  /** Pour afficher les réalisations liées (match sur project.category). */
+  relatedCategory?: string;
 };
 
 export const services: Service[] = [
