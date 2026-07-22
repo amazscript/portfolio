@@ -8,3 +8,6 @@ build
 *.log
 .vercel
 next-env.d.ts
+
+# Documents de cahier des charges (privés — ne pas publier)
+*.docx
