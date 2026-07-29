@@ -14,7 +14,7 @@ export const site = {
     "Denis Decilap, développeur full-stack freelance en Île-de-France (93). Je conçois sites, applications métier et API robustes — en PHP (Laravel, Symfony), JavaScript/TypeScript (Vue, React, Next.js, Node) ou Python, selon votre projet.",
   social: {
     github: "https://github.com/amazscript",
-    linkedin: "https://www.linkedin.com/in/denis-decilap",
+    linkedin: "https://www.linkedin.com/in/denisdecilap/",
   },
 } as const;
 
