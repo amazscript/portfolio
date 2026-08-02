@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Container, SectionHeading, Button } from "@/components/ui";
+import { Container, SectionHeading } from "@/components/ui";
+import { PageHeader } from "@/components/PageHeader";
 import { JsonLd } from "@/components/JsonLd";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Reveal } from "@/components/Reveal";
-import { Icon, Check, ArrowRight } from "@/components/icons";
+import { Icon, Check, ArrowRight, ArrowUpRight } from "@/components/icons";
 import { services } from "@/lib/services";
 import { faqs } from "@/lib/faq";
 import { breadcrumbSchema, faqSchema } from "@/lib/schema";
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
 
 export default function ServicesPage() {
   return (
-    <Container className="py-16">
+    <>
       <JsonLd
         data={[
           breadcrumbSchema([
@@ -28,95 +29,114 @@ export default function ServicesPage() {
           faqSchema(faqs),
         ]}
       />
-      <Breadcrumbs items={[{ name: "Accueil", href: "/" }, { name: "Services" }]} />
-      <Reveal>
-        <SectionHeading
-          eyebrow="Services"
-          title="Je conçois, code et déploie vos produits — de A à Z"
-          intro="Développeur full-stack indépendant : un seul interlocuteur du premier écran à la mise en production. Site vitrine, application métier, e-commerce, mobile, API ou IA — avec une exigence constante de performance, de fiabilité et de référencement."
-        />
-      </Reveal>
+      <PageHeader
+        num="02"
+        eyebrow="Services"
+        lines={["Je conçois,", "code", "et déploie"]}
+        intro="Développeur full-stack indépendant : un seul interlocuteur du premier écran à la mise en production. Site vitrine, application métier, e-commerce, mobile, API ou IA — avec une exigence constante de performance, de fiabilité et de référencement."
+      />
 
-      <div className="mt-12 grid gap-6 md:grid-cols-2">
-        {services.map((s, i) => (
-          <Reveal key={s.slug} delay={i * 80} className="h-full">
-            <Link
-              href={`/services/${s.slug}`}
-              className="group flex h-full flex-col rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-7 transition-all hover:-translate-y-1 hover:border-[var(--accent)] hover:shadow-[var(--shadow-card)]"
-            >
-              <span className="grid h-12 w-12 place-items-center rounded-xl bg-[var(--accent-soft)] text-[var(--accent)] transition-transform group-hover:scale-105">
-                <Icon name={s.icon} size={24} />
-              </span>
-              <h2 className="mt-4 text-xl font-bold">{s.title}</h2>
-              <p className="mt-2 text-[var(--muted)]">{s.summary}</p>
-              <ul className="mt-4 space-y-2">
-                {s.points.map((pt) => (
-                  <li key={pt} className="flex items-center gap-2 text-sm">
-                    <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[var(--accent-soft)] text-[var(--accent)]">
-                      <Check size={12} strokeWidth={2.5} />
-                    </span>
-                    {pt}
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-auto flex flex-wrap gap-1.5 border-t border-[var(--border)] pt-4">
-                {s.tags.map((tag) => (
-                  <span key={tag} className="rounded-md bg-[var(--surface-2)] px-2 py-1 font-mono text-[11px] text-[var(--muted)]">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--accent)]">
-                En savoir plus
-                <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
-              </span>
-            </Link>
-          </Reveal>
-        ))}
-      </div>
+      <Container className="py-12 sm:py-16">
+        <Breadcrumbs items={[{ name: "Accueil", href: "/" }, { name: "Services" }]} />
 
-      {/* FAQ — accordéon natif (SEO : schema FAQPage, contenu dans le HTML) */}
-      <section className="mt-20">
-        <Reveal>
-          <SectionHeading eyebrow="FAQ" title="Questions fréquentes" />
-        </Reveal>
-        <div className="mt-8 max-w-3xl divide-y divide-[var(--border)] overflow-hidden rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)]">
-          {faqs.map((f) => (
-            <details key={f.question} className="group px-6">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-semibold marker:hidden">
-                {f.question}
-                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[var(--accent-soft)] text-[var(--accent)] transition-transform group-open:rotate-45">
-                  <ArrowRight size={15} className="rotate-[-45deg]" />
+        {/* Liste éditoriale : une rangée numérotée par service, dépliée en deux colonnes */}
+        <div className="border-t border-[var(--border-strong)]">
+          {services.map((s, i) => (
+            <Reveal key={s.slug} delay={i * 50}>
+              <Link
+                href={`/services/${s.slug}`}
+                className="group grid gap-6 border-b border-[var(--border-strong)] py-10 transition-all hover:bg-[var(--surface-2)] hover:pl-3 md:grid-cols-12"
+              >
+                <span className="index-num md:col-span-1" aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
                 </span>
-              </summary>
-              <p className="pb-5 text-[var(--muted)]">{f.answer}</p>
-            </details>
+
+                <div className="md:col-span-5">
+                  <div className="flex items-center gap-3">
+                    <span className="text-[var(--muted)] transition-colors group-hover:text-[var(--accent)]">
+                      <Icon name={s.icon} size={22} />
+                    </span>
+                    <h2 className="font-display text-2xl font-bold transition-colors group-hover:text-[var(--accent)] sm:text-3xl">
+                      {s.title}
+                    </h2>
+                  </div>
+                  <p className="mt-3 max-w-md text-[var(--muted)]">{s.summary}</p>
+                  <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--muted)]">
+                    {s.tags.join(" · ")}
+                  </p>
+                </div>
+
+                <ul className="space-y-2 md:col-span-5">
+                  {s.points.map((pt) => (
+                    <li key={pt} className="flex items-start gap-2.5 text-sm text-[var(--fg-soft)]">
+                      <span className="mt-0.5 shrink-0 text-[var(--accent)]">
+                        <Check size={14} strokeWidth={2.5} />
+                      </span>
+                      {pt}
+                    </li>
+                  ))}
+                </ul>
+
+                <span className="flex items-start justify-end md:col-span-1">
+                  <ArrowUpRight
+                    size={22}
+                    className="text-[var(--muted)] transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--accent)]"
+                  />
+                </span>
+              </Link>
+            </Reveal>
           ))}
         </div>
-        {/* Maillage interne : renvoi vers le blog */}
-        <Reveal>
-          <p className="mt-6 text-sm text-[var(--muted)]">
-            Envie d&apos;aller plus loin&nbsp;? Je détaille prix, délais et choix techniques dans{" "}
-            <Link href="/blog" className="font-semibold text-[var(--accent)] hover:underline">
-              mes articles de blog
-            </Link>
-            .
-          </p>
-        </Reveal>
-      </section>
 
-      <Reveal>
-        <div className="mt-14 flex flex-col items-start gap-4 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface-2)] p-8 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h2 className="text-xl font-bold">Un besoin qui ne rentre pas dans une case&nbsp;?</h2>
-            <p className="mt-1 text-[var(--muted)]">Décrivez-moi votre projet, je vous réponds sous 24 h.</p>
+        {/* FAQ — accordéon natif (SEO : schema FAQPage, contenu dans le HTML) */}
+        <section className="mt-20">
+          <Reveal>
+            <SectionHeading num="03" eyebrow="FAQ" title="Questions fréquentes" />
+          </Reveal>
+          <div className="mt-10 max-w-3xl border-t border-[var(--border-strong)]">
+            {faqs.map((f) => (
+              <details key={f.question} className="group border-b border-[var(--border-strong)]">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-display text-lg font-bold marker:hidden">
+                  {f.question}
+                  <span className="shrink-0 text-[var(--accent)] transition-transform duration-300 group-open:rotate-45">
+                    <ArrowRight size={18} className="rotate-[-45deg]" />
+                  </span>
+                </summary>
+                <p className="pb-6 text-[var(--muted)]">{f.answer}</p>
+              </details>
+            ))}
           </div>
-          <Button href="/contact" data-umami-event="Contact-CTA">
-            Discuter de mon projet
-            <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-0.5" />
-          </Button>
-        </div>
-      </Reveal>
-    </Container>
+          {/* Maillage interne : renvoi vers le blog */}
+          <Reveal>
+            <p className="mt-6 text-sm text-[var(--muted)]">
+              Envie d&apos;aller plus loin&nbsp;? Je détaille prix, délais et choix techniques dans{" "}
+              <Link href="/blog" className="font-semibold text-[var(--accent)] hover:underline">
+                mes articles de blog
+              </Link>
+              .
+            </p>
+          </Reveal>
+        </section>
+
+        <Reveal>
+          <div className="mt-16 flex flex-col items-start gap-6 rounded-[var(--radius-card)] bg-[var(--fg)] p-10 text-[var(--bg)] sm:flex-row sm:items-center sm:justify-between sm:p-12">
+            <div>
+              <h2 className="font-display text-2xl font-bold sm:text-3xl">
+                Un besoin qui ne rentre pas dans une case&nbsp;?
+              </h2>
+              <p className="mt-2 opacity-80">Décrivez-moi votre projet, je vous réponds sous 24 h.</p>
+            </div>
+            <Link
+              href="/contact"
+              data-umami-event="Contact-CTA"
+              className="group/cta inline-flex shrink-0 items-center gap-3 rounded-[2px] bg-[var(--accent)] px-7 py-3.5 text-[13px] font-semibold uppercase tracking-[0.12em] text-[var(--accent-fg)] transition-transform hover:scale-[1.03]"
+            >
+              Discuter de mon projet
+              <ArrowUpRight size={17} className="transition-transform group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
+            </Link>
+          </div>
+        </Reveal>
+      </Container>
+    </>
   );
 }

@@ -22,6 +22,10 @@ type ButtonProps = {
   "aria-label"?: string;
 };
 
+/**
+ * Boutons éditoriaux : rectangles nets, libellés en capitales espacées.
+ * Primaire = bloc d'encre qui passe à l'accent au survol.
+ */
 export function Button({
   href,
   children,
@@ -31,31 +35,26 @@ export function Button({
   ...rest
 }: ButtonProps) {
   const base =
-    "group/btn inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 focus-visible:outline-none active:scale-[0.98]";
+    "group/btn inline-flex cursor-pointer items-center justify-center gap-2 rounded-[2px] px-5 py-3 text-[13px] font-semibold uppercase tracking-[0.12em] transition-colors duration-200 focus-visible:outline-none active:translate-y-px";
   const styles = {
     primary:
-      "btn-shine text-[var(--accent-fg)] shadow-[var(--glow)] hover:-translate-y-0.5",
+      "bg-[var(--fg)] text-[var(--bg)] hover:bg-[var(--accent)] hover:text-[var(--accent-fg)]",
     secondary:
-      "border border-[var(--border-strong)] bg-[var(--surface)] text-[var(--fg)] hover:border-[var(--accent)] hover:-translate-y-0.5",
+      "border border-[var(--border-strong)] text-[var(--fg)] hover:border-[var(--fg)]",
     ghost: "text-[var(--muted)] hover:text-[var(--fg)]",
   }[variant];
-
-  const primaryBg =
-    variant === "primary"
-      ? ({ backgroundImage: "var(--brand-gradient)" } as const)
-      : undefined;
 
   const cls = `${base} ${styles} ${className}`;
 
   if (external) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={cls} style={primaryBg} {...rest}>
+      <a href={href} target="_blank" rel="noopener noreferrer" className={cls} {...rest}>
         {children}
       </a>
     );
   }
   return (
-    <Link href={href} className={cls} style={primaryBg} {...rest}>
+    <Link href={href} className={cls} {...rest}>
       {children}
     </Link>
   );
@@ -63,16 +62,17 @@ export function Button({
 
 export function Badge({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--surface-2)] px-2.5 py-1 text-xs font-medium text-[var(--muted)]">
+    <span className="inline-flex items-center gap-1.5 rounded-[2px] border border-[var(--border-strong)] px-2 py-0.5 font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--muted)]">
       {children}
     </span>
   );
 }
 
-export function Eyebrow({ children }: { children: ReactNode }) {
+export function Eyebrow({ children, num }: { children: ReactNode; num?: string }) {
   return (
-    <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-[var(--accent)]">
-      <span className="h-px w-6 bg-[var(--accent)]" />
+    <span className="inline-flex items-baseline gap-3 font-mono text-xs font-medium uppercase tracking-[0.2em] text-[var(--accent)]">
+      {num && <span aria-hidden="true">{num}</span>}
+      <span className="h-px w-8 self-center bg-[var(--fg)]" aria-hidden="true" />
       {children}
     </span>
   );
@@ -83,20 +83,22 @@ export function SectionHeading({
   title,
   intro,
   center = false,
+  num,
 }: {
   eyebrow?: string;
   title: string;
   intro?: string;
   center?: boolean;
+  num?: string;
 }) {
   return (
     <div className={`max-w-2xl ${center ? "mx-auto text-center" : ""}`}>
       {eyebrow && (
         <div className={center ? "flex justify-center" : ""}>
-          <Eyebrow>{eyebrow}</Eyebrow>
+          <Eyebrow num={num}>{eyebrow}</Eyebrow>
         </div>
       )}
-      <h2 className="mt-3 text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl">{title}</h2>
+      <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl md:text-[2.75rem] md:leading-[1.1]">{title}</h2>
       {intro && <p className="mt-4 text-[var(--muted)]">{intro}</p>}
     </div>
   );

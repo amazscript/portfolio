@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Sun, Moon } from "@/components/icons";
 
+/** Bascule de thème : la classe .dark sur <html> active le thème sombre. */
 export function ThemeToggle() {
   const [dark, setDark] = useState(false);
 
@@ -24,7 +25,7 @@ export function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label={dark ? "Passer en thème clair" : "Passer en thème sombre"}
-      className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-[var(--border)] text-[var(--muted)] transition-all hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[var(--fg)]"
+      className="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-[2px] border border-[var(--border-strong)] text-[var(--muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--fg)]"
     >
       {dark ? <Sun size={17} /> : <Moon size={17} />}
     </button>

@@ -89,12 +89,8 @@ export function ContactForm({ turnstileSiteKey }: { turnstileSiteKey?: string })
   if (status === "ok") {
     return (
       <div className="relative overflow-hidden rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-8 text-center shadow-[var(--shadow-card)]">
-        <div className="absolute inset-0 bg-grid opacity-40" />
         <div className="relative">
-          <span
-            className="mx-auto grid h-14 w-14 place-items-center rounded-2xl text-white shadow-[var(--glow)]"
-            style={{ backgroundImage: "var(--brand-gradient)" }}
-          >
+          <span className="mx-auto grid h-14 w-14 place-items-center rounded-[2px] bg-[var(--fg)] text-[var(--bg)]">
             <CheckCircle size={28} />
           </span>
           <p className="mt-4 text-lg font-bold">Message envoyé, merci&nbsp;!</p>
@@ -117,7 +113,7 @@ export function ContactForm({ turnstileSiteKey }: { turnstileSiteKey?: string })
   const iconCls =
     "pointer-events-none absolute left-3.5 top-3.5 text-[var(--muted)] transition-colors group-focus-within:text-[var(--accent)]";
   const field =
-    "w-full rounded-xl border border-[var(--border)] bg-[var(--bg)] py-3 pl-11 pr-3.5 text-sm outline-none transition-all placeholder:text-[var(--muted)]/70 focus:border-[var(--accent)] focus:ring-4 focus:ring-[var(--accent-soft)]";
+    "w-full rounded-[2px] border border-[var(--border)] bg-[var(--bg)] py-3 pl-11 pr-3.5 text-sm outline-none transition-all placeholder:text-[var(--muted)]/70 focus:border-[var(--accent)] focus:ring-4 focus:ring-[var(--accent-soft)]";
 
   return (
     <form
@@ -193,7 +189,7 @@ export function ContactForm({ turnstileSiteKey }: { turnstileSiteKey?: string })
       )}
 
       {status === "error" && (
-        <p className="mt-4 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-500">
+        <p className="mt-4 rounded-[2px] border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-500">
           {error}
         </p>
       )}
@@ -202,8 +198,7 @@ export function ContactForm({ turnstileSiteKey }: { turnstileSiteKey?: string })
         <button
           type="submit"
           disabled={status === "sending"}
-          className="btn-shine group/btn inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-[var(--accent-fg)] shadow-[var(--glow)] transition-all hover:-translate-y-0.5 active:scale-[0.98] disabled:translate-y-0 disabled:opacity-60"
-          style={{ backgroundImage: "var(--brand-gradient)" }}
+          className="group/btn inline-flex cursor-pointer items-center justify-center gap-2 rounded-[2px] bg-[var(--fg)] px-6 py-3 text-[13px] font-semibold uppercase tracking-[0.12em] text-[var(--bg)] transition-colors hover:bg-[var(--accent)] hover:text-[var(--accent-fg)] active:translate-y-px disabled:opacity-60"
         >
           {status === "sending" ? (
             "Envoi…"

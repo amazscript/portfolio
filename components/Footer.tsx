@@ -11,9 +11,9 @@ export function Footer() {
     <footer className="mt-24 border-t border-[var(--border)] bg-[var(--bg-subtle)]">
       <div className="mx-auto grid w-full max-w-6xl gap-8 px-5 py-14 sm:px-8 md:grid-cols-3">
         <div>
-          <Link href="/" className="flex items-center gap-2.5 font-bold tracking-tight">
-            <Logo className="h-9 w-9 rounded-xl shadow-[var(--glow)]" />
-            {site.name}
+          <Link href="/" className="flex items-center gap-3">
+            <Logo className="h-8 w-8 rounded-[2px]" />
+            <span className="font-display text-sm font-bold uppercase tracking-[0.14em]">{site.name}</span>
           </Link>
           <p className="mt-3 max-w-xs text-sm text-[var(--muted)]">
             {site.role} freelance. Sites, applications et API sur mesure — {site.area}.
@@ -30,7 +30,7 @@ export function Footer() {
                 target={href.startsWith("mailto") ? undefined : "_blank"}
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="grid h-9 w-9 place-items-center rounded-xl border border-[var(--border)] text-[var(--muted)] transition-all hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                className="grid h-11 w-11 place-items-center rounded-[2px] border border-[var(--border-strong)] text-[var(--muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
               >
                 <Icon size={17} />
               </a>
@@ -39,7 +39,7 @@ export function Footer() {
         </div>
 
         <div>
-          <p className="text-sm font-semibold">Navigation</p>
+          <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-[var(--accent)]">Navigation</p>
           <ul className="mt-3 space-y-2 text-sm">
             {nav.map((item) => (
               <li key={item.href}>
@@ -60,7 +60,7 @@ export function Footer() {
         </div>
 
         <div>
-          <p className="text-sm font-semibold">Contact</p>
+          <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-[var(--accent)]">Contact</p>
           <ul className="mt-3 space-y-2.5 text-sm text-[var(--muted)]">
             <li>
               <a href={`mailto:${site.email}`} className="inline-flex items-center gap-2 transition-colors hover:text-[var(--fg)]">

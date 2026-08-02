@@ -84,14 +84,9 @@ export default async function ProjetPage({ params }: { params: Promise<{ slug: s
         ]}
       />
 
-      {/* Héro de cas d'étude — fond animé + filigrane d'icône */}
+      {/* Héro de cas d'étude — filigrane d'icône sur papier */}
       <section className="relative overflow-hidden border-b border-[var(--border)]">
         <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-grid" />
-          <div
-            className="animate-float absolute -right-24 -top-28 h-96 w-96 rounded-full opacity-20 blur-3xl"
-            style={{ backgroundImage: "var(--brand-gradient)" }}
-          />
           <div className="absolute -right-6 top-6 text-[var(--accent)] opacity-[0.07]">
             <Icon name={p.category} size={220} strokeWidth={1} />
           </div>
@@ -106,16 +101,15 @@ export default async function ProjetPage({ params }: { params: Promise<{ slug: s
 
           <Reveal className="max-w-3xl">
             <div className="flex items-center gap-3">
-              <span
-                className="grid h-12 w-12 place-items-center rounded-2xl text-white shadow-[var(--glow)]"
-                style={{ backgroundImage: "var(--brand-gradient)" }}
-              >
+              <span className="grid h-12 w-12 place-items-center rounded-[2px] bg-[var(--fg)] text-[var(--bg)]">
                 <Icon name={p.category} size={24} />
               </span>
               <Badge>{p.category}</Badge>
             </div>
-            <h1 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-5xl">{p.title}</h1>
-            <p className="mt-3 text-lg text-[var(--muted)]">{p.tagline}</p>
+            <h1 className="mt-5 font-display text-[clamp(2rem,4.5vw,3.25rem)] font-semibold leading-[1.1] tracking-[-0.03em]">
+              {p.title}
+            </h1>
+            <p className="mt-4 max-w-2xl text-lg text-[var(--muted)]">{p.tagline}</p>
 
             {/* CTA au-dessus de la ligne de flottaison */}
             <div className="mt-6 flex flex-wrap gap-3">
@@ -165,7 +159,7 @@ export default async function ProjetPage({ params }: { params: Promise<{ slug: s
               <Reveal key={s.title} delay={i * 60}>
                 <section>
                   <h2 className="flex items-center gap-2.5 text-xl font-bold">
-                    <span className="grid h-9 w-9 place-items-center rounded-xl bg-[var(--accent-soft)] text-[var(--accent)]">
+                    <span className="grid h-9 w-9 place-items-center rounded-[2px] bg-[var(--accent-soft)] text-[var(--accent)]">
                       <s.icon size={18} />
                     </span>
                     {s.title}
@@ -182,7 +176,7 @@ export default async function ProjetPage({ params }: { params: Promise<{ slug: s
                 <p className="text-sm font-semibold">Stack technique</p>
                 <div className="mt-3 flex flex-wrap gap-1.5">
                   {p.stack.map((tech) => (
-                    <span key={tech} className="rounded-md bg-[var(--surface-2)] px-2 py-1 font-mono text-[11px] text-[var(--muted)]">
+                    <span key={tech} className="rounded-[2px] bg-[var(--surface-2)] px-2 py-1 font-mono text-[11px] text-[var(--muted)]">
                       {tech}
                     </span>
                   ))}
@@ -205,7 +199,7 @@ export default async function ProjetPage({ params }: { params: Promise<{ slug: s
             className="group mt-16 flex items-center justify-between gap-4 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6 transition-all hover:-translate-y-0.5 hover:border-[var(--accent)] hover:shadow-[var(--shadow-card)]"
           >
             <div className="flex items-center gap-4">
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[var(--accent-soft)] text-[var(--accent)]">
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-[2px] bg-[var(--accent-soft)] text-[var(--accent)]">
                 <Icon name={next.category} size={22} />
               </span>
               <div>

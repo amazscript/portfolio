@@ -1,64 +1,64 @@
 @import "tailwindcss";
 
-/* Mode sombre piloté par une classe .dark sur <html> (toggle + prefers) */
+/* Mode sombre piloté par une classe .dark sur <html> (toggle + préférence système) */
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: var(--font-inter, "Inter"), ui-sans-serif, system-ui, -apple-system,
-    "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-sans: var(--font-archivo, "Archivo"), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: var(--font-grotesk, "Space Grotesk"), var(--font-sans);
   --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
-  --radius-card: 1rem;
+  --radius-card: 2px;
 }
 
 /* ---------------------------------------------------------------------------
-   Tokens de couleur — thème clair
+   Tokens de couleur — neutres froids, sobres et professionnels.
+   Aucune teinte chaude : gris purs, texte quasi noir, un seul bleu pour
+   l'interactif. Le contraste porte l'identité, pas la couleur.
 --------------------------------------------------------------------------- */
 :root {
   color-scheme: light;
   --bg: #ffffff;
-  --bg-subtle: #f6f8fc;
+  --bg-subtle: #fafafa;
   --surface: #ffffff;
-  --surface-2: #f8fafc;
-  --border: #e6ebf3;
-  --border-strong: #d3dbe8;
-  --fg: #0b1220;
-  --fg-soft: #334155;
-  --muted: #64748b;
+  --surface-2: #f4f4f5;
+  --border: #e4e4e7;
+  --border-strong: #d4d4d8;
+  --fg: #09090b;
+  --fg-soft: #3f3f46;
+  --muted: #71717a;
 
-  --accent: #4f46e5;
-  --accent-2: #2563eb;
-  --accent-3: #06b6d4;
+  --accent: #1d4ed8;
   --accent-fg: #ffffff;
-  --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
+  --accent-soft: color-mix(in srgb, var(--accent) 8%, transparent);
 
-  --brand-gradient: linear-gradient(120deg, #6366f1 0%, #3b82f6 45%, #06b6d4 100%);
-  --glow: 0 20px 60px -25px color-mix(in srgb, var(--accent) 55%, transparent);
-  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px -12px rgba(15, 23, 42, 0.12);
-  --shadow-card-hover: 0 12px 40px -12px color-mix(in srgb, var(--accent) 30%, rgba(15, 23, 42, 0.25));
+  /* Conservé pour compatibilité : aplat d'accent, plus aucun dégradé multicolore. */
+  --brand-gradient: linear-gradient(0deg, var(--accent), var(--accent));
+  --glow: none;
+  --shadow-card: none;
+  --shadow-card-hover: none;
 }
 
 :root.dark {
   color-scheme: dark;
-  --bg: #070b16;
-  --bg-subtle: #0a1120;
-  --surface: #0e1626;
-  --surface-2: #131d31;
-  --border: #1f2b45;
-  --border-strong: #2a3a5c;
-  --fg: #eef3fb;
-  --fg-soft: #c4d0e4;
-  --muted: #8fa1bf;
+  --bg: #09090b;
+  --bg-subtle: #101012;
+  --surface: #131316;
+  --surface-2: #1c1c20;
+  --border: #27272a;
+  --border-strong: #3f3f46;
+  --fg: #fafafa;
+  --fg-soft: #d4d4d8;
+  --muted: #a1a1aa;
 
-  --accent: #818cf8;
-  --accent-2: #60a5fa;
-  --accent-3: #22d3ee;
-  --accent-fg: #0a0f1c;
-  --accent-soft: color-mix(in srgb, var(--accent) 16%, transparent);
+  --accent: #60a5fa;
+  --accent-fg: #09090b;
+  --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
 
-  --brand-gradient: linear-gradient(120deg, #818cf8 0%, #60a5fa 45%, #22d3ee 100%);
-  --glow: 0 24px 70px -25px color-mix(in srgb, var(--accent) 60%, transparent);
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 30px -14px rgba(0, 0, 0, 0.55);
-  --shadow-card-hover: 0 18px 50px -14px color-mix(in srgb, var(--accent) 45%, rgba(0, 0, 0, 0.6));
+  --brand-gradient: linear-gradient(0deg, var(--accent), var(--accent));
+  --glow: none;
+  --shadow-card: none;
+  --shadow-card-hover: none;
 }
 
 html {
@@ -74,6 +74,12 @@ body {
   overflow-x: hidden;
 }
 
+/* Titres en Space Grotesk — la voix typographique du site */
+h1, h2, h3, .font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.025em;
+}
+
 ::selection {
   background: color-mix(in srgb, var(--accent) 30%, transparent);
 }
@@ -82,50 +88,46 @@ body {
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
-  border-radius: 6px;
 }
 
 /* ---------------------------------------------------------------------------
    Utilitaires visuels
 --------------------------------------------------------------------------- */
+/* Ancien dégradé de titre — désormais un aplat d'accent (identité éditoriale) */
 .text-gradient {
-  background: var(--brand-gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--accent);
 }
 
-/* Fond en grille discrète */
+/* Réglure de papier : fines lignes horizontales, très discrètes */
 .bg-grid {
-  background-image: linear-gradient(to right, color-mix(in srgb, var(--fg) 5%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in srgb, var(--fg) 5%, transparent) 1px, transparent 1px);
-  background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 75%);
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 75%);
+  background-image: linear-gradient(to bottom, color-mix(in srgb, var(--fg) 4%, transparent) 1px, transparent 1px);
+  background-size: 100% 40px;
 }
 
+/* Header : papier quasi opaque (plus de verre dépoli) */
 .glass {
-  background: color-mix(in srgb, var(--bg) 72%, transparent);
-  backdrop-filter: saturate(1.4) blur(12px);
-  -webkit-backdrop-filter: saturate(1.4) blur(12px);
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Filet éditorial épais (sous les titres de section) */
+.rule-strong {
+  height: 2px;
+  background: var(--fg);
+}
+
+/* Numéro d'index en style imprimé */
+.index-num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  color: var(--accent);
 }
 
 /* ---------------------------------------------------------------------------
    Animations
 --------------------------------------------------------------------------- */
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes float-orb {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -30px) scale(1.06); }
-  66% { transform: translate(-20px, 20px) scale(0.96); }
-}
-@keyframes aurora {
-  0%, 100% { transform: translateX(-6%) translateY(0) rotate(0deg); }
-  50% { transform: translateX(6%) translateY(-4%) rotate(6deg); }
-}
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -134,10 +136,6 @@ body {
   0% { box-shadow: 0 0 0 0 color-mix(in srgb, #22c55e 60%, transparent); }
   70% { box-shadow: 0 0 0 7px transparent; }
   100% { box-shadow: 0 0 0 0 transparent; }
-}
-@keyframes shine {
-  0% { transform: translateX(-120%); }
-  60%, 100% { transform: translateX(220%); }
 }
 @keyframes spin-slow {
   to { transform: rotate(360deg); }
@@ -155,8 +153,6 @@ body {
   transform: none;
 }
 
-.animate-float { animation: float-orb 18s ease-in-out infinite; }
-.animate-aurora { animation: aurora 20s ease-in-out infinite; }
 .pulse-dot { animation: pulse-ring 2.2s ease-out infinite; }
 
 /* Ruban de technologies défilant */
@@ -170,20 +166,9 @@ body {
   mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
 }
 
-/* Effet de brillance sur les boutons primaires */
-.btn-shine { position: relative; overflow: hidden; }
-.btn-shine::after {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; height: 100%; width: 40%;
-  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.35), transparent);
-  transform: translateX(-120%);
-}
-.btn-shine:hover::after { animation: shine 0.9s ease; }
-
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal-item { opacity: 1 !important; transform: none !important; transition: none; }
-  .animate-float, .animate-aurora, .pulse-dot, .marquee-track,
-  .btn-shine::after { animation: none !important; }
+  .pulse-dot, .marquee-track { animation: none !important; }
 }
+

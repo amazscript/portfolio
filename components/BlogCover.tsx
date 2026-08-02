@@ -37,9 +37,8 @@ export function BlogCover({
           className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
       ) : (
-        <div aria-hidden="true" className="absolute inset-0">
-          <div className="absolute inset-0" style={{ backgroundImage: "var(--brand-gradient)", opacity: 0.16 }} />
-          <div className="absolute inset-0 bg-grid opacity-60" />
+        <div aria-hidden="true" className="absolute inset-0 bg-[var(--surface-2)]">
+          <div className="absolute inset-0 bg-grid" />
           <div className="absolute -right-8 -top-10 text-[var(--accent)] opacity-20 transition-transform duration-500 group-hover:scale-110 group-hover:opacity-30">
             <Icon name={icon} size={iconSize} strokeWidth={1} />
           </div>
@@ -48,13 +47,10 @@ export function BlogCover({
 
       {/* Pastille catégorie, lisible sur image comme sur visuel généré */}
       <div className="absolute inset-x-5 bottom-4 flex items-center gap-2">
-        <span
-          className="grid h-9 w-9 place-items-center rounded-xl text-white shadow-[var(--glow)]"
-          style={{ backgroundImage: "var(--brand-gradient)" }}
-        >
+        <span className="grid h-9 w-9 place-items-center rounded-[2px] bg-[var(--fg)] text-[var(--bg)]">
           <Icon name={icon} size={18} />
         </span>
-        <span className="rounded-full bg-[var(--surface)] px-2.5 py-1 text-xs font-semibold text-[var(--fg)] shadow-[var(--shadow-card)]">
+        <span className="rounded-[2px] bg-[var(--surface)]/95 px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--fg)]">
           {category}
         </span>
       </div>

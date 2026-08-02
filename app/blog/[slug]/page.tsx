@@ -70,7 +70,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               </span>
               <span className="text-sm text-[var(--muted)]">{p.dateLabel}</span>
             </div>
-            <h1 className="mt-4 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
+            <h1 className="mt-5 font-display text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.02] tracking-[-0.02em]">
               {p.title}
             </h1>
             <p className="mt-4 text-lg text-[var(--muted)]">{p.excerpt}</p>
@@ -97,7 +97,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           {/* Tags */}
           <div className="mt-10 flex flex-wrap gap-1.5 border-t border-[var(--border)] pt-6">
             {p.tags.map((tag) => (
-              <span key={tag} className="rounded-md bg-[var(--surface-2)] px-2 py-1 font-mono text-[11px] text-[var(--muted)]">
+              <span key={tag} className="rounded-[2px] bg-[var(--surface-2)] px-2 py-1 font-mono text-[11px] text-[var(--muted)]">
                 {tag}
               </span>
             ))}
