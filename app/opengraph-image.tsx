@@ -19,9 +19,9 @@ export default function Image() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#ffffff",
+          background: "#0b1326",
           padding: "80px",
-          color: "#09090b",
+          color: "#f8fafc",
           fontFamily: "sans-serif",
         }}
       >
@@ -29,13 +29,13 @@ export default function Image() {
           <div style={{ display: "flex", fontSize: 32, fontWeight: 600, letterSpacing: "0.08em" }}>
             decilapdenis.fr
           </div>
-          <div style={{ display: "flex", width: 120, height: 8, background: "#1d4ed8" }} />
+          <div style={{ display: "flex", width: 120, height: 8, background: "#adc6ff" }} />
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", fontSize: 84, fontWeight: 800, lineHeight: 1.05 }}>
             {site.name}
           </div>
-          <div style={{ display: "flex", fontSize: 44, marginTop: 18, color: "#1d4ed8" }}>
+          <div style={{ display: "flex", fontSize: 44, marginTop: 18, color: "#adc6ff" }}>
             {site.role} — Freelance
           </div>
         </div>
@@ -43,8 +43,8 @@ export default function Image() {
           style={{
             display: "flex",
             fontSize: 30,
-            color: "#71717a",
-            borderTop: "2px solid #09090b",
+            color: "#94a3b8",
+            borderTop: "2px solid rgba(255, 255, 255, 0.18)",
             paddingTop: 24,
           }}
         >

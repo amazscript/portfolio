@@ -31,7 +31,7 @@ export default function ProjetsPage() {
         lines={["Des projets", "qui tournent"]}
         intro="Filtrez par type de projet. Chaque réalisation mène à un cas d'étude détaillé : le problème, les décisions techniques, le résultat obtenu."
         aside={
-          <p className="font-mono text-sm uppercase tracking-[0.14em] text-[var(--muted)]">
+          <p className="font-mono text-sm uppercase tracking-[0.1em] text-[var(--muted)]">
             {projects.length} projets
           </p>
         }

@@ -47,10 +47,10 @@ export function BlogCover({
 
       {/* Pastille catégorie, lisible sur image comme sur visuel généré */}
       <div className="absolute inset-x-5 bottom-4 flex items-center gap-2">
-        <span className="grid h-9 w-9 place-items-center rounded-[2px] bg-[var(--fg)] text-[var(--bg)]">
+        <span className="grid h-9 w-9 place-items-center rounded-lg bg-[var(--accent)] text-[var(--accent-fg)]">
           <Icon name={icon} size={18} />
         </span>
-        <span className="rounded-[2px] bg-[var(--surface)]/95 px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--fg)]">
+        <span className="rounded-lg bg-[var(--surface)]/90 px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.08em] text-[var(--fg)] backdrop-blur-sm">
           {category}
         </span>
       </div>

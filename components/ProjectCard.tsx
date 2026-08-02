@@ -16,7 +16,7 @@ function ProjectVisual({ project }: { project: Project }) {
           src={project.image}
           alt={project.title}
           loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          className="absolute inset-0 h-full w-full object-cover grayscale transition-all duration-500 group-hover:scale-[1.03] group-hover:grayscale-0"
         />
       ) : (
         <div aria-hidden="true" className="absolute inset-0 bg-[var(--surface-2)]">
@@ -27,10 +27,10 @@ function ProjectVisual({ project }: { project: Project }) {
         </div>
       )}
       <div className="absolute inset-x-4 bottom-3 flex items-center gap-2">
-        <span className="grid h-9 w-9 place-items-center rounded-[2px] bg-[var(--fg)] text-[var(--bg)]">
+        <span className="grid h-9 w-9 place-items-center rounded-lg bg-[var(--accent)] text-[var(--accent-fg)]">
           <Icon name={project.category} size={18} />
         </span>
-        <span className="rounded-[2px] bg-[var(--surface)]/95 px-2 py-0.5 font-display text-base font-bold text-[var(--fg)]">
+        <span className="rounded-lg bg-[var(--surface)]/90 px-2.5 py-1 font-display text-base font-bold text-[var(--fg)] backdrop-blur-sm">
           {project.title}
         </span>
       </div>
@@ -40,7 +40,7 @@ function ProjectVisual({ project }: { project: Project }) {
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-[var(--radius-card)] border border-[var(--border-strong)] bg-[var(--surface)] transition-colors duration-300 hover:border-[var(--fg)]">
+    <article className="glass-card group relative flex h-full flex-col overflow-hidden rounded-[var(--radius-card)]">
       <Link href={`/projets/${project.slug}`} aria-label={`Voir le cas d'étude : ${project.title}`}>
         <ProjectVisual project={project} />
       </Link>
@@ -61,7 +61,7 @@ export function ProjectCard({ project }: { project: Project }) {
 
         <div className="mt-4 flex flex-wrap gap-1.5">
           {project.stack.slice(0, 4).map((tech) => (
-            <span key={tech} className="rounded-[2px] bg-[var(--surface-2)] px-2 py-0.5 font-mono text-[11px] text-[var(--muted)]">
+            <span key={tech} className="rounded-lg bg-[var(--surface-2)] px-2 py-0.5 font-mono text-[11px] text-[var(--muted)]">
               {tech}
             </span>
           ))}

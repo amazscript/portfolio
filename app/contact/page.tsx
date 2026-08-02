@@ -44,7 +44,7 @@ export default function ContactPage() {
         lines={["Parlons de", "votre projet"]}
         intro="Décrivez votre besoin en quelques lignes — site, application, API ou renfort. Je vous réponds sous 24 h, sans engagement."
         aside={
-          <p className="font-mono text-sm uppercase tracking-[0.14em] text-[var(--accent)]">
+          <p className="font-mono text-sm uppercase tracking-[0.1em] text-[var(--accent)]">
             {site.responseTime}
           </p>
         }
@@ -61,12 +61,12 @@ export default function ContactPage() {
           {/* Colonne latérale */}
           <div className="space-y-4">
             <Reveal delay={80}>
-              <div className="rounded-[var(--radius-card)] border border-[var(--border-strong)] bg-[var(--surface)] p-6">
-                <p className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--accent)]">Pourquoi me contacter</p>
+              <div className="glass-card rounded-[var(--radius-card)] p-6">
+                <p className="font-mono text-xs uppercase tracking-[0.1em] text-[var(--accent)]">Pourquoi me contacter</p>
                 <ul className="mt-4 space-y-4">
                   {reassurance.map((r) => (
                     <li key={r.title} className="flex gap-3">
-                      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-[2px] bg-[var(--accent-soft)] text-[var(--accent)]">
+                      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-[var(--accent-soft)] text-[var(--accent)]">
                         <r.icon size={18} />
                       </span>
                       <div>
@@ -80,26 +80,26 @@ export default function ContactPage() {
             </Reveal>
 
             <Reveal delay={150}>
-              <div className="rounded-[var(--radius-card)] border border-[var(--border-strong)] bg-[var(--surface)] p-6">
-                <p className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--accent)]">Coordonnées</p>
+              <div className="glass-card rounded-[var(--radius-card)] p-6">
+                <p className="font-mono text-xs uppercase tracking-[0.1em] text-[var(--accent)]">Coordonnées</p>
                 <ul className="mt-4 space-y-3 text-sm">
                   <li>
                     <a href={`mailto:${site.email}`} className="inline-flex items-center gap-2.5 text-[var(--fg-soft)] transition-colors hover:text-[var(--accent)]">
-                      <span className="grid h-8 w-8 place-items-center rounded-[2px] bg-[var(--surface-2)] text-[var(--accent)]">
+                      <span className="grid h-8 w-8 place-items-center rounded-lg bg-[var(--surface-2)] text-[var(--accent)]">
                         <Mail size={16} />
                       </span>
                       {site.email}
                     </a>
                   </li>
                   <li className="inline-flex items-center gap-2.5 text-[var(--fg-soft)]">
-                    <span className="grid h-8 w-8 place-items-center rounded-[2px] bg-[var(--surface-2)] text-[var(--accent)]">
+                    <span className="grid h-8 w-8 place-items-center rounded-lg bg-[var(--surface-2)] text-[var(--accent)]">
                       <MapPin size={16} />
                     </span>
                     {site.area}
                   </li>
                   <li className="inline-flex items-center gap-2.5 text-[var(--fg-soft)]">
-                    <span className="grid h-8 w-8 place-items-center rounded-[2px] bg-[var(--surface-2)]">
-                      <span className="pulse-dot h-2.5 w-2.5 rounded-full bg-green-500" />
+                    <span className="grid h-8 w-8 place-items-center rounded-lg bg-[var(--surface-2)]">
+                      <span className="pulse-dot h-2.5 w-2.5 rounded-full bg-[var(--success)]" />
                     </span>
                     {site.availability}
                   </li>
@@ -116,7 +116,7 @@ export default function ContactPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={label}
-                      className="grid h-11 w-11 place-items-center rounded-[2px] border border-[var(--border)] text-[var(--muted)] transition-all hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                      className="grid h-11 w-11 place-items-center rounded-lg border border-[var(--border)] text-[var(--muted)] transition-all hover:-translate-y-0.5 hover:border-[var(--accent)] hover:text-[var(--accent)]"
                     >
                       <Icon size={18} />
                     </a>

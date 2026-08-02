@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Clock } from "@/components/icons";
+import { BlogCover } from "@/components/BlogCover";
 import { blogCategories, type Post } from "@/lib/blog";
 
 export function BlogExplorer({ posts }: { posts: Post[] }) {
@@ -12,7 +13,7 @@ export function BlogExplorer({ posts }: { posts: Post[] }) {
 
   return (
     <div>
-      {/* Filtres — onglets éditoriaux, l'actif est un bloc d'accent */}
+      {/* Filtres — puces monospace, l'actif est un aplat d'accent */}
       <div className="flex flex-wrap gap-2" role="tablist" aria-label="Filtrer par catégorie">
         {blogCategories.map((cat) => {
           const on = cat === active;
@@ -22,10 +23,10 @@ export function BlogExplorer({ posts }: { posts: Post[] }) {
               role="tab"
               aria-selected={on}
               onClick={() => setActive(cat)}
-              className={`cursor-pointer rounded-[2px] px-4 py-2 font-mono text-xs uppercase tracking-[0.12em] transition-colors ${
+              className={`cursor-pointer rounded-full px-4 py-2 font-mono text-xs font-medium uppercase tracking-[0.1em] transition-colors ${
                 on
                   ? "bg-[var(--accent)] text-[var(--accent-fg)]"
-                  : "border border-[var(--border-strong)] text-[var(--muted)] hover:border-[var(--fg)] hover:text-[var(--fg)]"
+                  : "border border-[var(--border-strong)] text-[var(--muted)] hover:border-[var(--accent)] hover:text-[var(--accent)]"
               }`}
             >
               {cat}
@@ -34,13 +35,14 @@ export function BlogExplorer({ posts }: { posts: Post[] }) {
         })}
       </div>
 
-      {/* Sommaire de revue : une ligne par article */}
-      <div className="mt-10 border-t border-[var(--border-strong)]">
+      {/* Grille de cartes : couverture, titre, extrait, métadonnées de lecture */}
+      <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <AnimatePresence mode="popLayout">
           {filtered.map((post, i) => (
             <motion.article
               key={post.slug}
               layout
+              className="h-full"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
@@ -48,26 +50,29 @@ export function BlogExplorer({ posts }: { posts: Post[] }) {
             >
               <Link
                 href={`/blog/${post.slug}`}
-                className="group grid gap-3 border-b border-[var(--border-strong)] py-7 transition-all hover:bg-[var(--surface-2)] hover:pl-3 md:grid-cols-12 md:items-baseline"
+                className="glass-card group flex h-full flex-col overflow-hidden rounded-[var(--radius-card)]"
               >
-                <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[var(--accent)] md:col-span-2">
-                  {post.category}
-                </span>
-                <div className="md:col-span-8">
-                  <h2 className="font-display text-xl font-bold leading-snug transition-colors group-hover:text-[var(--accent)] sm:text-2xl">
+                <BlogCover
+                  icon={post.icon}
+                  category={post.category}
+                  image={post.image}
+                  alt={post.title}
+                />
+                <div className="flex flex-1 flex-col p-6">
+                  <h2 className="font-display text-xl font-semibold leading-snug tracking-[-0.02em] transition-colors group-hover:text-[var(--accent)]">
                     {post.title}
                   </h2>
-                  <p className="mt-2 max-w-2xl text-sm text-[var(--muted)]">{post.excerpt}</p>
-                </div>
-                <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--muted)] md:col-span-2 md:justify-end">
-                  <span>{post.dateLabel}</span>
-                  <span className="inline-flex items-center gap-1">
-                    <Clock size={12} /> {post.readMin} min
-                  </span>
-                  <ArrowUpRight
-                    size={16}
-                    className="transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--accent)]"
-                  />
+                  <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">{post.excerpt}</p>
+                  <div className="mt-auto flex items-center gap-3 border-t border-[var(--border)] pt-4 font-mono text-[11px] uppercase tracking-[0.1em] text-[var(--muted)]">
+                    <span>{post.dateLabel}</span>
+                    <span className="inline-flex items-center gap-1">
+                      <Clock size={12} /> {post.readMin} min
+                    </span>
+                    <ArrowUpRight
+                      size={16}
+                      className="ml-auto text-[var(--accent)] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    />
+                  </div>
                 </div>
               </Link>
             </motion.article>
@@ -76,7 +81,7 @@ export function BlogExplorer({ posts }: { posts: Post[] }) {
       </div>
 
       {filtered.length === 0 && (
-        <p className="mt-10 font-mono text-sm uppercase tracking-[0.14em] text-[var(--muted)]">
+        <p className="mt-10 font-mono text-sm uppercase tracking-[0.1em] text-[var(--muted)]">
           Aucun article dans cette catégorie.
         </p>
       )}

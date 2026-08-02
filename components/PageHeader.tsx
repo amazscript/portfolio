@@ -22,21 +22,21 @@ export function PageHeader({
   aside?: ReactNode;
 }) {
   return (
-    <section className="border-b border-[var(--border)]">
-      <div className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
+    <section className="hero-gradient border-b border-[var(--border)]">
+      <div className="mx-auto w-full max-w-[var(--container-max)] px-5 py-16 sm:px-6 sm:py-24">
         <FadeIn>
-          <p className="flex items-baseline gap-3 font-mono text-xs uppercase tracking-[0.2em] text-[var(--accent)]">
+          <p className="flex items-center gap-3 font-mono text-xs font-bold uppercase tracking-[0.1em] text-[var(--accent)]">
             {num && <span aria-hidden="true">{num}</span>}
-            <span aria-hidden="true" className="h-px w-8 self-center bg-[var(--fg)]" />
+            <span aria-hidden="true" className="h-px w-8 bg-[var(--accent)] opacity-50" />
             {eyebrow}
           </p>
         </FadeIn>
 
-        <h1 className="mt-6 max-w-3xl font-display text-[clamp(2.25rem,5vw,3.75rem)] font-semibold leading-[1.08] tracking-[-0.03em]">
+        <h1 className="mt-6 max-w-3xl font-display text-[clamp(2.25rem,5vw,3.75rem)] font-bold leading-[1.1] tracking-[-0.02em]">
           {lines.map((line, i) => (
             <MaskLine key={line} delay={0.1 + i * 0.11}>
               {i === lines.length - 1 ? (
-                <span className="text-[var(--muted)]">{line}</span>
+                <span className="text-[var(--accent)]">{line}</span>
               ) : (
                 line
               )}

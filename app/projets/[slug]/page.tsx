@@ -85,7 +85,7 @@ export default async function ProjetPage({ params }: { params: Promise<{ slug: s
       />
 
       {/* Héro de cas d'étude — filigrane d'icône sur papier */}
-      <section className="relative overflow-hidden border-b border-[var(--border)]">
+      <section className="hero-gradient relative overflow-hidden border-b border-[var(--border)]">
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div className="absolute -right-6 top-6 text-[var(--accent)] opacity-[0.07]">
             <Icon name={p.category} size={220} strokeWidth={1} />
@@ -101,7 +101,7 @@ export default async function ProjetPage({ params }: { params: Promise<{ slug: s
 
           <Reveal className="max-w-3xl">
             <div className="flex items-center gap-3">
-              <span className="grid h-12 w-12 place-items-center rounded-[2px] bg-[var(--fg)] text-[var(--bg)]">
+              <span className="grid h-12 w-12 place-items-center rounded-xl bg-[var(--accent)] text-[var(--accent-fg)]">
                 <Icon name={p.category} size={24} />
               </span>
               <Badge>{p.category}</Badge>
@@ -140,7 +140,7 @@ export default async function ProjetPage({ params }: { params: Promise<{ slug: s
 
         {/* Métriques animées */}
         <Reveal>
-          <div className="grid gap-4 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-card)] sm:grid-cols-3">
+          <div className="grid gap-4 glass-card rounded-[var(--radius-card)] p-6 sm:grid-cols-3">
             {p.metrics.map((m) => (
               <div key={m.label} className="text-center sm:text-left">
                 <p className="text-2xl font-extrabold tracking-tight text-[var(--accent)]">
@@ -159,7 +159,7 @@ export default async function ProjetPage({ params }: { params: Promise<{ slug: s
               <Reveal key={s.title} delay={i * 60}>
                 <section>
                   <h2 className="flex items-center gap-2.5 text-xl font-bold">
-                    <span className="grid h-9 w-9 place-items-center rounded-[2px] bg-[var(--accent-soft)] text-[var(--accent)]">
+                    <span className="grid h-9 w-9 place-items-center rounded-lg bg-[var(--accent-soft)] text-[var(--accent)]">
                       <s.icon size={18} />
                     </span>
                     {s.title}
@@ -172,11 +172,11 @@ export default async function ProjetPage({ params }: { params: Promise<{ slug: s
 
           <aside className="lg:sticky lg:top-24 lg:self-start">
             <Reveal delay={100}>
-              <div className="rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-card)]">
+              <div className="glass-card rounded-[var(--radius-card)] p-6">
                 <p className="text-sm font-semibold">Stack technique</p>
                 <div className="mt-3 flex flex-wrap gap-1.5">
                   {p.stack.map((tech) => (
-                    <span key={tech} className="rounded-[2px] bg-[var(--surface-2)] px-2 py-1 font-mono text-[11px] text-[var(--muted)]">
+                    <span key={tech} className="rounded-lg bg-[var(--surface-2)] px-2 py-1 font-mono text-[11px] text-[var(--muted)]">
                       {tech}
                     </span>
                   ))}
@@ -196,10 +196,10 @@ export default async function ProjetPage({ params }: { params: Promise<{ slug: s
         <Reveal>
           <Link
             href={`/projets/${next.slug}`}
-            className="group mt-16 flex items-center justify-between gap-4 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6 transition-all hover:-translate-y-0.5 hover:border-[var(--accent)] hover:shadow-[var(--shadow-card)]"
+            className="group mt-16 flex items-center justify-between gap-4 glass-card rounded-[var(--radius-card)] p-6"
           >
             <div className="flex items-center gap-4">
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-[2px] bg-[var(--accent-soft)] text-[var(--accent)]">
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-[var(--accent-soft)] text-[var(--accent)]">
                 <Icon name={next.category} size={22} />
               </span>
               <div>

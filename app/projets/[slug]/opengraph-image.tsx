@@ -22,9 +22,9 @@ export default async function Image({ params }: { params: Promise<{ slug: string
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#ffffff",
+          background: "#0b1326",
           padding: "72px",
-          color: "#09090b",
+          color: "#f8fafc",
           fontFamily: "sans-serif",
         }}
       >
@@ -34,8 +34,8 @@ export default async function Image({ params }: { params: Promise<{ slug: string
             alignSelf: "flex-start",
             fontSize: 26,
             fontWeight: 700,
-            color: "#1d4ed8",
-            border: "2px solid #09090b",
+            color: "#adc6ff",
+            border: "2px solid rgba(255, 255, 255, 0.18)",
             padding: "10px 22px",
           }}
         >

@@ -1,64 +1,91 @@
 @import "tailwindcss";
 
-/* Mode sombre piloté par une classe .dark sur <html> (toggle + préférence système) */
+/* Mode sombre piloté par une classe .dark sur <html>. Le sombre est le mode
+   par défaut : c'est l'identité « Architect Dark ». Le clair reste accessible
+   via le toggle et retire la classe. */
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: var(--font-archivo, "Archivo"), ui-sans-serif, system-ui, -apple-system,
+  --font-sans: var(--font-geist, "Geist"), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-display: var(--font-grotesk, "Space Grotesk"), var(--font-sans);
-  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
-  --radius-card: 2px;
+  --font-display: var(--font-geist, "Geist"), var(--font-sans);
+  --font-mono: var(--font-jetbrains, "JetBrains Mono"), ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Formes — base 0.5rem, cartes plus généreuses (cf. design system Stitch) */
+  --radius-card: 1.5rem;
+
+  /* Largeur de contenu et rythme vertical */
+  --container-max: 1200px;
 }
 
 /* ---------------------------------------------------------------------------
-   Tokens de couleur — neutres froids, sobres et professionnels.
-   Aucune teinte chaude : gris purs, texte quasi noir, un seul bleu pour
-   l'interactif. Le contraste porte l'identité, pas la couleur.
+   Tokens de couleur — « Architect Dark ».
+   Slate profond en fond, bleu périwinkle pour l'interactif, émeraude réservée
+   aux états positifs (disponibilité, succès). La profondeur vient de la
+   superposition de surfaces et du flou, pas d'ombres lourdes.
 --------------------------------------------------------------------------- */
+
+/* Mode clair — variante dérivée, cohérente avec la palette sombre */
 :root {
   color-scheme: light;
-  --bg: #ffffff;
-  --bg-subtle: #fafafa;
+  --bg: #f6f8fc;
+  --bg-subtle: #eef2f9;
   --surface: #ffffff;
-  --surface-2: #f4f4f5;
-  --border: #e4e4e7;
-  --border-strong: #d4d4d8;
-  --fg: #09090b;
-  --fg-soft: #3f3f46;
-  --muted: #71717a;
+  --surface-2: #eef2f9;
+  --surface-3: #e2e8f3;
+  --border: rgba(11, 19, 38, 0.1);
+  --border-strong: rgba(11, 19, 38, 0.18);
+  --fg: #0b1326;
+  --fg-soft: #1e293b;
+  --muted: #52607a;
 
   --accent: #1d4ed8;
   --accent-fg: #ffffff;
-  --accent-soft: color-mix(in srgb, var(--accent) 8%, transparent);
+  --accent-strong: #1e40af;
+  --accent-soft: color-mix(in srgb, var(--accent) 10%, transparent);
 
-  /* Conservé pour compatibilité : aplat d'accent, plus aucun dégradé multicolore. */
-  --brand-gradient: linear-gradient(0deg, var(--accent), var(--accent));
+  --success: #047857;
+  --success-fg: #ffffff;
+
+  /* Verre dépoli : opaque à 70 % pour rester lisible sur fond clair */
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(11, 19, 38, 0.08);
+
+  /* Ombres ambiantes : très diffuses, faible opacité, teintées de l'accent */
+  --shadow-card: 0 1px 2px rgba(11, 19, 38, 0.04);
+  --shadow-card-hover: 0 20px 40px -12px rgba(29, 78, 216, 0.18);
   --glow: none;
-  --shadow-card: none;
-  --shadow-card-hover: none;
+  --brand-gradient: linear-gradient(0deg, var(--accent), var(--accent));
 }
 
 :root.dark {
   color-scheme: dark;
-  --bg: #09090b;
-  --bg-subtle: #101012;
-  --surface: #131316;
-  --surface-2: #1c1c20;
-  --border: #27272a;
-  --border-strong: #3f3f46;
-  --fg: #fafafa;
-  --fg-soft: #d4d4d8;
-  --muted: #a1a1aa;
+  --bg: #0b1326;
+  --bg-subtle: #060e20;
+  --surface: #131b2e;
+  --surface-2: #1e293b;
+  --surface-3: #222a3d;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.18);
+  --fg: #f8fafc;
+  --fg-soft: #dae2fd;
+  --muted: #94a3b8;
 
-  --accent: #60a5fa;
-  --accent-fg: #09090b;
-  --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
+  --accent: #adc6ff;
+  --accent-fg: #002e6a;
+  --accent-strong: #4d8eff;
+  --accent-soft: color-mix(in srgb, var(--accent) 14%, transparent);
 
-  --brand-gradient: linear-gradient(0deg, var(--accent), var(--accent));
+  --success: #4edea3;
+  --success-fg: #003824;
+
+  --glass-bg: rgba(30, 41, 59, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.1);
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 20px 40px rgba(0, 0, 0, 0.4);
   --glow: none;
-  --shadow-card: none;
-  --shadow-card-hover: none;
+  --brand-gradient: linear-gradient(0deg, var(--accent), var(--accent));
 }
 
 html {
@@ -74,14 +101,15 @@ body {
   overflow-x: hidden;
 }
 
-/* Titres en Space Grotesk — la voix typographique du site */
+/* Titres en Geist, chasse resserrée — la précision typographique porte l'identité */
 h1, h2, h3, .font-display {
   font-family: var(--font-display);
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
 }
 
 ::selection {
   background: color-mix(in srgb, var(--accent) 30%, transparent);
+  color: var(--fg);
 }
 
 /* Focus visible accessible (WCAG) */
@@ -93,31 +121,49 @@ h1, h2, h3, .font-display {
 /* ---------------------------------------------------------------------------
    Utilitaires visuels
 --------------------------------------------------------------------------- */
-/* Ancien dégradé de titre — désormais un aplat d'accent (identité éditoriale) */
-.text-gradient {
-  color: var(--accent);
-}
-
-/* Réglure de papier : fines lignes horizontales, très discrètes */
+/* Grille de plan technique — points discrets, remplace la réglure papier */
 .bg-grid {
-  background-image: linear-gradient(to bottom, color-mix(in srgb, var(--fg) 4%, transparent) 1px, transparent 1px);
-  background-size: 100% 40px;
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--fg) 12%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
 }
 
-/* Header : papier quasi opaque (plus de verre dépoli) */
+/* Verre dépoli, niveau 2 : header collant et surfaces flottantes */
 .glass {
-  background: color-mix(in srgb, var(--bg) 94%, transparent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
 }
 
-/* Filet éditorial épais (sous les titres de section) */
-.rule-strong {
-  height: 2px;
-  background: var(--fg);
+/* Carte de verre, niveau 1 : conteneurs de contenu.
+   Au survol : liseré d'accent en haut, léger soulèvement, ombre ambiante. */
+.glass-card {
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-card);
+  transition:
+    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.glass-card:hover {
+  border-top-color: var(--accent);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
 }
 
-/* Numéro d'index en style imprimé */
+/* Halo radial du hero : bleu en haut à droite, émeraude en bas à gauche */
+.hero-gradient {
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--accent-strong) 16%, transparent), transparent 42%),
+    radial-gradient(circle at bottom left, color-mix(in srgb, var(--success) 7%, transparent), transparent 42%);
+}
+
+/* Métadonnée technique en monospace — « construit par un dev » */
 .index-num {
   font-family: var(--font-mono);
   font-size: 0.75rem;
@@ -128,19 +174,15 @@ h1, h2, h3, .font-display {
 /* ---------------------------------------------------------------------------
    Animations
 --------------------------------------------------------------------------- */
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
 @keyframes pulse-ring {
-  0% { box-shadow: 0 0 0 0 color-mix(in srgb, #22c55e 60%, transparent); }
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--success) 60%, transparent); }
   70% { box-shadow: 0 0 0 7px transparent; }
   100% { box-shadow: 0 0 0 0 transparent; }
 }
-@keyframes spin-slow {
-  to { transform: rotate(360deg); }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
-
 .reveal-item {
   opacity: 0;
   transform: translateY(18px);
@@ -154,21 +196,11 @@ h1, h2, h3, .font-display {
 }
 
 .pulse-dot { animation: pulse-ring 2.2s ease-out infinite; }
-
-/* Ruban de technologies défilant */
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee 32s linear infinite;
-}
-.marquee-mask {
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
-  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
-}
+.animate-float { animation: float 6s ease-in-out infinite; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal-item { opacity: 1 !important; transform: none !important; transition: none; }
-  .pulse-dot, .marquee-track { animation: none !important; }
+  .pulse-dot, .animate-float { animation: none !important; }
+  .glass-card:hover { transform: none; }
 }
-

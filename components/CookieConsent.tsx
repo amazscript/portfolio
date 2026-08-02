@@ -31,7 +31,7 @@ export function CookieConsent() {
     <div
       role="dialog"
       aria-label="Consentement aux cookies"
-      className="fixed inset-x-3 bottom-3 z-[100] mx-auto max-w-2xl rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-card-hover)] sm:inset-x-auto sm:right-4 sm:left-auto"
+      className="glass fixed inset-x-3 bottom-3 z-[100] mx-auto max-w-2xl rounded-[var(--radius-card)] border border-[var(--border-strong)] p-6 shadow-[var(--shadow-card-hover)] sm:inset-x-auto sm:left-auto sm:right-4"
     >
       <p className="text-sm font-semibold">Cookies &amp; mesure d&apos;audience</p>
       <p className="mt-2 text-sm text-[var(--muted)]">
@@ -46,14 +46,14 @@ export function CookieConsent() {
         <button
           type="button"
           onClick={() => decide("granted")}
-          className="flex-1 cursor-pointer rounded-[2px] bg-[var(--fg)] px-4 py-2.5 text-sm font-semibold text-[var(--bg)] transition-colors hover:bg-[var(--accent)] hover:text-[var(--accent-fg)]"
+          className="flex-1 cursor-pointer rounded-xl bg-[var(--accent)] px-4 py-2.5 text-sm font-bold text-[var(--accent-fg)] transition-all hover:brightness-105"
         >
           Accepter
         </button>
         <button
           type="button"
           onClick={() => decide("denied")}
-          className="flex-1 cursor-pointer rounded-[2px] border border-[var(--border-strong)] bg-[var(--surface)] px-4 py-2.5 text-sm font-semibold text-[var(--fg)] transition-colors hover:border-[var(--fg)]"
+          className="flex-1 cursor-pointer rounded-xl border border-[var(--border-strong)] px-4 py-2.5 text-sm font-bold text-[var(--fg)] transition-colors hover:border-[var(--accent)]"
         >
           Refuser
         </button>
