@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Container, Button, Eyebrow } from "@/components/ui";
+import { Container, Button, CtaBanner } from "@/components/ui";
+import { PageHeader } from "@/components/PageHeader";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Reveal";
 import {
-  Icon,
   Server,
   Code,
   Bolt,
@@ -58,78 +58,62 @@ export default function AProposPage() {
         ]}
       />
 
-      {/* Héro */}
-      <section className="relative overflow-hidden border-b border-[var(--border)]">
-        <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-grid" />
-          <div
-            className="animate-float absolute -left-24 -top-24 h-96 w-96 rounded-full opacity-25 blur-3xl"
-            style={{ backgroundImage: "var(--brand-gradient)" }}
-          />
-        </div>
+      <PageHeader
+        num="06"
+        eyebrow="À propos"
+        lines={["Un besoin,", "un produit", "qui tourne"]}
+        intro={`Développeur full-stack freelance en ${site.area}. Je résous des problèmes concrets, en autonomie et en allant au fond des choses — du besoin à la mise en production.`}
+      />
 
-        <Container className="py-16 sm:py-20">
-          <Breadcrumbs items={[{ name: "Accueil", href: "/" }, { name: "À propos" }]} />
-          <div className="grid gap-10 lg:grid-cols-[1fr_300px] lg:items-center">
-            <Reveal>
-              <Eyebrow>À propos</Eyebrow>
-              <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-5xl">
-                Je transforme un besoin en <span className="text-gradient">produit qui tourne</span>.
-              </h1>
-              <p className="mt-5 max-w-xl text-lg text-[var(--muted)]">
-                Développeur full-stack freelance en {site.area}. Je résous des problèmes concrets,
-                en autonomie et en allant au fond des choses — du besoin à la mise en production.
+      <Container className="py-14">
+        <Breadcrumbs items={[{ name: "Accueil", href: "/" }, { name: "À propos" }]} />
+
+        {/* Portrait & repères — deux colonnes séparées par un filet */}
+        <Reveal>
+          <div className="grid gap-8 border-b border-[var(--border-strong)] pb-12 md:grid-cols-[220px_1fr] md:items-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/apropos/denis.webp"
+              alt={`Photo de ${site.name}, ${site.role} freelance en ${site.area}`}
+              width={220}
+              height={260}
+              className="h-[260px] w-full max-w-[220px] rounded-[var(--radius-card)] border border-[var(--border-strong)] object-cover grayscale transition-all duration-500 hover:grayscale-0"
+            />
+            <div>
+              <p className="font-display text-2xl font-bold">{site.name}</p>
+              <p className="mt-1 font-mono text-xs uppercase tracking-[0.16em] text-[var(--accent)]">
+                {site.role}
               </p>
-              <div className="mt-6 flex flex-wrap gap-2">
+              <ul className="mt-6 space-y-3">
                 {highlights.map((h) => (
-                  <span key={h.label} className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-sm text-[var(--fg-soft)]">
-                    <span className="text-[var(--accent)]"><h.icon size={15} /></span>
+                  <li key={h.label} className="flex items-center gap-3 text-[var(--fg-soft)]">
+                    <span className="text-[var(--accent)]">
+                      <h.icon size={16} />
+                    </span>
                     {h.label}
-                  </span>
+                  </li>
                 ))}
-              </div>
-            </Reveal>
-
-            {/* Carte profil */}
-            <Reveal delay={120}>
-              <div className="rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6 text-center shadow-[var(--shadow-card)]">
-                <div className="mx-auto w-fit rounded-full p-[3px]" style={{ backgroundImage: "var(--brand-gradient)" }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/apropos/denis.webp"
-                    alt={`Photo de ${site.name}, ${site.role} freelance en ${site.area}`}
-                    width={112}
-                    height={112}
-                    className="h-28 w-28 rounded-full object-cover"
-                  />
-                </div>
-                <p className="mt-4 font-bold">{site.name}</p>
-                <p className="text-sm text-[var(--muted)]">{site.role}</p>
-                <div className="mt-2 inline-flex items-center gap-2 text-sm text-[var(--muted)]">
-                  <span className="pulse-dot h-2 w-2 rounded-full bg-green-500" />
-                  {site.availability}
-                </div>
-                <Button href="/contact" className="mt-5 w-full" data-umami-event="Contact-CTA">
+              </ul>
+              <div className="mt-7 flex flex-wrap items-center gap-5">
+                <Button href="/contact" data-umami-event="Contact-CTA">
                   Me contacter <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-0.5" />
                 </Button>
                 <a
                   href={site.social.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-3 inline-flex items-center gap-1.5 text-sm text-[var(--muted)] hover:text-[var(--fg)]"
+                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--muted)] transition-colors hover:text-[var(--accent)]"
                 >
                   <Github size={16} /> Voir mon code <ArrowUpRight size={13} />
                 </a>
               </div>
-            </Reveal>
+            </div>
           </div>
-        </Container>
-      </section>
+        </Reveal>
 
-      <Container className="py-14">
         {/* Bio complémentaire */}
         <Reveal>
-          <div className="max-w-2xl space-y-4 text-[var(--muted)]">
+          <div className="mt-12 max-w-2xl space-y-4 text-lg leading-relaxed text-[var(--muted)]">
             <p>
               Je conçois des applications de bout en bout — de la base de données à l&apos;interface — avec une
               préférence pour les architectures claires et les outils éprouvés :{" "}
@@ -143,51 +127,60 @@ export default function AProposPage() {
           </div>
         </Reveal>
 
-        {/* Méthode — timeline */}
-        <div className="mt-16">
+        {/* Méthode — une carte numérotée par étape */}
+        <div className="mt-20">
           <Reveal>
-            <h2 className="text-2xl font-bold tracking-tight">Ma méthode</h2>
+            <p className="font-mono text-xs font-bold uppercase tracking-[0.1em] text-[var(--accent)]">Ma méthode</p>
+            <h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.02em] sm:text-4xl">
+              Comment je travaille
+            </h2>
           </Reveal>
-          <div className="mt-6 grid gap-4 sm:grid-cols-3">
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
             {method.map((m, i) => (
-              <Reveal key={m.title} delay={i * 90}>
-                <div className="group h-full rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-card)] transition-all hover:-translate-y-1 hover:border-[var(--accent)]">
+              <Reveal key={m.title} delay={i * 60} className="h-full">
+                <div className="glass-card h-full rounded-[var(--radius-card)] p-8">
                   <div className="flex items-center justify-between">
-                    <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--accent-soft)] text-[var(--accent)] transition-transform group-hover:scale-105">
+                    <span className="grid h-12 w-12 place-items-center rounded-xl bg-[var(--accent-soft)] text-[var(--accent)]">
                       <m.icon size={22} />
                     </span>
-                    <span className="font-mono text-2xl font-bold text-[var(--border-strong)]">0{i + 1}</span>
+                    <span className="font-mono text-sm font-medium tracking-[0.1em] text-[var(--muted)]">
+                      0{i + 1}
+                    </span>
                   </div>
-                  <p className="mt-4 font-semibold">{m.title}</p>
-                  <p className="mt-1 text-sm text-[var(--muted)]">{m.text}</p>
+                  <p className="mt-6 font-display text-xl font-semibold">{m.title}</p>
+                  <p className="mt-2 leading-relaxed text-[var(--muted)]">{m.text}</p>
                 </div>
               </Reveal>
             ))}
           </div>
         </div>
 
-        {/* Compétences */}
-        <div className="mt-16">
+        {/* Compétences — une carte par famille technique */}
+        <div className="mt-20">
           <Reveal>
-            <h2 className="text-2xl font-bold tracking-tight">Compétences</h2>
+            <p className="font-mono text-xs font-bold uppercase tracking-[0.1em] text-[var(--accent)]">Compétences</p>
+            <h2 className="mt-3 font-display text-3xl font-semibold tracking-[-0.02em] sm:text-4xl">
+              Ce que je maîtrise
+            </h2>
           </Reveal>
-          <div className="mt-6 grid gap-4 md:grid-cols-3">
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
             {skills.map((s, i) => (
-              <Reveal key={s.group} delay={i * 90}>
-                <div className="h-full rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-card)]">
-                  <div className="flex items-center gap-2.5">
-                    <span className="grid h-10 w-10 place-items-center rounded-xl bg-[var(--accent-soft)] text-[var(--accent)]">
-                      <s.icon size={20} />
-                    </span>
-                    <p className="font-semibold">{s.group}</p>
+              <Reveal key={s.group} delay={i * 80} className="h-full">
+                <div className="glass-card h-full rounded-[var(--radius-card)] p-8">
+                  <div className="flex items-center gap-3 text-[var(--accent)]">
+                    <s.icon size={20} />
+                    <p className="font-display text-lg font-semibold text-[var(--fg)]">{s.group}</p>
                   </div>
-                  <div className="mt-4 flex flex-wrap gap-2">
+                  <ul className="mt-5 space-y-2.5">
                     {s.items.map((it) => (
-                      <span key={it} className="rounded-md border border-[var(--border)] bg-[var(--surface-2)] px-2.5 py-1 text-sm text-[var(--fg-soft)]">
+                      <li
+                        key={it}
+                        className="font-mono text-[13px] uppercase tracking-[0.08em] text-[var(--fg-soft)]"
+                      >
                         {it}
-                      </span>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
               </Reveal>
             ))}
@@ -196,23 +189,11 @@ export default function AProposPage() {
 
         {/* CTA final */}
         <Reveal>
-          <div className="relative mt-16 overflow-hidden rounded-3xl p-10 text-white shadow-[var(--glow)]" style={{ backgroundImage: "var(--brand-gradient)" }}>
-            <div className="absolute inset-0 bg-grid opacity-20" />
-            <div className="relative flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
-              <div>
-                <h2 className="text-2xl font-bold sm:text-3xl">Travaillons ensemble</h2>
-                <p className="mt-2 text-white/90">{site.responseTime}. Parlons de votre projet, sans engagement.</p>
-              </div>
-              <a
-                href="/contact"
-                data-umami-event="Contact-CTA"
-                className="group/cta inline-flex shrink-0 items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-bold text-[var(--accent)] shadow-lg transition-transform hover:scale-[1.03]"
-              >
-                Me contacter
-                <ArrowUpRight size={17} className="transition-transform group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5" />
-              </a>
-            </div>
-          </div>
+          <CtaBanner
+            className="mt-16"
+            title="Travaillons ensemble"
+            intro={`${site.responseTime}. Parlons de votre projet, sans engagement.`}
+          />
         </Reveal>
       </Container>
     </>

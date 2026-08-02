@@ -70,7 +70,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               </span>
               <span className="text-sm text-[var(--muted)]">{p.dateLabel}</span>
             </div>
-            <h1 className="mt-4 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
+            <h1 className="mt-5 font-display text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.02] tracking-[-0.02em]">
               {p.title}
             </h1>
             <p className="mt-4 text-lg text-[var(--muted)]">{p.excerpt}</p>
@@ -97,7 +97,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           {/* Tags */}
           <div className="mt-10 flex flex-wrap gap-1.5 border-t border-[var(--border)] pt-6">
             {p.tags.map((tag) => (
-              <span key={tag} className="rounded-md bg-[var(--surface-2)] px-2 py-1 font-mono text-[11px] text-[var(--muted)]">
+              <span key={tag} className="rounded-lg bg-[var(--surface-2)] px-2 py-1 font-mono text-[11px] text-[var(--muted)]">
                 {tag}
               </span>
             ))}
@@ -134,7 +134,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         <Reveal>
           <Link
             href={`/blog/${next.slug}`}
-            className="group mx-auto mt-14 flex max-w-3xl items-center justify-between gap-4 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6 transition-all hover:-translate-y-0.5 hover:border-[var(--accent)] hover:shadow-[var(--shadow-card)]"
+            className="group mx-auto mt-14 flex max-w-3xl items-center justify-between gap-4 glass-card rounded-[var(--radius-card)] p-6"
           >
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-[var(--muted)]">Article suivant</p>

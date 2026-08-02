@@ -31,9 +31,9 @@ export function CookieConsent() {
     <div
       role="dialog"
       aria-label="Consentement aux cookies"
-      className="fixed inset-x-3 bottom-3 z-[100] mx-auto max-w-2xl rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-card-hover)] sm:inset-x-auto sm:right-4 sm:left-auto"
+      className="glass fixed inset-x-3 bottom-3 z-[100] mx-auto max-w-2xl rounded-[var(--radius-card)] border border-[var(--border-strong)] p-6 shadow-[var(--shadow-card-hover)] sm:inset-x-auto sm:left-auto sm:right-4"
     >
-      <p className="text-sm font-semibold">🍪 Cookies &amp; mesure d&apos;audience</p>
+      <p className="text-sm font-semibold">Cookies &amp; mesure d&apos;audience</p>
       <p className="mt-2 text-sm text-[var(--muted)]">
         J&apos;utilise Google Analytics pour comprendre l&apos;audience du site. Aucune mesure
         n&apos;est effectuée sans votre accord. Voir les{" "}
@@ -46,15 +46,14 @@ export function CookieConsent() {
         <button
           type="button"
           onClick={() => decide("granted")}
-          className="btn-shine flex-1 rounded-xl px-4 py-2.5 text-sm font-semibold text-[var(--accent-fg)] shadow-[var(--glow)] transition-transform hover:-translate-y-0.5"
-          style={{ backgroundImage: "var(--brand-gradient)" }}
+          className="flex-1 cursor-pointer rounded-xl bg-[var(--accent)] px-4 py-2.5 text-sm font-bold text-[var(--accent-fg)] transition-all hover:brightness-105"
         >
           Accepter
         </button>
         <button
           type="button"
           onClick={() => decide("denied")}
-          className="flex-1 rounded-xl border border-[var(--border-strong)] bg-[var(--surface)] px-4 py-2.5 text-sm font-semibold text-[var(--fg)] transition-colors hover:border-[var(--accent)]"
+          className="flex-1 cursor-pointer rounded-xl border border-[var(--border-strong)] px-4 py-2.5 text-sm font-bold text-[var(--fg)] transition-colors hover:border-[var(--accent)]"
         >
           Refuser
         </button>

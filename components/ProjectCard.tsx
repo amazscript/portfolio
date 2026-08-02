@@ -5,36 +5,34 @@ import { Icon, ArrowUpRight, ArrowRight } from "@/components/icons";
 
 /**
  * Visuel de projet : image si `project.image` est fourni (URL ou /fichier dans public/),
- * sinon visuel généré (dégradé de marque + filigrane d'icône de catégorie).
+ * sinon visuel généré (aplat d'accent + filigrane d'icône de catégorie).
  */
 function ProjectVisual({ project }: { project: Project }) {
   return (
-    <div className="relative aspect-[16/10] overflow-hidden rounded-t-[var(--radius-card)]">
+    <div className="relative aspect-[16/10] overflow-hidden border-b border-[var(--border)]">
       {project.image ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={project.image}
           alt={project.title}
           loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="absolute inset-0 h-full w-full object-cover grayscale transition-all duration-500 group-hover:scale-[1.03] group-hover:grayscale-0"
         />
       ) : (
-        <div aria-hidden="true" className="absolute inset-0">
-          <div className="absolute inset-0" style={{ backgroundImage: "var(--brand-gradient)", opacity: 0.14 }} />
-          <div className="absolute inset-0 bg-grid opacity-60" />
+        <div aria-hidden="true" className="absolute inset-0 bg-[var(--surface-2)]">
+          <div className="absolute inset-0 bg-grid" />
           <div className="absolute -right-6 -top-8 text-[var(--accent)] opacity-20 transition-transform duration-500 group-hover:scale-110 group-hover:opacity-30">
             <Icon name={project.category} size={150} strokeWidth={1} />
           </div>
         </div>
       )}
-      <div className="absolute inset-x-5 bottom-4 flex items-center gap-2">
-        <span
-          className="grid h-10 w-10 place-items-center rounded-xl text-white shadow-[var(--glow)]"
-          style={{ backgroundImage: "var(--brand-gradient)" }}
-        >
-          <Icon name={project.category} size={20} />
+      <div className="absolute inset-x-4 bottom-3 flex items-center gap-2">
+        <span className="grid h-9 w-9 place-items-center rounded-lg bg-[var(--accent)] text-[var(--accent-fg)]">
+          <Icon name={project.category} size={18} />
         </span>
-        <span className="rounded-md bg-[var(--surface)]/90 px-2 py-0.5 text-base font-bold text-[var(--fg)]">{project.title}</span>
+        <span className="rounded-lg bg-[var(--surface)]/90 px-2.5 py-1 font-display text-base font-bold text-[var(--fg)] backdrop-blur-sm">
+          {project.title}
+        </span>
       </div>
     </div>
   );
@@ -42,7 +40,7 @@ function ProjectVisual({ project }: { project: Project }) {
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1.5 hover:border-[var(--accent)] hover:shadow-[var(--shadow-card-hover)]">
+    <article className="glass-card group relative flex h-full flex-col overflow-hidden rounded-[var(--radius-card)]">
       <Link href={`/projets/${project.slug}`} aria-label={`Voir le cas d'étude : ${project.title}`}>
         <ProjectVisual project={project} />
       </Link>
@@ -63,7 +61,7 @@ export function ProjectCard({ project }: { project: Project }) {
 
         <div className="mt-4 flex flex-wrap gap-1.5">
           {project.stack.slice(0, 4).map((tech) => (
-            <span key={tech} className="rounded-md bg-[var(--surface-2)] px-2 py-0.5 font-mono text-[11px] text-[var(--muted)]">
+            <span key={tech} className="rounded-lg bg-[var(--surface-2)] px-2 py-0.5 font-mono text-[11px] text-[var(--muted)]">
               {tech}
             </span>
           ))}

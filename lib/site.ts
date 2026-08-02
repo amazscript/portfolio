@@ -6,9 +6,18 @@ export const site = {
   locale: "fr_FR",
   email: "contact@decilapdenis.fr",
   area: "Île-de-France (93)",
+  /** Version courte de la zone, pour les titres où « (93) » alourdit la phrase. */
+  region: "Île-de-France",
   availability: "Disponible pour missions freelance",
   responseTime: "Réponse sous 24 h",
   stack: ["Laravel", "Symfony", "Vue", "React", "Next.js", "Node.js", "Python", "PostgreSQL", "Docker"],
+  /** Raccourci mis en avant dans le hero — 4 technologies maximum. */
+  coreStack: ["Laravel", "Next.js", "PostgreSQL", "Docker"],
+  /**
+   * Portrait affiché dans le hero. Mettre `null` pour afficher le visuel de
+   * repli (monogramme) tant qu'aucune photo n'est disponible.
+   */
+  portrait: "/apropos/denis.webp" as string | null,
   title: "Développeur full-stack freelance — sites & applications sur mesure en Île-de-France",
   description:
     "Denis Decilap, développeur full-stack freelance en Île-de-France (93). Je conçois sites, applications métier et API robustes — en PHP (Laravel, Symfony), JavaScript/TypeScript (Vue, React, Next.js, Node) ou Python, selon votre projet.",

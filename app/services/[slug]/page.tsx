@@ -56,24 +56,16 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
       {/* Héro */}
       <section className="relative overflow-hidden border-b border-[var(--border)]">
-        <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-grid" />
-          <div
-            className="animate-float absolute -right-24 -top-28 h-96 w-96 rounded-full opacity-20 blur-3xl"
-            style={{ backgroundImage: "var(--brand-gradient)" }}
-          />
-        </div>
         <Container className="py-14 sm:py-16">
           <Breadcrumbs items={[{ name: "Accueil", href: "/" }, { name: "Services", href: "/services" }, { name: s.title }]} />
           <Reveal className="max-w-3xl">
-            <span
-              className="grid h-12 w-12 place-items-center rounded-2xl text-white shadow-[var(--glow)]"
-              style={{ backgroundImage: "var(--brand-gradient)" }}
-            >
+            <span className="grid h-12 w-12 place-items-center rounded-xl bg-[var(--accent)] text-[var(--accent-fg)]">
               <Icon name={s.icon} size={24} />
             </span>
-            <h1 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-5xl">{s.h1}</h1>
-            <p className="mt-4 text-lg text-[var(--muted)]">{s.intro}</p>
+            <h1 className="mt-5 font-display text-[clamp(2rem,4.5vw,3.25rem)] font-semibold leading-[1.1] tracking-[-0.03em]">
+              {s.h1}
+            </h1>
+            <p className="mt-4 max-w-2xl text-lg text-[var(--muted)]">{s.intro}</p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Button href="/contact" className="plausible-event-name=Contact-CTA" data-umami-event="Contact-CTA">
                 Discuter de mon projet <ArrowRight size={16} />
@@ -81,7 +73,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
             </div>
             <div className="mt-6 flex flex-wrap gap-1.5">
               {s.tags.map((tag) => (
-                <span key={tag} className="rounded-md bg-[var(--surface-2)] px-2 py-1 font-mono text-[11px] text-[var(--muted)]">
+                <span key={tag} className="rounded-lg bg-[var(--surface-2)] px-2 py-1 font-mono text-[11px] text-[var(--muted)]">
                   {tag}
                 </span>
               ))}
@@ -97,7 +89,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
             <Reveal>
               <section>
                 <h2 className="flex items-center gap-2.5 text-xl font-bold">
-                  <span className="grid h-9 w-9 place-items-center rounded-xl bg-[var(--accent-soft)] text-[var(--accent)]">
+                  <span className="grid h-9 w-9 place-items-center rounded-lg bg-[var(--accent-soft)] text-[var(--accent)]">
                     <Target size={18} />
                   </span>
                   Le besoin
@@ -110,7 +102,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
             <Reveal>
               <section>
                 <h2 className="flex items-center gap-2.5 text-xl font-bold">
-                  <span className="grid h-9 w-9 place-items-center rounded-xl bg-[var(--accent-soft)] text-[var(--accent)]">
+                  <span className="grid h-9 w-9 place-items-center rounded-lg bg-[var(--accent-soft)] text-[var(--accent)]">
                     <Bolt size={18} />
                   </span>
                   Ce que ça vous apporte
@@ -132,7 +124,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
             <Reveal>
               <section>
                 <h2 className="flex items-center gap-2.5 text-xl font-bold">
-                  <span className="grid h-9 w-9 place-items-center rounded-xl bg-[var(--accent-soft)] text-[var(--accent)]">
+                  <span className="grid h-9 w-9 place-items-center rounded-lg bg-[var(--accent-soft)] text-[var(--accent)]">
                     <CheckCircle size={18} />
                   </span>
                   Ce qui est livré
@@ -154,7 +146,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
           {/* Colonne latérale */}
           <aside className="lg:sticky lg:top-24 lg:self-start">
             <Reveal delay={100}>
-              <div className="rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-card)]">
+              <div className="glass-card rounded-[var(--radius-card)] p-6">
                 <p className="text-sm font-semibold">Un projet de ce type&nbsp;?</p>
                 <p className="mt-1 text-sm text-[var(--muted)]">{site.responseTime}, sans engagement.</p>
                 <Button href="/contact" className="mt-4 w-full" data-umami-event="Contact-CTA">

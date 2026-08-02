@@ -19,24 +19,35 @@ export default function Image() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "linear-gradient(120deg, #6366f1 0%, #3b82f6 45%, #06b6d4 100%)",
+          background: "#0b1326",
           padding: "80px",
-          color: "white",
+          color: "#f8fafc",
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", fontSize: 32, fontWeight: 600, opacity: 0.9 }}>
-          decilapdenis.fr
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", fontSize: 32, fontWeight: 600, letterSpacing: "0.08em" }}>
+            decilapdenis.fr
+          </div>
+          <div style={{ display: "flex", width: 120, height: 8, background: "#adc6ff" }} />
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", fontSize: 84, fontWeight: 800, lineHeight: 1.05 }}>
             {site.name}
           </div>
-          <div style={{ display: "flex", fontSize: 44, marginTop: 18, opacity: 0.95 }}>
+          <div style={{ display: "flex", fontSize: 44, marginTop: 18, color: "#adc6ff" }}>
             {site.role} — Freelance
           </div>
         </div>
-        <div style={{ display: "flex", fontSize: 30, opacity: 0.9 }}>
+        <div
+          style={{
+            display: "flex",
+            fontSize: 30,
+            color: "#94a3b8",
+            borderTop: "2px solid rgba(255, 255, 255, 0.18)",
+            paddingTop: 24,
+          }}
+        >
           Sites · Applications · E-commerce · Mobile · IA
         </div>
       </div>
