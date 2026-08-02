@@ -11,3 +11,7 @@ next-env.d.ts
 
 # Documents de cahier des charges (privés — ne pas publier)
 *.docx
+
+# Cache incrémental TypeScript — régénéré à chaque build, ne doit pas être versionné
+# (sinon tout build salit l'arbre et bloque `make prod`)
+tsconfig.tsbuildinfo
