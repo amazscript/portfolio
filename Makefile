@@ -16,6 +16,7 @@ PROD_REMOTE  := prod
 PROD_BRANCH  := main
 PROD_URL     := https://decilapdenis.fr
 PROD_DIR     := /srv/sites/portfolio
+PROD_GIT_DIR := /srv/git/portfolio.git
 
 .DEFAULT_GOAL := help
 
@@ -130,9 +131,21 @@ prod-restart: ## Recharge le conteneur de prod (prend en compte .env.local, sans
 	ssh $(PROD_HOST) 'cd $(PROD_DIR) && docker compose -f docker-compose.prod.yml up -d'
 
 .PHONY: prod-status
-prod-status: ## État du conteneur de prod + HTTP du site en ligne
-	@ssh $(PROD_HOST) 'docker ps --filter name=portfolio-app --format "{{.Names}} → {{.Status}}"'
-	@echo "→ HTTPS : $$(curl -s -o /dev/null -w '%{http_code}' $(PROD_URL))"
+prod-status: ## État de la prod : commit déployé, conteneur, HTTP du site en ligne
+	@info=$$(ssh $(PROD_HOST) ' \
+		git --git-dir=$(PROD_GIT_DIR) log -1 --format="%H %h %s (%cr)" $(PROD_BRANCH); \
+		docker ps --filter name=portfolio-app --format "{{.Names}} — {{.Status}}" | grep . \
+			|| echo "(aucun conteneur en cours)"'); \
+	deployed=$$(echo "$$info" | head -1); \
+	echo "→ Code VPS :  $${deployed#* }"; \
+	echo "→ Local :     $$(git log -1 --format='%h %s (%cr)')"; \
+	if [ "$${deployed%% *}" = "$$(git rev-parse HEAD)" ]; then \
+		echo "→ Sync :      ✅ identique au local"; \
+	else \
+		echo "→ Sync :      ⚠️  écart avec le local — lance 'make prod'"; \
+	fi; \
+	echo "→ Conteneur : $$(echo "$$info" | tail -1)"; \
+	echo "→ HTTPS :     $$(curl -s -o /dev/null -w '%{http_code}' $(PROD_URL))"
 
 ## ---------------------------------------------------------------------------
 ## Vérifications & SEO
