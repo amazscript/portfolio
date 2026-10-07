@@ -2,6 +2,8 @@ export type Project = {
   slug: string;
   title: string;
   tagline: string;
+  /** Méta-description (120-160 car.) — sinon tagline + résultat, souvent trop long. */
+  metaDescription?: string;
   featured: boolean;
   order: number;
   category: "Marketplace" | "API" | "Application" | "E-commerce" | "Extension" | "Migration";
@@ -23,6 +25,8 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: "amazscript-marketplace",
+    metaDescription:
+      "Cas d'étude : marketplace de scripts en production avec Laravel et Next.js — paiements Stripe, payouts Wise, licences et scan de sécurité des produits.",
     title: "AmazScript — Marketplace",
     tagline:
       "Marketplace full-stack pour vendre des scripts : paiements Stripe, payouts internationaux, licences et scan de sécurité.",
@@ -55,6 +59,8 @@ export const projects: Project[] = [
   },
   {
     slug: "laracommerce-api",
+    metaDescription:
+      "Cas d'étude : API REST e-commerce Laravel 12 prête pour la production — 325+ endpoints, paiements Stripe, admin Filament et 100 % de couverture de tests.",
     title: "LaraCommerce API",
     tagline: "API REST e-commerce Laravel 12 — 325+ endpoints, prête pour la production",
     featured: true,
@@ -86,6 +92,8 @@ export const projects: Project[] = [
   },
   {
     slug: "systeme-reservation",
+    metaDescription:
+      "Cas d'étude : système de réservation auto-hébergé en Vue 3, Node.js et PostgreSQL — calendrier 6 vues, formulaires sur mesure, zéro double réservation.",
     title: "Système de réservation",
     tagline: "Système de réservation self-hosted — Vue 3, Node/Express, PostgreSQL",
     featured: true,
@@ -116,6 +124,8 @@ export const projects: Project[] = [
   },
   {
     slug: "litequote-woocommerce",
+    metaDescription:
+      "Cas d'étude : plugin WooCommerce de devis ultra-léger (moins de 120 KB) qui remplace « Ajouter au panier » par une demande de devis, avec PDF et e-mails.",
     title: "LiteQuote pour WooCommerce",
     tagline: "Plugin WooCommerce de devis ultra-léger — vanilla JS, moins de 120 KB",
     featured: true,
@@ -146,6 +156,8 @@ export const projects: Project[] = [
   },
   {
     slug: "tab-manager-pro",
+    metaDescription:
+      "Cas d'étude : extension Chrome qui range vos onglets en groupes grâce à l'IA, avec 5 moteurs au choix dont Ollama, qui fonctionne 100 % en local.",
     title: "Tab Manager Pro",
     tagline: "Extension Chrome qui range les onglets par l'IA — 5 moteurs au choix",
     featured: false,

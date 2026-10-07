@@ -73,7 +73,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
             </h1>
             <p className="mt-4 max-w-2xl text-lg text-[var(--muted)]">{s.intro}</p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button href="/contact" className="plausible-event-name=Contact-CTA" data-umami-event="Contact-CTA">
+              <Button href="/contact" className="plausible-event-name=Contact-CTA" data-track="contact_cta_click">
                 Discuter de mon projet <ArrowRight size={16} />
               </Button>
             </div>
@@ -155,7 +155,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
               <div className="glass-card rounded-[var(--radius-card)] p-6">
                 <p className="text-sm font-semibold">Un projet de ce type&nbsp;?</p>
                 <p className="mt-1 text-sm text-[var(--muted)]">{site.responseTime}, sans engagement.</p>
-                <Button href="/contact" className="mt-4 w-full" data-umami-event="Contact-CTA">
+                <Button href="/contact" className="mt-4 w-full" data-track="contact_cta_click">
                   Me contacter <ArrowRight size={16} />
                 </Button>
                 {/* Maillage interne : autres prestations */}
@@ -203,7 +203,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
               <h2 className="text-xl font-bold">Parlons de votre projet</h2>
               <p className="mt-1 text-[var(--muted)]">Décrivez votre besoin, je vous réponds sous 24 h.</p>
             </div>
-            <Button href="/contact" className="shrink-0" data-umami-event="Contact-CTA">
+            <Button href="/contact" className="shrink-0" data-track="contact_cta_click">
               Discuter de mon projet <ArrowUpRight size={16} />
             </Button>
           </div>

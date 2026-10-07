@@ -16,6 +16,10 @@ export type Post = {
   slug: string;
   title: string;
   excerpt: string;
+  /** Titre pour Google (60 car. max) quand le titre affiché est plus long. */
+  seoTitle?: string;
+  /** Méta-description (120-160 car.) quand l'extrait est plus long. */
+  metaDescription?: string;
   category: string;
   tags: string[];
   /** Clé iconMap pour le cover généré (repli si pas d'image). */
@@ -34,6 +38,9 @@ export type Post = {
 export const posts: Post[] = [
   {
     slug: "migrer-woocommerce-sans-perdre-seo",
+    seoTitle: "Migrer WooCommerce sans perdre son référencement",
+    metaDescription:
+      "Changer de plateforme peut faire fondre votre trafic Google. La méthode pas à pas pour migrer une boutique WooCommerce sans perdre votre référencement.",
     title: "Migrer une boutique WooCommerce sans perdre son référencement",
     excerpt:
       "Changer de plateforme ou refondre un site peut faire fondre votre trafic Google du jour au lendemain. Voici la méthode que j'applique pour que la migration soit invisible — pour vos clients comme pour Google.",
@@ -121,6 +128,9 @@ export const posts: Post[] = [
   },
   {
     slug: "combien-coute-site-application-sur-mesure",
+    seoTitle: "Prix d'un site ou d'une application sur mesure",
+    metaDescription:
+      "Combien coûte un site ou une application sur mesure ? Les vrais facteurs qui font le budget, avec des fourchettes de prix concrètes pour vous situer.",
     title: "Combien coûte un site ou une application sur mesure (et pourquoi)",
     excerpt:
       "« C'est quoi le prix d'un site ? » La réponse honnête : ça dépend — mais pas de façon floue. Voici les vrais facteurs qui font le budget, avec des fourchettes concrètes pour vous situer avant même de me contacter.",
@@ -193,6 +203,8 @@ export const posts: Post[] = [
   },
   {
     slug: "integrer-ia-produit-sans-exploser-budget",
+    metaDescription:
+      "Intégrer l'IA dans un produit existant pour un coût maîtrisé, parfois sans qu'aucune donnée ne quitte vos serveurs : le guide pragmatique et chiffré.",
     title: "Intégrer l'IA dans votre produit sans exploser votre budget",
     excerpt:
       "L'IA n'est pas réservée aux géants de la tech. Bien cadrée, elle s'ajoute à un produit existant pour un coût maîtrisé — et parfois même sans qu'aucune donnée ne quitte vos serveurs. Le point pragmatique.",
@@ -267,6 +279,8 @@ export const posts: Post[] = [
   },
   {
     slug: "vue-3-ou-nextjs-quel-choix-projet-client",
+    metaDescription:
+      "Vue 3 ou Next.js pour votre projet ? Les critères concrets (SEO, équipe, type de produit) qui font pencher la balance, sans préférence personnelle.",
     title: "Vue 3 ou Next.js : lequel choisir pour votre projet ?",
     excerpt:
       "Deux excellents choix, deux logiques différentes. Plutôt que de trancher par préférence, voici les critères concrets — SEO, équipe, type de produit — qui font pencher la balance dans un sens ou dans l'autre.",
@@ -397,6 +411,7 @@ export const posts: Post[] = [
   },
   {
     slug: "combien-de-temps-creer-site-application",
+    seoTitle: "Combien de temps pour créer un site ou une app ?",
     title: "Combien de temps faut-il pour créer un site ou une application ?",
     excerpt:
       "Un site vitrine, une boutique, une application métier : les délais n'ont rien à voir. Voici des fourchettes réalistes et ce qui les fait vraiment varier.",

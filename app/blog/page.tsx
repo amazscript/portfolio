@@ -14,7 +14,7 @@ import { breadcrumbSchema } from "@/lib/schema";
 export const metadata: Metadata = {
   title: "Blog : conseils pour vos projets web",
   description:
-    "Articles concrets sur le développement web, le SEO, l'e-commerce et l'IA : budget d'un projet, migration sans perte de référencement, choix de stack. Retours d'expérience d'un développeur full-stack freelance.",
+    "Conseils concrets pour vos projets web : budget, délais, migration sans perte de SEO, choix de stack et IA. Par un développeur full-stack freelance.",
   alternates: { canonical: "/blog" },
 };
 

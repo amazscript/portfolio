@@ -14,7 +14,7 @@ import { breadcrumbSchema, faqSchema } from "@/lib/schema";
 export const metadata: Metadata = {
   title: "Services de développement web sur mesure",
   description:
-    "Sites web, applications métier, e-commerce, apps mobiles, API back-end, intelligence artificielle, refonte & renfort pour agences. Développement full-stack Laravel, Vue, Node.js, Next.js et IA.",
+    "Sites vitrines, applications métier, e-commerce, apps mobiles, API et IA : un développeur full-stack freelance, de la conception à la mise en ligne.",
   alternates: { canonical: "/services" },
 };
 

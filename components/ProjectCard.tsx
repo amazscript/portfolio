@@ -74,7 +74,7 @@ export function ProjectCard({ project }: { project: Project }) {
               href={project.demoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              data-umami-event="Demo-Click"
+              data-track="demo_click"
               className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--accent)] hover:underline"
             >
               Voir le site <ArrowUpRight size={14} />

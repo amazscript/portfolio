@@ -128,7 +128,7 @@ export function CtaBanner({
         <h2 className="font-display text-2xl font-bold tracking-[-0.02em] sm:text-3xl">{title}</h2>
         <p className="mt-3 max-w-md text-[var(--muted)]">{intro}</p>
       </div>
-      <Button href={href} size="lg" className="shrink-0" data-umami-event="Contact-CTA">
+      <Button href={href} size="lg" className="shrink-0" data-track="contact_cta_click">
         {cta}
       </Button>
     </div>

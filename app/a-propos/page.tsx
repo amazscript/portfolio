@@ -23,7 +23,7 @@ import { breadcrumbSchema, personSchema } from "@/lib/schema";
 export const metadata: Metadata = {
   title: "À propos : développeur full-stack freelance",
   description:
-    "Denis Decilap, développeur full-stack freelance en Île-de-France. Parcours, compétences, méthode de travail et stack technique : PHP (Laravel, Symfony), JavaScript/TypeScript (Vue, React, Next.js) et Python.",
+    "Denis Decilap, développeur full-stack freelance en Île-de-France : parcours, méthode de travail et stack (Laravel, Symfony, Vue, React, Next.js, Python).",
   alternates: { canonical: "/a-propos" },
 };
 
@@ -95,7 +95,7 @@ export default function AProposPage() {
                 ))}
               </ul>
               <div className="mt-7 flex flex-wrap items-center gap-5">
-                <Button href="/contact" data-umami-event="Contact-CTA">
+                <Button href="/contact" data-track="contact_cta_click">
                   Me contacter <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-0.5" />
                 </Button>
                 <a
