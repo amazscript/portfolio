@@ -84,7 +84,7 @@ export function HomeHero() {
                   href="/contact"
                   size="lg"
                   variant="secondary"
-                  data-umami-event="Contact-CTA"
+                  data-track="contact_cta_click"
                 >
                   Me contacter
                 </Button>

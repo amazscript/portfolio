@@ -151,7 +151,7 @@ export default function HomePage() {
                 technique ponctuel.
               </p>
               <div className="mt-10 flex flex-wrap justify-center gap-4">
-                <Button href="/contact" size="lg" data-umami-event="Contact-CTA">
+                <Button href="/contact" size="lg" data-track="contact_cta_click">
                   <MessageSquare size={18} />
                   Me contacter
                 </Button>

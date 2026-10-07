@@ -18,9 +18,12 @@ export function track(event: string, props?: Props) {
 
 /** Événements normalisés — un seul endroit pour éviter les fautes de frappe. */
 export const events = {
-  /** Conversion principale : formulaire de contact envoyé. */
-  lead: "Lead",
-  contactCtaClick: "Contact CTA",
-  demoClick: "Demo Click",
-  codeClick: "Code Click",
+  /** Conversion principale : formulaire de contact envoyé (nom recommandé GA4, importable dans Google Ads). */
+  lead: "generate_lead",
+  contactCtaClick: "contact_cta_click",
+  demoClick: "demo_click",
+  codeClick: "code_click",
 } as const;
+
+/** Attribut posé sur un lien pour suivre son clic : `data-track="contact_cta_click"`. */
+export const TRACK_ATTRIBUTE = "data-track";

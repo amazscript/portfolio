@@ -95,7 +95,7 @@ export default function AProposPage() {
                 ))}
               </ul>
               <div className="mt-7 flex flex-wrap items-center gap-5">
-                <Button href="/contact" data-umami-event="Contact-CTA">
+                <Button href="/contact" data-track="contact_cta_click">
                   Me contacter <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-0.5" />
                 </Button>
                 <a

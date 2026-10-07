@@ -49,7 +49,7 @@ export function Header() {
           <ThemeToggle />
           {/* `max-sm:hidden` et non `hidden sm:inline-flex` : le `inline-flex` de
               la classe de base du bouton l'emporterait sur `hidden` (même couche). */}
-          <Button href="/contact" className="max-sm:hidden" data-umami-event="Contact-CTA">
+          <Button href="/contact" className="max-sm:hidden" data-track="contact_cta_click">
             Me contacter
             <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-0.5" />
           </Button>

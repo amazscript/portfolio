@@ -114,7 +114,7 @@ export default async function ProjetPage({ params }: { params: Promise<{ slug: s
             {/* CTA au-dessus de la ligne de flottaison */}
             <div className="mt-6 flex flex-wrap gap-3">
               {p.demoUrl && (
-                <Button href={p.demoUrl} external data-umami-event="Demo-Click" aria-label={`Voir ${p.title} en ligne`}>
+                <Button href={p.demoUrl} external data-track="demo_click" aria-label={`Voir ${p.title} en ligne`}>
                   Voir le site <ArrowUpRight size={16} />
                 </Button>
               )}
@@ -183,7 +183,7 @@ export default async function ProjetPage({ params }: { params: Promise<{ slug: s
                 </div>
                 <div className="mt-6 border-t border-[var(--border)] pt-6">
                   <p className="text-sm text-[var(--muted)]">Un projet similaire en tête&nbsp;?</p>
-                  <Button href="/contact" className="mt-3 w-full" data-umami-event="Contact-CTA">
+                  <Button href="/contact" className="mt-3 w-full" data-track="contact_cta_click">
                     Me contacter <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-0.5" />
                   </Button>
                 </div>
