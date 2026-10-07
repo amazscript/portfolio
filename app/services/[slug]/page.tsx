@@ -10,7 +10,8 @@ import { Icon, ArrowRight, ArrowUpRight, Target, Bolt, CheckCircle } from "@/com
 import { services, getService } from "@/lib/services";
 import { projects } from "@/lib/projects";
 import { site } from "@/lib/site";
-import { serviceSchema, breadcrumbSchema } from "@/lib/schema";
+import { serviceSchema, breadcrumbSchema, faqSchema } from "@/lib/schema";
+import { FaqList } from "@/components/FaqList";
 
 /** SSG : une page pré-rendue par prestation (cocon SEO). */
 export function generateStaticParams() {
@@ -44,7 +45,11 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
   const s = getService(slug);
   if (!s) notFound();
 
-  const related = s.relatedCategory ? projects.filter((p) => p.category === s.relatedCategory) : [];
+  const related = projects.filter(
+    (p) =>
+      (s.relatedCategory && p.category === s.relatedCategory) ||
+      (s.relatedStack && p.stack.some((tech) => tech.startsWith(s.relatedStack!)))
+  );
   const others = services.filter((x) => x.slug !== s.slug);
 
   return (
@@ -52,6 +57,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
       <JsonLd
         data={[
           serviceSchema(s),
+          ...(s.faqs ? [faqSchema(s.faqs)] : []),
           breadcrumbSchema([
             { name: "Accueil", path: "/" },
             { name: "Services", path: "/services" },
@@ -194,6 +200,15 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
               ))}
             </div>
           </div>
+        )}
+
+        {s.faqs && (
+          <section id="faq" className="mt-16">
+            <Reveal>
+              <h2 className="text-2xl font-bold tracking-tight">Questions fréquentes</h2>
+            </Reveal>
+            <FaqList faqs={s.faqs} />
+          </section>
         )}
 
         {/* CTA final */}

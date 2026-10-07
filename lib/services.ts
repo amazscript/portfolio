@@ -1,3 +1,5 @@
+import type { Faq } from "@/lib/faq";
+
 export type Service = {
   slug: string;
   title: string;
@@ -15,6 +17,10 @@ export type Service = {
   deliverables: string[];
   /** Pour afficher les réalisations liées (match sur project.category). */
   relatedCategory?: string;
+  /** Variante pour les pages par technologie : match sur une entrée de project.stack (« Laravel » → « Laravel 12 »). */
+  relatedStack?: string;
+  /** FAQ propre à la page (affichée + schema FAQPage). */
+  faqs?: Faq[];
 };
 
 export const services: Service[] = [
@@ -293,6 +299,63 @@ export const services: Service[] = [
       "Développement front et/ou back selon le besoin",
       "Livraison documentée et transférable",
       "En régie (TJM) ou au forfait projet",
+    ],
+  },
+  {
+    slug: "developpeur-laravel-freelance",
+    title: "Développeur Laravel",
+    summary:
+      "Votre projet Laravel confié à un développeur qui en a mis plusieurs en production : API, back-office, paiements et tests, du cadrage au déploiement.",
+    points: [
+      "Laravel 12, PHP 8, Eloquent",
+      "Back-offices Filament",
+      "Paiements Stripe & webhooks",
+      "Tests automatisés & Docker",
+    ],
+    tags: ["Laravel", "Filament", "Stripe", "Redis", "Docker"],
+    icon: "server",
+    metaTitle: "Développeur Laravel freelance en Île-de-France",
+    metaDescription:
+      "Développeur Laravel freelance en Île-de-France : API, back-offices Filament, paiements Stripe, tests automatisés. Projets en production, code propre et livré.",
+    h1: "Développeur Laravel freelance en Île-de-France",
+    intro:
+      "Laravel est mon framework de prédilection pour les back-ends exigeants. Je conçois et je fais évoluer des applications Laravel complètes — API, back-office, paiements, files d'attente — avec la même rigueur que sur mes propres produits en production.",
+    problem:
+      "Laravel permet d'aller vite, mais un projet mené sans structure devient vite difficile à faire évoluer : contrôleurs surchargés, logique métier dispersée, aucun test, et chaque nouvelle fonctionnalité casse une ancienne. Le framework n'est pas en cause, c'est l'architecture.",
+    benefits: [
+      "Une architecture modulaire (services, Form Requests, Resources) qui reste lisible à plusieurs centaines d'endpoints.",
+      "Des tests automatisés sur les parcours critiques : commande, paiement, stock, droits d'accès.",
+      "Un back-office Filament prêt à l'emploi pour vos équipes, sans développement d'interface sur mesure.",
+      "Les intégrations qui comptent : Stripe, Meilisearch, Redis, files d'attente Horizon, stockage S3/R2.",
+    ],
+    deliverables: [
+      "Application ou API Laravel documentée",
+      "Back-office d'administration Filament",
+      "Suite de tests automatisés et intégration continue",
+      "Déploiement Docker et passation du code",
+    ],
+    relatedStack: "Laravel",
+    faqs: [
+      {
+        question: "Pouvez-vous reprendre un projet Laravel existant ?",
+        answer:
+          "Oui. Je commence par un audit du code (architecture, dépendances, tests, sécurité) pour savoir ce qui peut être conservé, puis je vous propose un plan : corrections urgentes, montée de version, ou refonte progressive des parties fragiles.",
+      },
+      {
+        question: "Laravel seul ou avec un front Vue, React ou Next.js ?",
+        answer:
+          "Les deux. Laravel peut tout gérer (Blade, Livewire) ou servir d'API à un front séparé : c'est l'architecture d'AmazScript (Laravel + Next.js). Le choix dépend surtout de vos besoins en SEO, en application mobile et de votre équipe.",
+      },
+      {
+        question: "Travaillez-vous en sous-traitance pour des agences Laravel ?",
+        answer:
+          "Oui, en régie ou au forfait, sous NDA et en marque blanche. Je m'intègre à vos conventions de code et à votre workflow Git, et je livre du code testé et documenté.",
+      },
+      {
+        question: "Combien coûte un développement Laravel sur mesure ?",
+        answer:
+          "Comme pour tout projet sur mesure, cela dépend du périmètre : une application métier démarre autour de 6 000–15 000 €. Je fournis un devis détaillé et ferme après un premier échange gratuit.",
+      },
     ],
   },
 ];
