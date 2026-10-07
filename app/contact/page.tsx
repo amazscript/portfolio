@@ -10,7 +10,7 @@ import { site } from "@/lib/site";
 import { breadcrumbSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "Contact",
+  title: "Contact et devis de projet web",
   description:
     "Contactez Denis Decilap, développeur full-stack freelance en Île-de-France. Réponse sous 24 h pour vos projets de site, application ou API.",
   alternates: { canonical: "/contact" },

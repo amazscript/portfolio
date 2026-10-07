@@ -31,7 +31,7 @@ export const services: Service[] = [
     ],
     tags: ["Next.js", "React", "Tailwind", "WordPress"],
     icon: "globe",
-    metaTitle: "Création de site web sur mesure — Développeur freelance Île-de-France",
+    metaTitle: "Création de site web sur mesure — Freelance Île-de-France",
     metaDescription:
       "Création de sites web et vitrines rapides, responsives et bien référencés. Développeur full-stack freelance en Île-de-France, du design à la mise en ligne.",
     h1: "Création de site web sur mesure",
@@ -65,7 +65,7 @@ export const services: Service[] = [
     ],
     tags: ["Vue 3", "Next.js", "Angular", "PostgreSQL", "MySQL", "MongoDB"],
     icon: "layers",
-    metaTitle: "Développement d'application web métier sur mesure — Freelance",
+    metaTitle: "Application web métier sur mesure — Développeur freelance",
     metaDescription:
       "Applications web métier sur mesure : réservation, gestion, CRM, tableaux de bord. Développeur full-stack freelance en Île-de-France.",
     h1: "Développement d'application web métier sur mesure",
@@ -100,7 +100,7 @@ export const services: Service[] = [
     ],
     tags: ["Laravel", "WooCommerce", "Stripe", "Next.js"],
     icon: "e-commerce",
-    metaTitle: "Création de site e-commerce sur mesure — Développeur freelance",
+    metaTitle: "Création de site e-commerce sur mesure — Freelance",
     metaDescription:
       "Boutiques et back-ends e-commerce sur mesure : paiement Stripe, catalogue, stocks, sans commission de plateforme. Développeur freelance en Île-de-France.",
     h1: "Création de site e-commerce sur mesure",
@@ -204,7 +204,7 @@ export const services: Service[] = [
     ],
     tags: ["Claude", "GPT", "Mistral", "Ollama"],
     icon: "cpu",
-    metaTitle: "Intégration d'intelligence artificielle (IA) — Développeur freelance",
+    metaTitle: "Intégration d'IA sur mesure — Développeur freelance",
     metaDescription:
       "Intégrez l'IA à votre produit : assistants, recherche sémantique (RAG), automatisation. Cloud ou 100% local. Développeur freelance en Île-de-France.",
     h1: "Intégration d'intelligence artificielle à votre produit",
@@ -274,7 +274,7 @@ export const services: Service[] = [
     ],
     tags: ["Laravel", "Vue", "Node", "Next.js"],
     icon: "handshake",
-    metaTitle: "Développeur freelance en sous-traitance pour agences — Renfort",
+    metaTitle: "Renfort développeur freelance pour agences web",
     metaDescription:
       "Renfort développement pour agences web : Laravel, Vue, Node, Next. Autonome, marque blanche, sous NDA. Développeur freelance en Île-de-France.",
     h1: "Développeur freelance en renfort pour agences",

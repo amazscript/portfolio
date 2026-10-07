@@ -12,7 +12,7 @@ import { faqs } from "@/lib/faq";
 import { breadcrumbSchema, faqSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "Services",
+  title: "Services de développement web sur mesure",
   description:
     "Sites web, applications métier, e-commerce, apps mobiles, API back-end, intelligence artificielle, refonte & renfort pour agences. Développement full-stack Laravel, Vue, Node.js, Next.js et IA.",
   alternates: { canonical: "/services" },

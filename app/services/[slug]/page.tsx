@@ -29,7 +29,13 @@ export async function generateMetadata({
     title: { absolute: s.metaTitle },
     description: s.metaDescription,
     alternates: { canonical: `/services/${s.slug}` },
-    openGraph: { title: s.metaTitle, description: s.metaDescription, type: "website" },
+    // Redéfinir openGraph écrase l'image par défaut : on la remet explicitement.
+    openGraph: {
+      title: s.metaTitle,
+      description: s.metaDescription,
+      type: "website",
+      images: ["/opengraph-image"],
+    },
   };
 }
 
