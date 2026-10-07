@@ -26,8 +26,8 @@ export async function generateMetadata({
   if (!p) return {};
   return {
     // Sans le suffixe « · Denis Decilap » : les titres d'articles sont déjà longs.
-    title: { absolute: p.title },
-    description: p.excerpt,
+    title: { absolute: p.seoTitle ?? p.title },
+    description: p.metaDescription ?? p.excerpt,
     alternates: { canonical: `/blog/${p.slug}` },
     openGraph: { title: p.title, description: p.excerpt, type: "article" },
   };

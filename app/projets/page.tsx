@@ -10,7 +10,7 @@ import { breadcrumbSchema } from "@/lib/schema";
 export const metadata: Metadata = {
   title: "Projets web sur mesure : cas d'étude",
   description:
-    "Sélection de réalisations full-stack : API Laravel, applications Vue/Node, plugins WooCommerce, extensions et migrations. Chaque projet est un cas d'étude concret.",
+    "Réalisations full-stack en production : API Laravel, applications Vue et Node, plugins WooCommerce, extensions Chrome. Chaque projet est un cas d'étude.",
   alternates: { canonical: "/projets" },
 };
 

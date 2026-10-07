@@ -23,7 +23,7 @@ import { breadcrumbSchema, personSchema } from "@/lib/schema";
 export const metadata: Metadata = {
   title: "À propos : développeur full-stack freelance",
   description:
-    "Denis Decilap, développeur full-stack freelance en Île-de-France. Parcours, compétences, méthode de travail et stack technique : PHP (Laravel, Symfony), JavaScript/TypeScript (Vue, React, Next.js) et Python.",
+    "Denis Decilap, développeur full-stack freelance en Île-de-France : parcours, méthode de travail et stack (Laravel, Symfony, Vue, React, Next.js, Python).",
   alternates: { canonical: "/a-propos" },
 };
 
