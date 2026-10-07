@@ -4,6 +4,8 @@ import { HomeHero } from "@/components/HomeHero";
 import { ProjectCard } from "@/components/ProjectCard";
 import { Reveal } from "@/components/Reveal";
 import { Counter } from "@/components/Counter";
+import { FaqList } from "@/components/FaqList";
+import { JsonLd } from "@/components/JsonLd";
 import {
   Icon,
   ArrowRight,
@@ -16,6 +18,8 @@ import {
 import { getFeatured } from "@/lib/projects";
 import { services } from "@/lib/services";
 import { site } from "@/lib/site";
+import { homeFaqs } from "@/lib/faq";
+import { faqSchema } from "@/lib/schema";
 
 const stats = [
   { value: "325+", label: "endpoints livrés sur une seule API" },
@@ -29,6 +33,7 @@ export default function HomePage() {
 
   return (
     <>
+      <JsonLd data={faqSchema(homeFaqs)} />
       <HomeHero />
 
       {/* Projets phares — portent 80 % de la conviction */}
@@ -114,6 +119,22 @@ export default function HomePage() {
               Voir tous les services <ArrowRight size={15} />
             </Link>
           </div>
+        </Container>
+      </section>
+
+      {/* FAQ — réponses directes aux objections d'un prospect (et passages citables par les IA) */}
+      <section id="faq" className="pb-16 sm:pb-24">
+        <Container>
+          <Reveal>
+            <SectionHeading num="03" eyebrow="FAQ" title="Les questions qu'on me pose avant de démarrer" />
+          </Reveal>
+          <FaqList faqs={homeFaqs} />
+          <Link
+            href="/services#faq"
+            className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-[var(--accent)] hover:underline"
+          >
+            Toutes les questions fréquentes <ArrowRight size={15} />
+          </Link>
         </Container>
       </section>
 

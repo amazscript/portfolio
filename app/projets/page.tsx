@@ -8,7 +8,7 @@ import { getAllSorted } from "@/lib/projects";
 import { breadcrumbSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "Réalisations",
+  title: "Projets web sur mesure : cas d'étude",
   description:
     "Sélection de réalisations full-stack : API Laravel, applications Vue/Node, plugins WooCommerce, extensions et migrations. Chaque projet est un cas d'étude concret.",
   alternates: { canonical: "/projets" },

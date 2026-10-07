@@ -5,13 +5,14 @@ import { PageHeader } from "@/components/PageHeader";
 import { JsonLd } from "@/components/JsonLd";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Reveal } from "@/components/Reveal";
-import { Icon, Check, ArrowRight, ArrowUpRight } from "@/components/icons";
+import { FaqList } from "@/components/FaqList";
+import { Icon, Check, ArrowUpRight } from "@/components/icons";
 import { services } from "@/lib/services";
 import { faqs } from "@/lib/faq";
 import { breadcrumbSchema, faqSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
-  title: "Services",
+  title: "Services de développement web sur mesure",
   description:
     "Sites web, applications métier, e-commerce, apps mobiles, API back-end, intelligence artificielle, refonte & renfort pour agences. Développement full-stack Laravel, Vue, Node.js, Next.js et IA.",
   alternates: { canonical: "/services" },
@@ -83,26 +84,11 @@ export default function ServicesPage() {
         </div>
 
         {/* FAQ — accordéon natif (SEO : schema FAQPage, contenu dans le HTML) */}
-        <section className="mt-20">
+        <section id="faq" className="mt-20 scroll-mt-24">
           <Reveal>
             <SectionHeading num="03" eyebrow="FAQ" title="Questions fréquentes" />
           </Reveal>
-          <div className="mt-10 max-w-3xl space-y-3">
-            {faqs.map((f) => (
-              <details
-                key={f.question}
-                className="group rounded-xl border border-[var(--border)] bg-[var(--surface)] px-6 transition-colors hover:border-[var(--accent)]"
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-display text-lg font-semibold marker:hidden">
-                  {f.question}
-                  <span className="shrink-0 text-[var(--accent)] transition-transform duration-300 group-open:rotate-45">
-                    <ArrowRight size={18} className="rotate-[-45deg]" />
-                  </span>
-                </summary>
-                <p className="pb-6 text-[var(--muted)]">{f.answer}</p>
-              </details>
-            ))}
-          </div>
+          <FaqList faqs={faqs} />
           {/* Maillage interne : renvoi vers le blog */}
           <Reveal>
             <p className="mt-6 text-sm text-[var(--muted)]">
