@@ -19,7 +19,7 @@ export const site = {
    */
   portrait: "/apropos/denis.webp" as string | null,
   /** Balise <title> de l'accueil — 60 caractères max, sinon Google la tronque. */
-  title: "Développeur full-stack freelance en Île-de-France",
+  title: "Développeur full-stack freelance en Île-de-France (93)",
   /** Méta-description — 120 à 160 caractères pour ne pas être coupée dans les résultats. */
   description:
     "Denis Decilap, développeur full-stack freelance en Île-de-France : sites, applications métier et API sur mesure (Laravel, Symfony, React, Next.js).",
