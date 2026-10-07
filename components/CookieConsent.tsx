@@ -35,8 +35,9 @@ export function CookieConsent() {
     >
       <p className="text-sm font-semibold">Cookies &amp; mesure d&apos;audience</p>
       <p className="mt-2 text-sm text-[var(--muted)]">
-        J&apos;utilise Google Analytics pour comprendre l&apos;audience du site. Aucune mesure
-        n&apos;est effectuée sans votre accord. Voir les{" "}
+        J&apos;utilise Google Analytics pour comprendre l&apos;audience du site et mesurer
+        l&apos;efficacité de mes annonces Google Ads. Aucun ciblage publicitaire, aucune mesure sans
+        votre accord. Voir les{" "}
         <Link href="/mentions-legales" className="font-medium text-[var(--accent)] hover:underline">
           mentions légales
         </Link>

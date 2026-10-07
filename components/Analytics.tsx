@@ -13,14 +13,21 @@ const GA_MEASUREMENT_ID = "G-058PWPVQ55";
 
 /**
  * Consent Mode v2 (mode « de base » : gtag n'est jamais chargé sans accord).
- * La bannière ne demande que la mesure d'audience : les signaux publicitaires
- * restent refusés. Avant toute campagne Google Ads, mentionner la publicité
- * dans la bannière (CookieBanner) puis passer ces trois clés à "granted".
+ * L'accord couvre la mesure des conversions Google Ads (texte de CookieConsent et
+ * des mentions légales), pas le reciblage : ad_personalization reste refusé.
+ * Toute nouvelle finalité impose d'adapter ces textes et de versionner CONSENT_KEY.
  */
-const ADVERTISING_CONSENT = {
+const CONSENT_DENIED = {
+  analytics_storage: "denied",
   ad_storage: "denied",
   ad_user_data: "denied",
   ad_personalization: "denied",
+} as const;
+const CONSENT_GRANTED = {
+  ...CONSENT_DENIED,
+  analytics_storage: "granted",
+  ad_storage: "granted",
+  ad_user_data: "granted",
 } as const;
 
 export function Analytics() {
@@ -33,7 +40,7 @@ export function Analytics() {
       setGranted(isGranted);
       // gtag reste en mémoire jusqu'au rechargement : on lui signale chaque changement
       // (le script d'init, lui, ne s'exécute qu'une fois).
-      window.gtag?.("consent", "update", { analytics_storage: isGranted ? "granted" : "denied" });
+      window.gtag?.("consent", "update", isGranted ? CONSENT_GRANTED : CONSENT_DENIED);
     };
     window.addEventListener(CONSENT_EVENT, handler);
     return () => window.removeEventListener(CONSENT_EVENT, handler);
@@ -65,8 +72,8 @@ export function Analytics() {
         {`window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 window.gtag = gtag;
-gtag('consent', 'default', ${JSON.stringify({ analytics_storage: "denied", ...ADVERTISING_CONSENT })});
-gtag('consent', 'update', ${JSON.stringify({ analytics_storage: "granted", ...ADVERTISING_CONSENT })});
+gtag('consent', 'default', ${JSON.stringify(CONSENT_DENIED)});
+gtag('consent', 'update', ${JSON.stringify(CONSENT_GRANTED)});
 gtag('js', new Date());
 gtag('config', '${GA_MEASUREMENT_ID}');`}
       </Script>

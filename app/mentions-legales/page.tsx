@@ -55,8 +55,9 @@ export default function MentionsLegalesPage() {
             <h2 className="text-lg font-bold text-[var(--fg)]">Cookies & mesure d&apos;audience</h2>
             <p className="mt-2">
               Ce site utilise <strong>Google Analytics 4</strong> pour mesurer son audience (pages vues,
-              provenance des visites, type d&apos;appareil). Cet outil dépose des cookies sur votre
-              navigateur.
+              provenance des visites, type d&apos;appareil) et l&apos;efficacité de mes annonces{" "}
+              <strong>Google Ads</strong> : savoir si une visite issue d&apos;une annonce aboutit à une prise
+              de contact. Ces outils déposent des cookies sur votre navigateur.
             </p>
             <p className="mt-2">
               Conformément à la réglementation, <strong>aucun cookie de mesure n&apos;est déposé avant votre
@@ -65,9 +66,10 @@ export default function MentionsLegalesPage() {
               tout moment via le lien «&nbsp;Gérer les cookies&nbsp;» en pied de page.
             </p>
             <p className="mt-2">
-              Les données collectées sont conservées 14&nbsp;mois et traitées par Google&nbsp;LLC ; elles ne
-              servent à aucune fin publicitaire de ma part. En cas de refus, vous naviguez normalement, sans
-              aucune mesure d&apos;audience.
+              Les données collectées sont conservées 14&nbsp;mois et traitées par Google&nbsp;LLC. Elles ne
+              servent à aucun ciblage ni reciblage publicitaire : vous ne verrez pas d&apos;annonces de ma part
+              sur d&apos;autres sites à cause de votre visite. En cas de refus, vous naviguez normalement, sans
+              aucune mesure.
             </p>
           </section>
 
