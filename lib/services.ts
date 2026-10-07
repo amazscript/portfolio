@@ -344,7 +344,7 @@ export const services: Service[] = [
       {
         question: "Laravel seul ou avec un front Vue, React ou Next.js ?",
         answer:
-          "Les deux. Laravel peut tout gérer (Blade, Livewire) ou servir d'API à un front séparé : c'est l'architecture d'AmazScript (Laravel + Next.js). Le choix dépend surtout de vos besoins en SEO, en application mobile et de votre équipe.",
+          "Les deux. Laravel peut tout gérer seul avec ses vues Blade, ou servir d'API à un front séparé : c'est l'architecture d'AmazScript (Laravel + Next.js). Le choix dépend surtout de vos besoins en SEO, en application mobile et de votre équipe.",
       },
       {
         question: "Travaillez-vous en sous-traitance pour des agences Laravel ?",
