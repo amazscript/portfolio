@@ -504,7 +504,7 @@ export const posts: Post[] = [
     category: "Business & Freelance",
     tags: ["Délais", "Planning", "Projet"],
     icon: "clock",
-    image: "/blog/delais.svg",
+    image: "/blog/combien-de-temps-creer-site-application.webp",
     date: "2026-06-05",
     dateLabel: "5 juin 2026",
     readMin: 5,
