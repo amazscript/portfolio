@@ -111,8 +111,16 @@ prod: ## Déploie en prod sur le VPS (git push main → build & run)
 	@git remote get-url $(PROD_REMOTE) >/dev/null 2>&1 || { echo "❌ Remote '$(PROD_REMOTE)' absent. Lance 'make prod-init'."; exit 1; }
 	@git diff --quiet && git diff --cached --quiet || { echo "❌ Changements non commités. Fais: git add -A && git commit -m \"...\""; exit 1; }
 	@echo "→ Push vers la prod ($(PROD_HOST))…"
-	git push $(PROD_REMOTE) $(PROD_BRANCH)
-	@echo "✅ Déployé. Vérifie : $(PROD_URL)"
+	@before=$$(git ls-remote $(PROD_REMOTE) refs/heads/$(PROD_BRANCH) | cut -f1); \
+	git push $(PROD_REMOTE) $(PROD_BRANCH) || exit 1; \
+	after=$$(git ls-remote $(PROD_REMOTE) refs/heads/$(PROD_BRANCH) | cut -f1); \
+	echo "✅ Déployé. Vérifie : $(PROD_URL)"; \
+	if [ "$$before" != "$$after" ]; then $(MAKE) --no-print-directory indexnow || echo "⚠️  IndexNow en échec (le site, lui, est bien déployé)."; \
+	else echo "ℹ️  Rien de nouveau poussé : IndexNow non sollicité."; fi
+
+.PHONY: indexnow
+indexnow: ## Signale les pages du sitemap à Bing & co (IndexNow)
+	@node scripts/indexnow.mjs
 
 .PHONY: prod-init
 prod-init: ## Configure le remote git de prod (à lancer une seule fois)
