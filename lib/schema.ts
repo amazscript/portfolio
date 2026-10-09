@@ -4,6 +4,15 @@ import type { Post } from "@/lib/blog";
 import type { Faq } from "@/lib/faq";
 import { services, type Service } from "@/lib/services";
 
+/** Adresse publique : ville et code postal, cohérents avec la fiche Google Business. */
+const postalAddress = {
+  "@type": "PostalAddress",
+  addressLocality: site.city,
+  postalCode: site.postalCode,
+  addressRegion: site.region,
+  addressCountry: "FR",
+};
+
 /** Données structurées Schema.org — présentes dans le HTML initial. */
 export function personSchema() {
   return {
@@ -16,7 +25,7 @@ export function personSchema() {
     image: `${site.url}/apropos/denis.webp`,
     knowsAbout: site.stack,
     sameAs: [site.social.github, site.social.linkedin],
-    address: { "@type": "PostalAddress", addressRegion: "Île-de-France", addressCountry: "FR" },
+    address: postalAddress,
   };
 }
 
@@ -32,7 +41,7 @@ export function professionalServiceSchema() {
       { "@type": "AdministrativeArea", name: "Île-de-France" },
       { "@type": "Country", name: "France" },
     ],
-    address: { "@type": "PostalAddress", addressRegion: "Île-de-France", addressCountry: "FR" },
+    address: postalAddress,
     knowsAbout: site.stack,
     priceRange: "€€",
     provider: { "@type": "Person", name: site.name },
@@ -43,7 +52,7 @@ export function professionalServiceSchema() {
         "@type": "Service",
         name: s.title,
         description: s.summary,
-        url: `${site.url}/services`,
+        url: `${site.url}/services/${s.slug}`,
       },
     })),
   };

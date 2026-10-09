@@ -8,6 +8,9 @@ export const site = {
   area: "Île-de-France (93)",
   /** Version courte de la zone, pour les titres où « (93) » alourdit la phrase. */
   region: "Île-de-France",
+  /** Ville et code postal publics (déjà affichés sur la fiche Google Business) — pas de numéro de rue. */
+  city: "Épinay-sur-Seine",
+  postalCode: "93800",
   availability: "Disponible pour missions freelance",
   responseTime: "Réponse sous 24 h",
   stack: ["Laravel", "Symfony", "Vue", "React", "Next.js", "Node.js", "Python", "PostgreSQL", "Docker"],
