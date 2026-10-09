@@ -373,7 +373,7 @@ export const posts: Post[] = [
     category: "Front-end",
     tags: ["Vue 3", "Next.js", "React", "Architecture"],
     icon: "layers",
-    image: "/blog/vue-nextjs.svg",
+    image: "/blog/vue-3-ou-nextjs-quel-choix-projet-client.webp",
     date: "2026-04-14",
     dateLabel: "14 avril 2026",
     readMin: 6,
