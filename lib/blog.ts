@@ -47,6 +47,7 @@ export const posts: Post[] = [
     category: "Intelligence artificielle",
     tags: ["IA", "Agent IA", "Automatisation", "PME"],
     icon: "cpu",
+    image: "/blog/agent-ia-pme.webp",
     date: "2026-10-09",
     dateLabel: "9 octobre 2026",
     readMin: 7,
