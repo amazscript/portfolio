@@ -68,64 +68,67 @@ export default function AProposPage() {
       <Container className="py-14">
         <Breadcrumbs items={[{ name: "Accueil", href: "/" }, { name: "À propos" }]} />
 
-        {/* Portrait & repères — deux colonnes séparées par un filet */}
-        <Reveal>
-          <div className="grid gap-8 border-b border-[var(--border-strong)] pb-12 md:grid-cols-[220px_1fr] md:items-center">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/apropos/denis.webp"
-              alt={`Photo de ${site.name}, ${site.role} freelance en ${site.area}`}
-              width={220}
-              height={260}
-              className="h-[260px] w-full max-w-[220px] rounded-[var(--radius-card)] border border-[var(--border-strong)] object-cover grayscale transition-all duration-500 hover:grayscale-0"
-            />
-            <div>
-              <p className="font-display text-2xl font-bold">{site.name}</p>
-              <p className="mt-1 font-mono text-xs uppercase tracking-[0.16em] text-[var(--accent)]">
-                {site.role}
-              </p>
-              <ul className="mt-6 space-y-3">
-                {highlights.map((h) => (
-                  <li key={h.label} className="flex items-center gap-3 text-[var(--fg-soft)]">
-                    <span className="text-[var(--accent)]">
-                      <h.icon size={16} />
-                    </span>
-                    {h.label}
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-7 flex flex-wrap items-center gap-5">
-                <Button href="/contact" data-track="contact_cta_click">
-                  Me contacter <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-0.5" />
-                </Button>
-                <a
-                  href={site.social.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--muted)] transition-colors hover:text-[var(--accent)]"
-                >
-                  <Github size={16} /> Voir mon code <ArrowUpRight size={13} />
-                </a>
+        {/* Fiche profil à gauche, présentation à droite ; empilées sous lg */}
+        <div className="grid gap-12 border-b border-[var(--border-strong)] pb-12 lg:grid-cols-2 lg:items-center lg:gap-16">
+          {/* Portrait & repères */}
+          <Reveal>
+            <div className="grid gap-8 md:grid-cols-[220px_1fr] md:items-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/apropos/denis.webp"
+                alt={`Photo de ${site.name}, ${site.role} freelance en ${site.area}`}
+                width={220}
+                height={260}
+                className="h-[260px] w-full max-w-[220px] rounded-[var(--radius-card)] border border-[var(--border-strong)] object-cover grayscale transition-all duration-500 hover:grayscale-0"
+              />
+              <div>
+                <p className="font-display text-2xl font-bold">{site.name}</p>
+                <p className="mt-1 font-mono text-xs uppercase tracking-[0.16em] text-[var(--accent)]">
+                  {site.role}
+                </p>
+                <ul className="mt-6 space-y-3">
+                  {highlights.map((h) => (
+                    <li key={h.label} className="flex items-center gap-3 text-[var(--fg-soft)]">
+                      <span className="text-[var(--accent)]">
+                        <h.icon size={16} />
+                      </span>
+                      {h.label}
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-7 flex flex-wrap items-center gap-5">
+                  <Button href="/contact" data-track="contact_cta_click">
+                    Me contacter <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-0.5" />
+                  </Button>
+                  <a
+                    href={site.social.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--muted)] transition-colors hover:text-[var(--accent)]"
+                  >
+                    <Github size={16} /> Voir mon code <ArrowUpRight size={13} />
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
 
-        {/* Bio complémentaire */}
-        <Reveal>
-          <div className="mt-12 max-w-2xl space-y-4 text-lg leading-relaxed text-[var(--muted)]">
-            <p>
-              Je conçois des applications de bout en bout (de la base de données à l&apos;interface) avec une
-              préférence pour les architectures claires et les outils éprouvés :{" "}
-              <strong className="text-[var(--fg)]">{site.stack.join(", ")}</strong>.
-            </p>
-            <p>
-              Ce qui me motive : livrer des choses qui fonctionnent vraiment, rapides, fiables et faciles à
-              maintenir. Un bon projet n&apos;est pas celui qui affiche le plus de technologies, mais celui qui
-              résout le problème du client.
-            </p>
-          </div>
-        </Reveal>
+          {/* Présentation */}
+          <Reveal>
+            <div className="max-w-2xl space-y-4 text-lg leading-relaxed text-[var(--muted)]">
+              <p>
+                Je conçois des applications de bout en bout (de la base de données à l&apos;interface) avec une
+                préférence pour les architectures claires et les outils éprouvés :{" "}
+                <strong className="text-[var(--fg)]">{site.stack.join(", ")}</strong>.
+              </p>
+              <p>
+                Ce qui me motive : livrer des choses qui fonctionnent vraiment, rapides, fiables et faciles à
+                maintenir. Un bon projet n&apos;est pas celui qui affiche le plus de technologies, mais celui qui
+                résout le problème du client.
+              </p>
+            </div>
+          </Reveal>
+        </div>
 
         {/* Méthode — une carte numérotée par étape */}
         <div className="mt-20">
