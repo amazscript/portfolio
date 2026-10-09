@@ -37,6 +37,91 @@ export type Post = {
 
 export const posts: Post[] = [
   {
+    slug: "agent-ia-pme",
+    seoTitle: "Agent IA pour PME : usages concrets et coûts",
+    metaDescription:
+      "Agent IA en entreprise : ce qu'il sait vraiment automatiser, la différence avec un chatbot, ce qu'il coûte et comment démarrer sans risque pour vos données.",
+    title: "Agent IA pour PME : ce qu'il peut automatiser (et ce qu'il coûte)",
+    excerpt:
+      "Tout le monde parle d'« agents IA ». Derrière le mot à la mode, il y a un outil très concret pour une PME : automatiser des tâches répétitives à base de texte. Ce qu'il sait faire, ce qu'il ne sait pas faire, et comment le chiffrer.",
+    category: "Intelligence artificielle",
+    tags: ["IA", "Agent IA", "Automatisation", "PME"],
+    icon: "cpu",
+    date: "2026-10-09",
+    dateLabel: "9 octobre 2026",
+    readMin: 7,
+    featured: false,
+    content: [
+      {
+        type: "p",
+        text: "En un an, les recherches « agent IA » ont presque triplé en France. Le terme est partout, souvent mal défini, et souvent vendu comme une solution magique. Pour une PME, la bonne question n'est pas « faut-il un agent IA ? » mais « quelle tâche précise me ferait gagner du temps, et combien ça coûte de l'automatiser ? ».",
+      },
+      { type: "h2", text: "Agent IA, chatbot : quelle différence ?" },
+      {
+        type: "p",
+        text: "Un chatbot discute : il répond à une question, et s'arrête là. Un agent IA va plus loin : il comprend une demande, va chercher l'information dont il a besoin dans vos outils, puis agit. Il peut lire un e-mail, retrouver le client dans votre base, préparer une réponse et créer une tâche dans votre outil de suivi.",
+      },
+      {
+        type: "callout",
+        text: "Un agent IA, c'est un modèle de langage (Claude, GPT, Mistral…) à qui l'on donne des outils — lire vos documents, interroger une base, envoyer un brouillon — et une mission précise.",
+      },
+      { type: "h2", text: "Ce qu'un agent IA sait bien faire" },
+      {
+        type: "p",
+        text: "Les meilleurs candidats sont les tâches répétitives, à base de texte, où l'erreur est rattrapable par un humain :",
+      },
+      {
+        type: "ul",
+        items: [
+          "Trier, résumer et router les e-mails ou demandes entrantes vers la bonne personne.",
+          "Répondre aux questions fréquentes de vos clients à partir de votre propre documentation.",
+          "Préparer des brouillons — réponses, devis, fiches produits — qu'un humain valide en un clic.",
+          "Extraire les informations utiles de factures, bons de commande ou formulaires.",
+          "Chercher dans vos contrats, procédures ou archives en posant une question en français.",
+        ],
+      },
+      { type: "h2", text: "Ce qu'il ne faut pas lui confier (pour l'instant)" },
+      {
+        type: "p",
+        text: "Un agent IA peut se tromper avec aplomb. Tant qu'il n'a pas fait ses preuves sur vos cas réels, évitez de lui laisser le dernier mot sur ce qui engage l'entreprise : un paiement, un engagement contractuel, une réponse juridique ou médicale, une suppression de données. La bonne pratique : l'agent prépare, un humain valide.",
+      },
+      { type: "h2", text: "Combien ça coûte ?" },
+      {
+        type: "p",
+        text: "Le coût se divise en deux parties, qu'il faut toujours chiffrer séparément :",
+      },
+      {
+        type: "ol",
+        items: [
+          "Le développement : cadrer la tâche, connecter l'agent à vos outils, le tester sur vos vrais cas. C'est un projet sur mesure, du même ordre qu'une petite application métier — d'où l'intérêt de commencer par une seule tâche bien choisie.",
+          "L'usage : avec un modèle dans le cloud, chaque demande traitée est facturée au volume de texte. Pour une PME, cela représente le plus souvent quelques dizaines d'euros par mois, à mesurer sur un pilote. Avec un modèle installé sur vos serveurs, ce coût disparaît, au prix d'un serveur un peu plus puissant.",
+        ],
+      },
+      {
+        type: "quote",
+        text: "Le bon premier agent IA n'est pas le plus ambitieux : c'est celui qui fait gagner du temps dès la première semaine.",
+      },
+      { type: "h2", text: "Et vos données ?" },
+      {
+        type: "p",
+        text: "C'est souvent la première inquiétude, à raison. Deux options : un modèle dans le cloud, chez un fournisseur qui s'engage à ne pas utiliser vos données pour s'entraîner, ou un modèle 100 % local (par exemple avec Ollama) — aucune donnée ne quitte alors votre infrastructure. Pour la santé, le juridique ou la finance, le local est souvent le bon choix.",
+      },
+      { type: "h2", text: "Démarrer sans risque : la méthode en 3 étapes" },
+      {
+        type: "ol",
+        items: [
+          "Choisir une seule tâche, fréquente et chronophage, dont le résultat se vérifie facilement.",
+          "Mettre en place un pilote de quelques semaines, où l'agent propose et un humain valide.",
+          "Mesurer le temps gagné et les erreurs, puis décider d'étendre — ou d'arrêter.",
+        ],
+      },
+      {
+        type: "p",
+        text: "J'applique la même logique que pour tout projet : partir du problème, pas de la technologie, et garder la main sur les coûts — j'en parle plus en détail dans « Intégrer l'IA dans votre produit sans exploser votre budget ». Vous avez une tâche qui vous fait perdre des heures chaque semaine ? Décrivez-la-moi : je vous dirai honnêtement si un agent IA est la bonne réponse.",
+      },
+    ],
+  },
+  {
     slug: "migrer-woocommerce-sans-perdre-seo",
     seoTitle: "Migrer WooCommerce sans perdre son référencement",
     metaDescription:
