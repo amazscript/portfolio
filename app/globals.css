@@ -195,12 +195,20 @@ h1, h2, h3, .font-display {
   transform: none;
 }
 
+/* Entrée du hero : en CSS pur pour démarrer dès le premier affichage, sans attendre
+   l'hydratation, et sans opacité (un élément invisible retarde LCP et Speed Index). */
+@keyframes hero-rise {
+  from { transform: translateY(14px); }
+  to { transform: none; }
+}
+.hero-enter { animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
 .pulse-dot { animation: pulse-ring 2.2s ease-out infinite; }
 .animate-float { animation: float 6s ease-in-out infinite; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal-item { opacity: 1 !important; transform: none !important; transition: none; }
-  .pulse-dot, .animate-float { animation: none !important; }
+  .pulse-dot, .animate-float, .hero-enter { animation: none !important; }
   .glass-card:hover { transform: none; }
 }
