@@ -26,7 +26,7 @@ export type Service = {
 export const services: Service[] = [
   {
     slug: "sites-vitrine",
-    title: "Sites web & vitrines",
+    title: "Sites internet & vitrines",
     summary:
       "Un site rapide, bien référencé et facile à mettre à jour, pensé pour transformer vos visiteurs en clients — pas seulement pour faire joli.",
     points: [
@@ -37,12 +37,12 @@ export const services: Service[] = [
     ],
     tags: ["Next.js", "React", "Tailwind", "WordPress"],
     icon: "globe",
-    metaTitle: "Création de site web sur mesure — Freelance Île-de-France",
+    metaTitle: "Création de site internet sur mesure en Île-de-France",
     metaDescription:
-      "Création de sites web et vitrines rapides, responsives et bien référencés. Développeur full-stack freelance en Île-de-France, du design à la mise en ligne.",
-    h1: "Création de site web sur mesure",
+      "Création de site internet et site vitrine sur mesure : rapide, bien référencé, facile à mettre à jour. Freelance en Île-de-France, devis gratuit sous 24 h.",
+    h1: "Création de site internet sur mesure",
     intro:
-      "Votre site est souvent le premier contact avec un client. Je conçois des sites web rapides, soignés et pensés pour convertir — pas de simples vitrines figées, mais de vrais outils d'acquisition.",
+      "Votre site est souvent le premier contact avec un client. Je conçois des sites internet rapides, soignés et pensés pour convertir — pas de simples vitrines figées, mais de vrais outils d'acquisition.",
     problem:
       "Un site lent, générique ou invisible sur Google fait fuir les visiteurs avant même qu'ils découvrent votre offre. Beaucoup de sites « jolis » ne rapportent rien parce qu'ils n'ont été pensés ni pour la performance ni pour le référencement.",
     benefits: [
@@ -52,7 +52,7 @@ export const services: Service[] = [
       "Vous restez autonome pour modifier vos textes et vos images.",
     ],
     deliverables: [
-      "Maquette et design sur mesure validés avec vous",
+      "Devis gratuit et détaillé, puis maquette validée avec vous",
       "Site responsive, optimisé mobile-first",
       "SEO technique : balises, sitemap, données structurées",
       "Mise en ligne, nom de domaine et hébergement",
@@ -199,23 +199,23 @@ export const services: Service[] = [
   },
   {
     slug: "intelligence-artificielle",
-    title: "Intelligence artificielle",
+    title: "Agents IA & intelligence artificielle",
     summary:
-      "L'IA branchée sur votre métier : assistants, recherche intelligente, automatisation — avec le choix entre cloud et 100% local pour vos données sensibles.",
+      "Des agents IA branchés sur votre métier : ils répondent, cherchent dans vos documents et automatisent vos tâches — dans le cloud ou 100% en local pour vos données sensibles.",
     points: [
-      "Assistants & chatbots métier",
+      "Agents IA & assistants métier",
       "Recherche sémantique (RAG)",
       "Automatisation de contenu & de tâches",
       "Cloud ou local (Ollama), privacy-first",
     ],
     tags: ["Claude", "GPT", "Mistral", "Ollama"],
     icon: "cpu",
-    metaTitle: "Intégration d'IA sur mesure — Développeur freelance",
+    metaTitle: "Agent IA sur mesure pour votre entreprise — Freelance",
     metaDescription:
-      "Intégrez l'IA à votre produit : assistants, recherche sémantique (RAG), automatisation. Cloud ou 100% local. Développeur freelance en Île-de-France.",
-    h1: "Intégration d'intelligence artificielle à votre produit",
+      "Agents IA sur mesure : ils répondent, cherchent dans vos documents et automatisent vos tâches. Cloud ou 100 % local. Développeur freelance en Île-de-France.",
+    h1: "Agents IA sur mesure pour votre entreprise",
     intro:
-      "L'IA n'est plus réservée aux géants de la tech. Bien ciblée, elle s'ajoute à votre produit pour automatiser des tâches, répondre à vos clients ou chercher intelligemment dans vos données.",
+      "L'IA n'est plus réservée aux géants de la tech. Un agent IA bien ciblé s'ajoute à vos outils pour automatiser des tâches, répondre à vos clients ou chercher intelligemment dans vos données — et il agit, au lieu de seulement discuter.",
     problem:
       "Vouloir « mettre de l'IA partout » avec le modèle le plus cher, c'est la meilleure façon de faire exploser la facture pour un gadget que personne n'utilise. L'enjeu, c'est de cibler ce qui apporte vraiment de la valeur.",
     benefits: [
@@ -226,11 +226,28 @@ export const services: Service[] = [
     ],
     deliverables: [
       "Cadrage des cas d'usage à forte valeur",
-      "Assistant / chatbot ou moteur de recherche sémantique",
+      "Agent IA, assistant ou moteur de recherche sémantique",
       "Architecture multi-fournisseurs (pas d'enfermement)",
       "Maîtrise des coûts (cache, quotas, bon modèle)",
     ],
     relatedCategory: "Extension",
+    faqs: [
+      {
+        question: "Qu'est-ce qu'un agent IA pour une entreprise ?",
+        answer:
+          "Un programme qui s'appuie sur un modèle d'IA pour accomplir une tâche de bout en bout : il comprend une demande, va chercher l'information dans vos outils (documents, base clients, agenda) et agit — rédiger une réponse, classer un message, créer un ticket. À la différence d'un simple chatbot, il ne se contente pas de discuter.",
+      },
+      {
+        question: "Quelles tâches un agent IA peut-il automatiser ?",
+        answer:
+          "Les tâches répétitives à base de texte : trier et résumer les e-mails ou les demandes clients, répondre aux questions fréquentes à partir de votre documentation, préparer des devis ou des fiches produits à valider, extraire les informations de factures ou de formulaires.",
+      },
+      {
+        question: "Mes données restent-elles confidentielles ?",
+        answer:
+          "Oui, si c'est un besoin : l'agent peut fonctionner avec un modèle installé sur vos propres serveurs (Ollama), sans qu'aucune donnée ne parte chez OpenAI ou Google. Pour les données moins sensibles, un modèle dans le cloud (Claude, GPT, Mistral) offre la meilleure qualité.",
+      },
+    ],
   },
   {
     slug: "refonte-migration",

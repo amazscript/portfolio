@@ -61,7 +61,7 @@ export function HomeHero() {
 
             {/* Sans animation : le H1 est l'élément LCP, il doit être immobile dès le HTML serveur. */}
             <h1 className="max-w-3xl font-display text-[clamp(2.25rem,5vw,3.75rem)] font-bold leading-[1.1] tracking-[-0.02em]">
-              Développeur full-stack — architecte de solutions web sur mesure en{" "}
+              Création de sites internet et d&apos;applications sur mesure en{" "}
               <span className="text-[var(--accent)]">{site.region}</span>.
             </h1>
 
