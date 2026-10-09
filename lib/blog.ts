@@ -297,7 +297,7 @@ export const posts: Post[] = [
     category: "Intelligence artificielle",
     tags: ["IA", "RAG", "Ollama", "Automatisation"],
     icon: "cpu",
-    image: "/blog/ia-budget.svg",
+    image: "/blog/integrer-ia-produit-sans-exploser-budget.webp",
     date: "2026-05-27",
     dateLabel: "27 mai 2026",
     readMin: 8,
