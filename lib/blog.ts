@@ -435,7 +435,7 @@ export const posts: Post[] = [
     category: "Business & Freelance",
     tags: ["Freelance", "Agence", "Budget", "Projet"],
     icon: "handshake",
-    image: "/blog/freelance-agence.svg",
+    image: "/blog/freelance-ou-agence-web.webp",
     date: "2026-07-10",
     dateLabel: "10 juillet 2026",
     readMin: 6,
