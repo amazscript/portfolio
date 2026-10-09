@@ -566,7 +566,7 @@ export const posts: Post[] = [
     category: "SEO & Migration",
     tags: ["Performance", "SEO", "Core Web Vitals", "Conversion"],
     icon: "bolt",
-    image: "/blog/site-lent.svg",
+    image: "/blog/pourquoi-votre-site-est-lent.webp",
     date: "2026-05-08",
     dateLabel: "8 mai 2026",
     readMin: 6,
