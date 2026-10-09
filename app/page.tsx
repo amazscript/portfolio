@@ -135,6 +135,16 @@ export default function HomePage() {
           >
             Toutes les questions fréquentes <ArrowRight size={15} />
           </Link>
+          {/* Capte les recherches « agence web » (très demandées) sans prétendre en être une. */}
+          <p className="mt-3 text-sm text-[var(--muted)]">
+            Vous hésitez avec une agence web&nbsp;?{" "}
+            <Link
+              href="/blog/freelance-ou-agence-web-lequel-choisir"
+              className="font-semibold text-[var(--accent)] hover:underline"
+            >
+              Freelance ou agence web : les vrais critères pour choisir
+            </Link>
+          </p>
         </Container>
       </section>
 

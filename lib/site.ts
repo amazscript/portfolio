@@ -24,10 +24,10 @@ export const site = {
    */
   portrait: "/apropos/denis.webp" as string | null,
   /** Balise <title> de l'accueil — 60 caractères max, sinon Google la tronque. */
-  title: "Développeur full-stack freelance en Île-de-France (93)",
+  title: "Création de site internet & applications en Île-de-France",
   /** Méta-description — 120 à 160 caractères pour ne pas être coupée dans les résultats. */
   description:
-    "Denis Decilap, développeur full-stack freelance en Île-de-France : sites, applications métier et API sur mesure (Laravel, Symfony, React, Next.js).",
+    "Denis Decilap, développeur freelance en Île-de-France : création de site internet, applications métier et agents IA sur mesure. Devis gratuit sous 24 h.",
   social: {
     github: "https://github.com/amazscript",
     linkedin: "https://www.linkedin.com/in/denisdecilap/",
