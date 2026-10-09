@@ -26,8 +26,8 @@ export const projects: Project[] = [
   {
     slug: "amazscript-marketplace",
     metaDescription:
-      "Cas d'étude : marketplace de scripts en production avec Laravel et Next.js — paiements Stripe, payouts Wise, licences et scan de sécurité des produits.",
-    title: "AmazScript — Marketplace",
+      "Cas d'étude : marketplace de scripts en production avec Laravel et Next.js : paiements Stripe, payouts Wise, licences et scan de sécurité des produits.",
+    title: "AmazScript Marketplace",
     tagline:
       "Marketplace full-stack pour vendre des scripts : paiements Stripe, payouts internationaux, licences et scan de sécurité.",
     featured: true,
@@ -35,13 +35,13 @@ export const projects: Project[] = [
     category: "Marketplace",
     stack: ["Laravel 12", "Next.js 14", "TypeScript", "PostgreSQL", "Stripe", "Wise", "Filament v3", "Docker"],
     result:
-      "Une marketplace complète et opérée en production : les auteurs sont payés à l'international et chaque produit est scanné avant publication — paiements Stripe, payouts Wise, licences et conformité fiscale inclus.",
+      "Une marketplace complète et opérée en production : les auteurs sont payés à l'international et chaque produit est scanné avant publication. Paiements Stripe, payouts Wise, licences et conformité fiscale inclus.",
     image: "/projets/amazscript.webp",
     demoUrl: "https://amazscript.com",
     problem:
       "Les développeurs qui vendent leurs scripts se heurtent aux commissions élevées des places de marché généralistes, qui ignorent les besoins spécifiques du code : livraison sous licence, protection anti-fuite, payouts transfrontaliers et conformité fiscale (DAC7).",
     solution: [
-      "Marketplace à deux faces (auteurs / acheteurs) : dépôt de produit, checkout, avis, litiges et back-office — API Laravel 12 (181+ endpoints) découplée d'un front Next.js 14 (52 pages, App Router).",
+      "Marketplace à deux faces (auteurs / acheteurs) : dépôt de produit, checkout, avis, litiges et back-office. API Laravel 12 (181+ endpoints) découplée d'un front Next.js 14 (52 pages, App Router).",
       "Paiements Stripe complets (PaymentIntents, 3D Secure, webhooks), reversement aux auteurs via Wise (virement IBAN) et système de solde interne ; Stripe Connect pour les extensions de support.",
       "Livraison sécurisée : génération et téléchargement de ZIP filigranés (watermark) par acheteur pour tracer les fuites.",
       "Sécurité produit automatisée : chaque ZIP uploadé est scanné (antivirus ClamAV + analyse SAST) avant mise en vente ; 2FA, OAuth (Google/GitHub) et KYC via Stripe Identity.",
@@ -55,14 +55,14 @@ export const projects: Project[] = [
       { label: "Modèles Eloquent", value: "44" },
     ],
     learned:
-      "Construire une marketplace, c'est surtout orchestrer des tiers — Stripe, Wise, KYC, fiscalité DAC7 — sans jamais compromettre l'intégrité des paiements. La discipline de test et l'isolation des flux (checkout, payout, licence) sont ce qui permet d'itérer sereinement sur un domaine où la moindre erreur touche à l'argent.",
+      "Construire une marketplace, c'est surtout orchestrer des tiers (Stripe, Wise, KYC, fiscalité DAC7) sans jamais compromettre l'intégrité des paiements. La discipline de test et l'isolation des flux (checkout, payout, licence) sont ce qui permet d'itérer sereinement sur un domaine où la moindre erreur touche à l'argent.",
   },
   {
     slug: "laracommerce-api",
     metaDescription:
-      "Cas d'étude : API REST e-commerce Laravel 12 prête pour la production — 325+ endpoints, paiements Stripe, admin Filament et 100 % de couverture de tests.",
+      "Cas d'étude : API REST e-commerce Laravel 12 prête pour la production : 325+ endpoints, paiements Stripe, admin Filament et 100 % de couverture de tests.",
     title: "LaraCommerce API",
-    tagline: "API REST e-commerce Laravel 12 — 325+ endpoints, prête pour la production",
+    tagline: "API REST e-commerce Laravel 12 : 325+ endpoints, prête pour la production",
     featured: true,
     order: 1,
     category: "API",
@@ -88,14 +88,14 @@ export const projects: Project[] = [
       { label: "Modèles Eloquent", value: "88" },
     ],
     learned:
-      "Maintenir une API lisible à 325+ endpoints avec 100% de couverture impose une discipline stricte de modularité, de nommage et de tests — un socle qui accélère chaque nouvelle intégration front.",
+      "Maintenir une API lisible à 325+ endpoints avec 100% de couverture impose une discipline stricte de modularité, de nommage et de tests, un socle qui accélère chaque nouvelle intégration front.",
   },
   {
     slug: "systeme-reservation",
     metaDescription:
-      "Cas d'étude : système de réservation auto-hébergé en Vue 3, Node.js et PostgreSQL — calendrier 6 vues, formulaires sur mesure, zéro double réservation.",
+      "Cas d'étude : système de réservation auto-hébergé en Vue 3, Node.js et PostgreSQL : calendrier 6 vues, formulaires sur mesure, zéro double réservation.",
     title: "Système de réservation",
-    tagline: "Système de réservation self-hosted — Vue 3, Node/Express, PostgreSQL",
+    tagline: "Système de réservation self-hosted en Vue 3, Node/Express et PostgreSQL",
     featured: true,
     order: 2,
     category: "Application",
@@ -105,7 +105,7 @@ export const projects: Project[] = [
     image: "/projets/booking.webp",
     demoUrl: "https://amazscript.com/products/booking-system-multi-resource-booking-calendar-vuejs-3-nodejs-7qjqp2",
     problem:
-      "Les activités sur rendez-vous (salons, cliniques, studios, coachs) ont besoin d'un outil de réservation qu'elles maîtrisent — sans commission ni abonnement mensuel, et sans dépendre d'un agenda tiers.",
+      "Les activités sur rendez-vous (salons, cliniques, studios, coachs) ont besoin d'un outil de réservation qu'elles maîtrisent, sans commission ni abonnement mensuel, et sans dépendre d'un agenda tiers.",
     solution: [
       "Calendrier 100% sur mesure (6 vues : mois, semaine, jour, timeline, ressources) avec glisser-déposer complet : créer, déplacer, redimensionner.",
       "Formulaires de réservation configurables par ressource : 19 types de champs personnalisés, avec durée et prix automatiques.",
@@ -120,20 +120,20 @@ export const projects: Project[] = [
       { label: "Langues", value: "13" },
     ],
     learned:
-      "La prévention des collisions se joue en base, pas dans l'UI : une contrainte PostgreSQL bien posée est plus fiable que dix vérifications côté client — et un calendrier sur mesure évite d'hériter des limites d'une lib tierce.",
+      "La prévention des collisions se joue en base, pas dans l'UI : une contrainte PostgreSQL bien posée est plus fiable que dix vérifications côté client, et un calendrier sur mesure évite d'hériter des limites d'une lib tierce.",
   },
   {
     slug: "litequote-woocommerce",
     metaDescription:
       "Cas d'étude : plugin WooCommerce de devis ultra-léger (moins de 120 KB) qui remplace « Ajouter au panier » par une demande de devis, avec PDF et e-mails.",
     title: "LiteQuote pour WooCommerce",
-    tagline: "Plugin WooCommerce de devis ultra-léger — vanilla JS, moins de 120 KB",
+    tagline: "Plugin WooCommerce de devis ultra-léger : vanilla JS, moins de 120 KB",
     featured: true,
     order: 3,
     category: "E-commerce",
     stack: ["WordPress", "WooCommerce", "PHP", "JavaScript (vanilla)", "PDF"],
     result:
-      "Un plugin de devis ultra-léger qui remplace « Ajouter au panier » par « Demander un devis » — avec e-mails pro, PDF et tableau de bord.",
+      "Un plugin de devis ultra-léger qui remplace « Ajouter au panier » par « Demander un devis », avec e-mails pro, PDF et tableau de bord.",
     image: "/projets/litequote.webp",
     demoUrl: "https://amazscript.com/products/litequote-for-woocommerce-request-a-quote-plugin-i7f0cs",
     problem:
@@ -145,27 +145,27 @@ export const projects: Project[] = [
       "Intégration WhatsApp (3 modes), mode catalogue, anti-spam sans reCAPTCHA (honeypot + limitation de débit) et 7 langues.",
     ],
     decisions:
-      "JavaScript vanilla ES6+ sans jQuery : moins de 120 KB (≈30× plus léger que les concurrents), zéro impact sur le PageSpeed. Aucune API externe, aucun cookie, aucun service Google — conforme RGPD par conception, toutes les données restent sur le serveur.",
+      "JavaScript vanilla ES6+ sans jQuery : moins de 120 KB (≈30× plus léger que les concurrents), zéro impact sur le PageSpeed. Aucune API externe, aucun cookie, aucun service Google : conforme RGPD par conception, toutes les données restent sur le serveur.",
     metrics: [
       { label: "Poids du plugin", value: "< 120 KB" },
       { label: "Dépendances JS", value: "0 (vanilla)" },
       { label: "Langues", value: "7" },
     ],
     learned:
-      "Concevoir un plugin riche (PDF, tableau de bord, WhatsApp) tout en restant sous 120 KB force à choisir le vanilla JS et à éliminer chaque dépendance superflue — la performance devient une fonctionnalité vendable.",
+      "Concevoir un plugin riche (PDF, tableau de bord, WhatsApp) tout en restant sous 120 KB force à choisir le vanilla JS et à éliminer chaque dépendance superflue. La performance devient une fonctionnalité vendable.",
   },
   {
     slug: "tab-manager-pro",
     metaDescription:
       "Cas d'étude : extension Chrome qui range vos onglets en groupes grâce à l'IA, avec 5 moteurs au choix dont Ollama, qui fonctionne 100 % en local.",
     title: "Tab Manager Pro",
-    tagline: "Extension Chrome qui range les onglets par l'IA — 5 moteurs au choix",
+    tagline: "Extension Chrome qui range les onglets par l'IA, avec 5 moteurs au choix",
     featured: false,
     order: 4,
     category: "Extension",
     stack: ["JavaScript", "Chrome Extension API", "Chrome i18n", "LLM (5 fournisseurs)"],
     result:
-      "Range des dizaines d'onglets en groupes intelligents et colorés en un clic, avec le moteur IA de son choix — dont Ollama 100% local.",
+      "Range des dizaines d'onglets en groupes intelligents et colorés en un clic, avec le moteur IA de son choix, dont Ollama 100% local.",
     image: "/projets/tab-manager.webp",
     demoUrl: "https://amazscript.com/products/tab-manager-pro-ai-tab-organizer-rdalkm",
     problem:
@@ -184,7 +184,7 @@ export const projects: Project[] = [
       { label: "Langues", value: "3" },
     ],
     learned:
-      "Concevoir une intégration IA « fournisseur-agnostique » demande d'abstraire proprement l'appel LLM — un pattern réutilisable au-delà de l'extension.",
+      "Concevoir une intégration IA « fournisseur-agnostique » demande d'abstraire proprement l'appel LLM, un pattern réutilisable au-delà de l'extension.",
   },
 ];
 

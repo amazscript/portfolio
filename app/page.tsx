@@ -24,7 +24,7 @@ import { faqSchema } from "@/lib/schema";
 const stats = [
   { value: "325+", label: "endpoints livrés sur une seule API" },
   { value: "5", label: "domaines : web, app, API, e-commerce, migration" },
-  { value: "0", label: "démo hors ligne — tout est cliquable" },
+  { value: "0", label: "démo hors ligne : tout est cliquable" },
 ];
 
 export default function HomePage() {
@@ -157,7 +157,7 @@ export default function HomePage() {
                 Prêt à lancer votre prochain projet&nbsp;?
               </h2>
               <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-[var(--muted)]">
-                Discutons de vos objectifs — refonte complète, nouvelle application ou renfort
+                Discutons de vos objectifs : refonte complète, nouvelle application ou renfort
                 technique ponctuel.
               </p>
               <div className="mt-10 flex flex-wrap justify-center gap-4">

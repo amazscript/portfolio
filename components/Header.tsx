@@ -17,7 +17,7 @@ export function Header() {
   return (
     <header className="glass sticky top-0 z-50 border-b border-[var(--glass-border)]">
       <div className="mx-auto flex h-20 w-full max-w-[var(--container-max)] items-center justify-between px-5 sm:px-6">
-        <Link href="/" className="group flex items-center gap-3" aria-label={`${site.name} — accueil`}>
+        <Link href="/" className="group flex items-center gap-3" aria-label={`${site.name}, accueil`}>
           <Logo className="h-9 w-9 rounded-xl transition-transform group-hover:scale-105" />
           <span className="hidden font-display text-lg font-bold tracking-[-0.02em] sm:inline">{site.name}</span>
         </Link>

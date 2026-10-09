@@ -42,7 +42,7 @@ export default function ContactPage() {
         num="05"
         eyebrow="Contact"
         lines={["Parlons de", "votre projet"]}
-        intro="Décrivez votre besoin en quelques lignes — site, application, API ou renfort. Je vous réponds sous 24 h, sans engagement."
+        intro="Décrivez votre besoin en quelques lignes : site, application, API ou renfort. Je vous réponds sous 24 h, sans engagement."
         aside={
           <p className="font-mono text-sm uppercase tracking-[0.1em] text-[var(--accent)]">
             {site.responseTime}

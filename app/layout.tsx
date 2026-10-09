@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     template: `%s · ${site.name}`,
   },
   description: site.description,
-  applicationName: `${site.name} — Portfolio`,
+  applicationName: `${site.name} | Portfolio`,
   authors: [{ name: site.name }],
   creator: site.name,
   keywords: [

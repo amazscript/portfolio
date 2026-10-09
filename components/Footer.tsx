@@ -16,7 +16,7 @@ export function Footer() {
             <span className="font-display text-lg font-bold tracking-[-0.02em]">{site.name}</span>
           </Link>
           <p className="mt-3 max-w-xs text-sm text-[var(--muted)]">
-            {site.role} freelance. Sites, applications et API sur mesure — {site.area}.
+            {site.role} freelance. Sites, applications et API sur mesure en {site.area}.
           </p>
           <div className="mt-4 flex gap-2">
             {[
@@ -90,7 +90,7 @@ export function Footer() {
       <div className="border-t border-[var(--border)]">
         <div className="mx-auto flex w-full max-w-[var(--container-max)] flex-col gap-1 px-5 py-6 text-xs text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <span>© {year} {site.name}. Tous droits réservés.</span>
-          <span>Conçu &amp; développé avec Next.js — sobre, rapide, accessible.</span>
+          <span>Conçu &amp; développé avec Next.js. Sobre, rapide, accessible.</span>
         </div>
       </div>
     </footer>

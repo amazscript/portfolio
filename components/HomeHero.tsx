@@ -69,7 +69,7 @@ export function HomeHero() {
               <p className="max-w-2xl text-lg leading-relaxed text-[var(--muted)]">
                 Expertise approfondie sur{" "}
                 <span className="font-semibold text-[var(--fg-soft)]">Laravel, Vue et Next.js</span>.
-                Je conçois des interfaces rapides et des back-ends robustes — du besoin au
+                Je conçois des interfaces rapides et des back-ends robustes, du besoin au
                 déploiement.
               </p>
             </div>
