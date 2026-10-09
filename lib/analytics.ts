@@ -21,6 +21,7 @@ export const events = {
   /** Conversion principale : formulaire de contact envoyé (nom recommandé GA4, importable dans Google Ads). */
   lead: "generate_lead",
   contactCtaClick: "contact_cta_click",
+  phoneClick: "phone_click",
   demoClick: "demo_click",
   codeClick: "code_click",
 } as const;

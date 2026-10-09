@@ -2,7 +2,7 @@ import Link from "next/link";
 import { nav, site } from "@/lib/site";
 import { Logo } from "@/components/Logo";
 import { CookieSettingsButton } from "@/components/CookieSettingsButton";
-import { Github, Linkedin, Mail, MapPin, ArrowUpRight } from "@/components/icons";
+import { Github, Linkedin, Mail, MapPin, Phone, ArrowUpRight } from "@/components/icons";
 
 export function Footer() {
   /** Année de mise en ligne — à mettre à jour au build si besoin. */
@@ -65,6 +65,15 @@ export function Footer() {
             <li>
               <a href={`mailto:${site.email}`} className="inline-flex items-center gap-2 transition-colors hover:text-[var(--fg)]">
                 <Mail size={15} /> {site.email}
+              </a>
+            </li>
+            <li>
+              <a
+                href={`tel:${site.phone.international}`}
+                data-track="phone_click"
+                className="inline-flex items-center gap-2 transition-colors hover:text-[var(--fg)]"
+              >
+                <Phone size={15} /> {site.phone.display}
               </a>
             </li>
             <li className="inline-flex items-center gap-2">
