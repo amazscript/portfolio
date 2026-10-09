@@ -36,7 +36,7 @@ const highlights = [
 const method = [
   { icon: Target, title: "Comprendre le besoin", text: "Cadrer l'objectif métier avant d'écrire une ligne de code." },
   { icon: Rocket, title: "Livrer par itérations", text: "Une première version solide en ligne vite, puis on améliore." },
-  { icon: ShieldCheck, title: "Soigner la qualité", text: "Code propre, testé, documenté — et des démos qui tournent." },
+  { icon: ShieldCheck, title: "Soigner la qualité", text: "Code propre, testé, documenté, et des démos qui tournent." },
 ];
 
 const skills = [
@@ -62,7 +62,7 @@ export default function AProposPage() {
         num="06"
         eyebrow="À propos"
         lines={["Un besoin,", "un produit", "qui tourne"]}
-        intro={`Développeur full-stack freelance en ${site.area}. Je résous des problèmes concrets, en autonomie et en allant au fond des choses — du besoin à la mise en production.`}
+        intro={`Développeur full-stack freelance en ${site.area}. Je résous des problèmes concrets, en autonomie et en allant au fond des choses, du besoin à la mise en production.`}
       />
 
       <Container className="py-14">
@@ -115,7 +115,7 @@ export default function AProposPage() {
         <Reveal>
           <div className="mt-12 max-w-2xl space-y-4 text-lg leading-relaxed text-[var(--muted)]">
             <p>
-              Je conçois des applications de bout en bout — de la base de données à l&apos;interface — avec une
+              Je conçois des applications de bout en bout (de la base de données à l&apos;interface) avec une
               préférence pour les architectures claires et les outils éprouvés :{" "}
               <strong className="text-[var(--fg)]">{site.stack.join(", ")}</strong>.
             </p>

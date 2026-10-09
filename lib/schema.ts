@@ -34,7 +34,7 @@ export function professionalServiceSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    name: `${site.name} — ${site.role}`,
+    name: `${site.name}, ${site.role}`,
     description: site.description,
     url: site.url,
     email: `mailto:${site.email}`,

@@ -36,7 +36,7 @@ export default function Image() {
             {site.name}
           </div>
           <div style={{ display: "flex", fontSize: 44, marginTop: 18, color: "#adc6ff" }}>
-            {site.role} — Freelance
+            {site.role} freelance
           </div>
         </div>
         <div

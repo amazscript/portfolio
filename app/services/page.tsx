@@ -34,7 +34,7 @@ export default function ServicesPage() {
         num="02"
         eyebrow="Services"
         lines={["Je conçois,", "code", "et déploie"]}
-        intro="Développeur full-stack indépendant : un seul interlocuteur du premier écran à la mise en production. Site vitrine, application métier, e-commerce, mobile, API ou IA — avec une exigence constante de performance, de fiabilité et de référencement."
+        intro="Développeur full-stack indépendant : un seul interlocuteur du premier écran à la mise en production. Site vitrine, application métier, e-commerce, mobile, API ou IA, avec une exigence constante de performance, de fiabilité et de référencement."
       />
 
       <Container className="py-12 sm:py-16">

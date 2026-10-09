@@ -63,7 +63,7 @@ export const posts: Post[] = [
       },
       {
         type: "callout",
-        text: "Un agent IA, c'est un modèle de langage (Claude, GPT, Mistral…) à qui l'on donne des outils — lire vos documents, interroger une base, envoyer un brouillon — et une mission précise.",
+        text: "Un agent IA, c'est un modèle de langage (Claude, GPT, Mistral…) à qui l'on donne des outils (lire vos documents, interroger une base, envoyer un brouillon) et une mission précise.",
       },
       { type: "h2", text: "Ce qu'un agent IA sait bien faire" },
       {
@@ -75,7 +75,7 @@ export const posts: Post[] = [
         items: [
           "Trier, résumer et router les e-mails ou demandes entrantes vers la bonne personne.",
           "Répondre aux questions fréquentes de vos clients à partir de votre propre documentation.",
-          "Préparer des brouillons — réponses, devis, fiches produits — qu'un humain valide en un clic.",
+          "Préparer des brouillons (réponses, devis, fiches produits) qu'un humain valide en un clic.",
           "Extraire les informations utiles de factures, bons de commande ou formulaires.",
           "Chercher dans vos contrats, procédures ou archives en posant une question en français.",
         ],
@@ -93,7 +93,7 @@ export const posts: Post[] = [
       {
         type: "ol",
         items: [
-          "Le développement : cadrer la tâche, connecter l'agent à vos outils, le tester sur vos vrais cas. C'est un projet sur mesure, du même ordre qu'une petite application métier — d'où l'intérêt de commencer par une seule tâche bien choisie.",
+          "Le développement : cadrer la tâche, connecter l'agent à vos outils, le tester sur vos vrais cas. C'est un projet sur mesure, du même ordre qu'une petite application métier. D'où l'intérêt de commencer par une seule tâche bien choisie.",
           "L'usage : avec un modèle dans le cloud, chaque demande traitée est facturée au volume de texte. Pour une PME, cela représente le plus souvent quelques dizaines d'euros par mois, à mesurer sur un pilote. Avec un modèle installé sur vos serveurs, ce coût disparaît, au prix d'un serveur un peu plus puissant.",
         ],
       },
@@ -104,7 +104,7 @@ export const posts: Post[] = [
       { type: "h2", text: "Et vos données ?" },
       {
         type: "p",
-        text: "C'est souvent la première inquiétude, à raison. Deux options : un modèle dans le cloud, chez un fournisseur qui s'engage à ne pas utiliser vos données pour s'entraîner, ou un modèle 100 % local (par exemple avec Ollama) — aucune donnée ne quitte alors votre infrastructure. Pour la santé, le juridique ou la finance, le local est souvent le bon choix.",
+        text: "C'est souvent la première inquiétude, à raison. Deux options : un modèle dans le cloud, chez un fournisseur qui s'engage à ne pas utiliser vos données pour s'entraîner, ou un modèle 100 % local (par exemple avec Ollama) : aucune donnée ne quitte alors votre infrastructure. Pour la santé, le juridique ou la finance, le local est souvent le bon choix.",
       },
       { type: "h2", text: "Démarrer sans risque : la méthode en 3 étapes" },
       {
@@ -112,12 +112,12 @@ export const posts: Post[] = [
         items: [
           "Choisir une seule tâche, fréquente et chronophage, dont le résultat se vérifie facilement.",
           "Mettre en place un pilote de quelques semaines, où l'agent propose et un humain valide.",
-          "Mesurer le temps gagné et les erreurs, puis décider d'étendre — ou d'arrêter.",
+          "Mesurer le temps gagné et les erreurs, puis décider d'étendre, ou d'arrêter.",
         ],
       },
       {
         type: "p",
-        text: "J'applique la même logique que pour tout projet : partir du problème, pas de la technologie, et garder la main sur les coûts — j'en parle plus en détail dans « Intégrer l'IA dans votre produit sans exploser votre budget ». Vous avez une tâche qui vous fait perdre des heures chaque semaine ? Décrivez-la-moi : je vous dirai honnêtement si un agent IA est la bonne réponse.",
+        text: "J'applique la même logique que pour tout projet : partir du problème, pas de la technologie, et garder la main sur les coûts. J'en parle plus en détail dans « Intégrer l'IA dans votre produit sans exploser votre budget ». Vous avez une tâche qui vous fait perdre des heures chaque semaine ? Décrivez-la-moi : je vous dirai honnêtement si un agent IA est la bonne réponse.",
       },
     ],
   },
@@ -128,7 +128,7 @@ export const posts: Post[] = [
       "Changer de plateforme peut faire fondre votre trafic Google. La méthode pas à pas pour migrer une boutique WooCommerce sans perdre votre référencement.",
     title: "Migrer une boutique WooCommerce sans perdre son référencement",
     excerpt:
-      "Changer de plateforme ou refondre un site peut faire fondre votre trafic Google du jour au lendemain. Voici la méthode que j'applique pour que la migration soit invisible — pour vos clients comme pour Google.",
+      "Changer de plateforme ou refondre un site peut faire fondre votre trafic Google du jour au lendemain. Voici la méthode que j'applique pour que la migration soit invisible, pour vos clients comme pour Google.",
     category: "SEO & Migration",
     tags: ["SEO", "WooCommerce", "Redirections 301", "Migration"],
     icon: "refresh",
@@ -140,7 +140,7 @@ export const posts: Post[] = [
     content: [
       {
         type: "p",
-        text: "Une refonte réussie ne se voit pas. Le nouveau site est plus beau, plus rapide, mieux organisé — et pourtant, dans Google, rien ne bouge : les positions sont conservées, le trafic reste stable, les clients arrivent toujours. C'est exactement l'inverse du scénario catastrophe que beaucoup de commerçants vivent après un changement de plateforme, quand le trafic chute de 40 % en une semaine.",
+        text: "Une refonte réussie ne se voit pas. Le nouveau site est plus beau, plus rapide, mieux organisé. Et pourtant, dans Google, rien ne bouge : les positions sont conservées, le trafic reste stable, les clients arrivent toujours. C'est exactement l'inverse du scénario catastrophe que beaucoup de commerçants vivent après un changement de plateforme, quand le trafic chute de 40 % en une semaine.",
       },
       {
         type: "p",
@@ -166,7 +166,7 @@ export const posts: Post[] = [
       { type: "h2", text: "2. Construire un plan de redirections 301 exhaustif" },
       {
         type: "p",
-        text: "La redirection 301 (permanente) indique à Google : « cette page a définitivement déménagé ici ». Elle transmet l'essentiel de l'autorité de l'ancienne URL vers la nouvelle. Sur une boutique, cela concerne les fiches produits, les catégories, les pages de contenu — parfois plusieurs milliers d'URL.",
+        text: "La redirection 301 (permanente) indique à Google : « cette page a définitivement déménagé ici ». Elle transmet l'essentiel de l'autorité de l'ancienne URL vers la nouvelle. Sur une boutique, cela concerne les fiches produits, les catégories, les pages de contenu, parfois plusieurs milliers d'URL.",
       },
       {
         type: "code",
@@ -190,7 +190,7 @@ export const posts: Post[] = [
       { type: "h2", text: "4. La recette post-migration : la partie que tout le monde oublie" },
       {
         type: "p",
-        text: "Le jour de la mise en ligne, le travail n'est pas fini — il commence. On vérifie, URL par URL sur les pages critiques, que chaque redirection tombe juste, qu'aucune page ne renvoie une erreur 404, et que Google réindexe bien le nouveau site.",
+        text: "Le jour de la mise en ligne, le travail n'est pas fini : il commence. On vérifie, URL par URL sur les pages critiques, que chaque redirection tombe juste, qu'aucune page ne renvoie une erreur 404, et que Google réindexe bien le nouveau site.",
       },
       {
         type: "ol",
@@ -218,7 +218,7 @@ export const posts: Post[] = [
       "Combien coûte un site ou une application sur mesure ? Les vrais facteurs qui font le budget, avec des fourchettes de prix concrètes pour vous situer.",
     title: "Combien coûte un site ou une application sur mesure (et pourquoi)",
     excerpt:
-      "« C'est quoi le prix d'un site ? » La réponse honnête : ça dépend — mais pas de façon floue. Voici les vrais facteurs qui font le budget, avec des fourchettes concrètes pour vous situer avant même de me contacter.",
+      "« C'est quoi le prix d'un site ? » La réponse honnête : ça dépend, mais pas de façon floue. Voici les vrais facteurs qui font le budget, avec des fourchettes concrètes pour vous situer avant même de me contacter.",
     category: "Business & Freelance",
     tags: ["Budget", "Freelance", "Devis", "Projet"],
     icon: "handshake",
@@ -246,7 +246,7 @@ export const posts: Post[] = [
       { type: "h2", text: "Des fourchettes pour vous situer" },
       {
         type: "p",
-        text: "Ces ordres de grandeur correspondent à un travail sur mesure, soigné, performant et bien référencé — pas à un template monté en une après-midi. Ils servent à cadrer une conversation, pas à remplacer un devis.",
+        text: "Ces ordres de grandeur correspondent à un travail sur mesure, soigné, performant et bien référencé, pas à un template monté en une après-midi. Ils servent à cadrer une conversation, pas à remplacer un devis.",
       },
       {
         type: "ul",
@@ -278,7 +278,7 @@ export const posts: Post[] = [
       },
       {
         type: "quote",
-        text: "Un bon devis, c'est un devis où le client sait exactement ce qu'il paie — et ce qu'il obtient.",
+        text: "Un bon devis, c'est un devis où le client sait exactement ce qu'il paie, et ce qu'il obtient.",
       },
       {
         type: "p",
@@ -292,7 +292,7 @@ export const posts: Post[] = [
       "Intégrer l'IA dans un produit existant pour un coût maîtrisé, parfois sans qu'aucune donnée ne quitte vos serveurs : le guide pragmatique et chiffré.",
     title: "Intégrer l'IA dans votre produit sans exploser votre budget",
     excerpt:
-      "L'IA n'est pas réservée aux géants de la tech. Bien cadrée, elle s'ajoute à un produit existant pour un coût maîtrisé — et parfois même sans qu'aucune donnée ne quitte vos serveurs. Le point pragmatique.",
+      "L'IA n'est pas réservée aux géants de la tech. Bien cadrée, elle s'ajoute à un produit existant pour un coût maîtrisé, et parfois même sans qu'aucune donnée ne quitte vos serveurs. Le point pragmatique.",
     category: "Intelligence artificielle",
     tags: ["IA", "RAG", "Ollama", "Automatisation"],
     icon: "cpu",
@@ -323,22 +323,22 @@ export const posts: Post[] = [
       { type: "h2", text: "Le RAG : donner vos connaissances à l'IA sans la réentraîner" },
       {
         type: "p",
-        text: "La plupart des cas d'usage métier ne nécessitent pas d'entraîner un modèle — une opération coûteuse. La technique du RAG (Retrieval-Augmented Generation) consiste à retrouver les bons extraits de vos documents, puis à les fournir au modèle au moment de répondre. L'IA s'appuie alors sur VOS contenus, à jour, sans halluciner.",
+        text: "La plupart des cas d'usage métier ne nécessitent pas d'entraîner un modèle, une opération coûteuse. La technique du RAG (Retrieval-Augmented Generation) consiste à retrouver les bons extraits de vos documents, puis à les fournir au modèle au moment de répondre. L'IA s'appuie alors sur VOS contenus, à jour, sans halluciner.",
       },
       {
         type: "callout",
-        text: "Le RAG, c'est la différence entre une IA qui « invente » et une IA qui cite votre catalogue, vos CGV ou votre base de connaissances — celle qu'un client peut réellement utiliser.",
+        text: "Le RAG, c'est la différence entre une IA qui « invente » et une IA qui cite votre catalogue, vos CGV ou votre base de connaissances : celle qu'un client peut réellement utiliser.",
       },
       { type: "h2", text: "Cloud ou local : un choix de coût ET de confidentialité" },
       {
         type: "p",
-        text: "Tous les projets n'ont pas besoin du modèle le plus cher. Selon vos contraintes, je branche l'un ou l'autre — voire je combine les deux.",
+        text: "Tous les projets n'ont pas besoin du modèle le plus cher. Selon vos contraintes, je branche l'un ou l'autre, voire je combine les deux.",
       },
       {
         type: "ul",
         items: [
           "Cloud (Claude, GPT, Mistral) : la meilleure qualité, facturé à l'usage, idéal pour démarrer vite.",
-          "Local (Ollama) : le modèle tourne sur votre serveur, aucune donnée ne sort, zéro coût par requête — parfait pour les données sensibles.",
+          "Local (Ollama) : le modèle tourne sur votre serveur, aucune donnée ne sort, zéro coût par requête. Parfait pour les données sensibles.",
           "Approche hybride : local pour le volume et le confidentiel, cloud pour les tâches les plus fines.",
         ],
       },
@@ -346,7 +346,7 @@ export const posts: Post[] = [
       {
         type: "ol",
         items: [
-          "Choisir le plus petit modèle qui fait le travail — pas le plus impressionnant.",
+          "Choisir le plus petit modèle qui fait le travail, pas le plus impressionnant.",
           "Mettre en cache les réponses fréquentes pour ne pas payer deux fois la même question.",
           "Fixer des garde-fous (limites de longueur, quotas) pour éviter les dérapages.",
           "Mesurer l'usage réel avant de passer à l'échelle.",
@@ -358,7 +358,7 @@ export const posts: Post[] = [
       },
       {
         type: "p",
-        text: "Une architecture « fournisseur-agnostique » — comme celle que j'ai construite pour une extension multi-moteurs — permet en plus de changer de modèle sans réécrire l'application, et de ne jamais être enfermé chez un seul acteur. Vous avez une idée d'usage IA ? Parlons de ce qui apporterait vraiment de la valeur chez vous.",
+        text: "Une architecture « fournisseur-agnostique », comme celle que j'ai construite pour une extension multi-moteurs, permet en plus de changer de modèle sans réécrire l'application, et de ne jamais être enfermé chez un seul acteur. Vous avez une idée d'usage IA ? Parlons de ce qui apporterait vraiment de la valeur chez vous.",
       },
     ],
   },
@@ -368,7 +368,7 @@ export const posts: Post[] = [
       "Vue 3 ou Next.js pour votre projet ? Les critères concrets (SEO, équipe, type de produit) qui font pencher la balance, sans préférence personnelle.",
     title: "Vue 3 ou Next.js : lequel choisir pour votre projet ?",
     excerpt:
-      "Deux excellents choix, deux logiques différentes. Plutôt que de trancher par préférence, voici les critères concrets — SEO, équipe, type de produit — qui font pencher la balance dans un sens ou dans l'autre.",
+      "Deux excellents choix, deux logiques différentes. Plutôt que de trancher par préférence, voici les critères concrets (SEO, équipe, type de produit) qui font pencher la balance dans un sens ou dans l'autre.",
     category: "Front-end",
     tags: ["Vue 3", "Next.js", "React", "Architecture"],
     icon: "layers",
@@ -380,7 +380,7 @@ export const posts: Post[] = [
     content: [
       {
         type: "p",
-        text: "« Vous faites plutôt Vue ou React ? » Derrière cette question se cache souvent une vraie interrogation : lequel est le bon pour MON projet ? La réponse honnête, c'est que les deux sont d'excellents outils — et que le choix se joue sur le contexte, pas sur la mode.",
+        text: "« Vous faites plutôt Vue ou React ? » Derrière cette question se cache souvent une vraie interrogation : lequel est le bon pour MON projet ? La réponse honnête, c'est que les deux sont d'excellents outils, et que le choix se joue sur le contexte, pas sur la mode.",
       },
       { type: "h2", text: "Ce qu'ils ont en commun" },
       {
@@ -422,7 +422,7 @@ export const posts: Post[] = [
       },
       {
         type: "p",
-        text: "Je travaille au quotidien avec les deux, ce qui me permet de recommander l'outil adapté à votre situation — et non celui que je préfère. Vous hésitez sur la stack de votre prochain projet ? Décrivez-le moi, je vous oriente.",
+        text: "Je travaille au quotidien avec les deux, ce qui me permet de recommander l'outil adapté à votre situation, et non celui que je préfère. Vous hésitez sur la stack de votre prochain projet ? Décrivez-le moi, je vous oriente.",
       },
     ],
   },
@@ -430,7 +430,7 @@ export const posts: Post[] = [
     slug: "freelance-ou-agence-web-lequel-choisir",
     title: "Freelance ou agence web : lequel choisir pour votre projet ?",
     excerpt:
-      "Deux options, deux logiques de coût et de relation. Voici les vrais critères pour décider — sans le discours commercial de l'un ou de l'autre.",
+      "Deux options, deux logiques de coût et de relation. Voici les vrais critères pour décider, sans le discours commercial de l'un ou de l'autre.",
     category: "Business & Freelance",
     tags: ["Freelance", "Agence", "Budget", "Projet"],
     icon: "handshake",
@@ -442,7 +442,7 @@ export const posts: Post[] = [
     content: [
       {
         type: "p",
-        text: "« Je prends une agence ou un freelance ? » C'est souvent la première question quand on lance un projet web. Les deux peuvent livrer un excellent résultat — le bon choix dépend surtout de la taille du projet, de votre budget et de la relation que vous voulez.",
+        text: "« Je prends une agence ou un freelance ? » C'est souvent la première question quand on lance un projet web. Les deux peuvent livrer un excellent résultat. Le bon choix dépend surtout de la taille du projet, de votre budget et de la relation que vous voulez.",
       },
       { type: "h2", text: "La vraie différence n'est pas le prix" },
       {
@@ -461,7 +461,7 @@ export const posts: Post[] = [
         type: "ul",
         items: [
           "Vous voulez un interlocuteur unique qui comprend votre projet de bout en bout.",
-          "Votre projet est un site, une application ou une API sur mesure — pas une campagne multi-services.",
+          "Votre projet est un site, une application ou une API sur mesure, pas une campagne multi-services.",
           "Vous cherchez de la réactivité et une relation directe, sans intermédiaire.",
           "Votre budget doit aller dans le produit, pas dans une structure.",
         ],
@@ -477,12 +477,12 @@ export const posts: Post[] = [
       },
       {
         type: "callout",
-        text: "Bon à savoir : beaucoup d'agences sous-traitent justement le développement à des freelances. En passant en direct, vous supprimez cet intermédiaire — et sa marge.",
+        text: "Bon à savoir : beaucoup d'agences sous-traitent justement le développement à des freelances. En passant en direct, vous supprimez cet intermédiaire, et sa marge.",
       },
       { type: "h2", text: "Le compromis que j'observe le plus souvent" },
       {
         type: "p",
-        text: "Pour la majorité des projets de PME et de porteurs de projet, un développeur full-stack indépendant et senior couvre l'essentiel : conception, développement, mise en ligne et suivi. Vous gardez la simplicité d'un seul interlocuteur, avec la maîtrise technique d'un profil complet — et je m'entoure ponctuellement (design, rédaction) quand le projet le demande.",
+        text: "Pour la majorité des projets de PME et de porteurs de projet, un développeur full-stack indépendant et senior couvre l'essentiel : conception, développement, mise en ligne et suivi. Vous gardez la simplicité d'un seul interlocuteur, avec la maîtrise technique d'un profil complet, et je m'entoure ponctuellement (design, rédaction) quand le projet le demande.",
       },
       {
         type: "quote",
@@ -511,7 +511,7 @@ export const posts: Post[] = [
     content: [
       {
         type: "p",
-        text: "« C'est faisable pour quand ? » Question légitime, mais la réponse dépend énormément de ce qu'on construit. Voici des ordres de grandeur réalistes pour un travail sur mesure et soigné — pas un template monté en un après-midi.",
+        text: "« C'est faisable pour quand ? » Question légitime, mais la réponse dépend énormément de ce qu'on construit. Voici des ordres de grandeur réalistes pour un travail sur mesure et soigné, pas un template monté en un après-midi.",
       },
       { type: "h2", text: "Des fourchettes réalistes" },
       {
@@ -561,7 +561,7 @@ export const posts: Post[] = [
     slug: "pourquoi-votre-site-est-lent",
     title: "Pourquoi votre site est lent (et ce que ça vous coûte)",
     excerpt:
-      "Un site lent fait fuir les visiteurs ET vous fait perdre des places sur Google. Voici les causes les plus fréquentes — et comment savoir où vous en êtes.",
+      "Un site lent fait fuir les visiteurs ET vous fait perdre des places sur Google. Voici les causes les plus fréquentes, et comment savoir où vous en êtes.",
     category: "SEO & Migration",
     tags: ["Performance", "SEO", "Core Web Vitals", "Conversion"],
     icon: "bolt",
@@ -573,7 +573,7 @@ export const posts: Post[] = [
     content: [
       {
         type: "p",
-        text: "La vitesse d'un site n'est pas un détail de développeur : c'est un enjeu business. Au-delà de 3 secondes de chargement, une grande partie des visiteurs abandonne — avant même d'avoir vu votre offre. Et Google, lui, le remarque.",
+        text: "La vitesse d'un site n'est pas un détail de développeur : c'est un enjeu business. Au-delà de 3 secondes de chargement, une grande partie des visiteurs abandonne avant même d'avoir vu votre offre. Et Google, lui, le remarque.",
       },
       { type: "h2", text: "Ce que la lenteur vous coûte vraiment" },
       {

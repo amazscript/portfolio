@@ -28,7 +28,7 @@ export const services: Service[] = [
     slug: "sites-vitrine",
     title: "Sites internet & vitrines",
     summary:
-      "Un site rapide, bien référencé et facile à mettre à jour, pensé pour transformer vos visiteurs en clients — pas seulement pour faire joli.",
+      "Un site rapide, bien référencé et facile à mettre à jour, pensé pour transformer vos visiteurs en clients, pas seulement pour faire joli.",
     points: [
       "Design sur mesure, 100% responsive",
       "SEO technique & Core Web Vitals au vert",
@@ -42,11 +42,11 @@ export const services: Service[] = [
       "Création de site internet et site vitrine sur mesure : rapide, bien référencé, facile à mettre à jour. Freelance en Île-de-France, devis gratuit sous 24 h.",
     h1: "Création de site internet sur mesure",
     intro:
-      "Votre site est souvent le premier contact avec un client. Je conçois des sites internet rapides, soignés et pensés pour convertir — pas de simples vitrines figées, mais de vrais outils d'acquisition.",
+      "Votre site est souvent le premier contact avec un client. Je conçois des sites internet rapides, soignés et pensés pour convertir. Pas de simples vitrines figées, mais de vrais outils d'acquisition.",
     problem:
       "Un site lent, générique ou invisible sur Google fait fuir les visiteurs avant même qu'ils découvrent votre offre. Beaucoup de sites « jolis » ne rapportent rien parce qu'ils n'ont été pensés ni pour la performance ni pour le référencement.",
     benefits: [
-      "Un site qui charge en moins d'une seconde — bon pour vos visiteurs comme pour Google.",
+      "Un site qui charge en moins d'une seconde, bon pour vos visiteurs comme pour Google.",
       "Un référencement technique soigné dès le départ (SEO, Core Web Vitals).",
       "Un design sur mesure, à votre image, parfaitement responsive.",
       "Vous restez autonome pour modifier vos textes et vos images.",
@@ -71,7 +71,7 @@ export const services: Service[] = [
     ],
     tags: ["Vue 3", "Next.js", "Angular", "PostgreSQL", "MySQL", "MongoDB"],
     icon: "layers",
-    metaTitle: "Application web métier sur mesure — Développeur freelance",
+    metaTitle: "Application web métier sur mesure | Développeur freelance",
     metaDescription:
       "Applications web métier sur mesure : réservation, gestion, CRM, tableaux de bord. Développeur full-stack freelance en Île-de-France.",
     h1: "Développement d'application web métier sur mesure",
@@ -97,7 +97,7 @@ export const services: Service[] = [
     slug: "e-commerce",
     title: "E-commerce sur mesure",
     summary:
-      "Une boutique ou un back-end e-commerce taillé pour votre catalogue et vos marges — sans les limites ni les commissions des plateformes fermées.",
+      "Une boutique ou un back-end e-commerce taillé pour votre catalogue et vos marges, sans les limites ni les commissions des plateformes fermées.",
     points: [
       "Catalogue, panier, paiement Stripe",
       "Headless (API) ou WooCommerce",
@@ -106,7 +106,7 @@ export const services: Service[] = [
     ],
     tags: ["Laravel", "WooCommerce", "Stripe", "Next.js"],
     icon: "e-commerce",
-    metaTitle: "Création de site e-commerce sur mesure — Freelance",
+    metaTitle: "Création de site e-commerce sur mesure | Freelance",
     metaDescription:
       "Boutiques et back-ends e-commerce sur mesure : paiement Stripe, catalogue, stocks, sans commission de plateforme. Développeur freelance en Île-de-France.",
     h1: "Création de site e-commerce sur mesure",
@@ -141,7 +141,7 @@ export const services: Service[] = [
     ],
     tags: ["React Native", "PWA", "API REST"],
     icon: "smartphone",
-    metaTitle: "Développement d'application mobile iOS & Android — Freelance",
+    metaTitle: "Développement d'application mobile iOS & Android | Freelance",
     metaDescription:
       "Applications mobiles iOS et Android sur mesure, connectées à vos API et publiées sur les stores. Développeur freelance en Île-de-France.",
     h1: "Développement d'application mobile iOS & Android",
@@ -175,7 +175,7 @@ export const services: Service[] = [
     ],
     tags: ["Laravel", "Symfony", "Django", "Node.js", "PostgreSQL"],
     icon: "server",
-    metaTitle: "Développement d'API REST & back-end — Développeur freelance",
+    metaTitle: "Développement d'API REST & back-end | Développeur freelance",
     metaDescription:
       "API REST robustes, documentées et testées (Laravel, Symfony, Node, Django). Le moteur de vos sites, apps et intégrations. Freelance en Île-de-France.",
     h1: "Développement d'API REST & back-end sur mesure",
@@ -201,7 +201,7 @@ export const services: Service[] = [
     slug: "intelligence-artificielle",
     title: "Agents IA & intelligence artificielle",
     summary:
-      "Des agents IA branchés sur votre métier : ils répondent, cherchent dans vos documents et automatisent vos tâches — dans le cloud ou 100% en local pour vos données sensibles.",
+      "Des agents IA branchés sur votre métier : ils répondent, cherchent dans vos documents et automatisent vos tâches, dans le cloud ou 100% en local pour vos données sensibles.",
     points: [
       "Agents IA & assistants métier",
       "Recherche sémantique (RAG)",
@@ -210,12 +210,12 @@ export const services: Service[] = [
     ],
     tags: ["Claude", "GPT", "Mistral", "Ollama"],
     icon: "cpu",
-    metaTitle: "Agent IA sur mesure pour votre entreprise — Freelance",
+    metaTitle: "Agent IA sur mesure pour votre entreprise | Freelance",
     metaDescription:
       "Agents IA sur mesure : ils répondent, cherchent dans vos documents et automatisent vos tâches. Cloud ou 100 % local. Développeur freelance en Île-de-France.",
     h1: "Agents IA sur mesure pour votre entreprise",
     intro:
-      "L'IA n'est plus réservée aux géants de la tech. Un agent IA bien ciblé s'ajoute à vos outils pour automatiser des tâches, répondre à vos clients ou chercher intelligemment dans vos données — et il agit, au lieu de seulement discuter.",
+      "L'IA n'est plus réservée aux géants de la tech. Un agent IA bien ciblé s'ajoute à vos outils pour automatiser des tâches, répondre à vos clients ou chercher intelligemment dans vos données. Et il agit, au lieu de seulement discuter.",
     problem:
       "Vouloir « mettre de l'IA partout » avec le modèle le plus cher, c'est la meilleure façon de faire exploser la facture pour un gadget que personne n'utilise. L'enjeu, c'est de cibler ce qui apporte vraiment de la valeur.",
     benefits: [
@@ -235,7 +235,7 @@ export const services: Service[] = [
       {
         question: "Qu'est-ce qu'un agent IA pour une entreprise ?",
         answer:
-          "Un programme qui s'appuie sur un modèle d'IA pour accomplir une tâche de bout en bout : il comprend une demande, va chercher l'information dans vos outils (documents, base clients, agenda) et agit — rédiger une réponse, classer un message, créer un ticket. À la différence d'un simple chatbot, il ne se contente pas de discuter.",
+          "Un programme qui s'appuie sur un modèle d'IA pour accomplir une tâche de bout en bout : il comprend une demande, va chercher l'information dans vos outils (documents, base clients, agenda) et agit : rédiger une réponse, classer un message, créer un ticket. À la différence d'un simple chatbot, il ne se contente pas de discuter.",
       },
       {
         question: "Quelles tâches un agent IA peut-il automatiser ?",
@@ -262,12 +262,12 @@ export const services: Service[] = [
     ],
     tags: ["SEO", "301", "PHP", "MySQL"],
     icon: "refresh",
-    metaTitle: "Refonte de site & migration sans perte de SEO — Freelance",
+    metaTitle: "Refonte de site & migration sans perte de SEO | Freelance",
     metaDescription:
       "Refonte de site ou changement de plateforme sans perdre votre référencement ni vos données. Redirections 301 maîtrisées. Freelance en Île-de-France.",
     h1: "Refonte de site & migration sans perte de référencement",
     intro:
-      "Moderniser votre site ou changer de plateforme est risqué : mal préparé, vous perdez votre trafic Google du jour au lendemain. Je mène ces opérations pour qu'elles soient invisibles — sauf pour vous.",
+      "Moderniser votre site ou changer de plateforme est risqué : mal préparé, vous perdez votre trafic Google du jour au lendemain. Je mène ces opérations pour qu'elles soient invisibles, sauf pour vous.",
     problem:
       "Une refonte ou une migration mal gérée casse les liens, fait chuter le référencement et peut effacer des mois de travail SEO en une seule semaine.",
     benefits: [
@@ -288,7 +288,7 @@ export const services: Service[] = [
     slug: "renfort-agence",
     title: "Renfort pour agences",
     summary:
-      "Un développeur full-stack fiable et autonome en sous-traitance, pour absorber vos pics de charge et livrer proprement — sans management à rajouter.",
+      "Un développeur full-stack fiable et autonome en sous-traitance, pour absorber vos pics de charge et livrer proprement, sans management à rajouter.",
     points: [
       "Autonome & bon communicant",
       "Stack Laravel / Vue / Node / Next",
@@ -302,14 +302,14 @@ export const services: Service[] = [
       "Renfort développement pour agences web : Laravel, Vue, Node, Next. Autonome, marque blanche, sous NDA. Développeur freelance en Île-de-France.",
     h1: "Développeur freelance en renfort pour agences",
     intro:
-      "Vous êtes une agence et vos plannings débordent ? J'interviens en renfort, en marque blanche, pour absorber vos pics de charge et livrer proprement — sans vous rajouter de management.",
+      "Vous êtes une agence et vos plannings débordent ? J'interviens en renfort, en marque blanche, pour absorber vos pics de charge et livrer proprement, sans vous rajouter de management.",
     problem:
       "Refuser un projet faute de ressources ou livrer en retard, c'est perdre des clients. Recruter prend des mois. Un freelance fiable comble le manque immédiatement.",
     benefits: [
       "Une ressource senior disponible rapidement.",
       "Autonome : je livre, vous gardez la relation client.",
       "Marque blanche et confidentialité garanties (NDA).",
-      "Code propre, testé, documenté — repris sans friction.",
+      "Code propre, testé, documenté, repris sans friction.",
     ],
     deliverables: [
       "Intégration à votre process (Git, CI, revues de code)",
@@ -336,7 +336,7 @@ export const services: Service[] = [
       "Développeur Laravel freelance en Île-de-France : API, back-offices Filament, paiements Stripe, tests automatisés. Projets en production, code propre et livré.",
     h1: "Développeur Laravel freelance en Île-de-France",
     intro:
-      "Laravel est mon framework de prédilection pour les back-ends exigeants. Je conçois et je fais évoluer des applications Laravel complètes — API, back-office, paiements, files d'attente — avec la même rigueur que sur mes propres produits en production.",
+      "Laravel est mon framework de prédilection pour les back-ends exigeants. Je conçois et je fais évoluer des applications Laravel complètes (API, back-office, paiements, files d'attente) avec la même rigueur que sur mes propres produits en production.",
     problem:
       "Laravel permet d'aller vite, mais un projet mené sans structure devient vite difficile à faire évoluer : contrôleurs surchargés, logique métier dispersée, aucun test, et chaque nouvelle fonctionnalité casse une ancienne. Le framework n'est pas en cause, c'est l'architecture.",
     benefits: [

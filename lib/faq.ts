@@ -36,7 +36,7 @@ export const faqs: Faq[] = [
     question: "Intervenez-vous uniquement en Île-de-France ?",
     onHome: true,
     answer:
-      "Je suis basé en Île-de-France (93) et j'y interviens volontiers, mais je travaille aussi à distance partout en France et à l'international — la plupart des projets se mènent très bien en remote.",
+      "Je suis basé en Île-de-France (93) et j'y interviens volontiers, mais je travaille aussi à distance partout en France et à l'international. La plupart des projets se mènent très bien en remote.",
   },
   {
     question: "Proposez-vous de la maintenance après la livraison ?",

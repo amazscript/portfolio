@@ -19,10 +19,10 @@ export default function MentionsLegalesPage() {
           <section>
             <h2 className="text-lg font-bold text-[var(--fg)]">Éditeur du site</h2>
             <p className="mt-2">
-              <strong className="text-[var(--fg-soft)]">Denis Decilap</strong> — {site.role} freelance
+              <strong className="text-[var(--fg-soft)]">Denis Decilap</strong>, {site.role} freelance
               (nom commercial&nbsp;: AmazScript).<br />
               Entrepreneur individuel (EI), immatriculé au RNE le 20/03/2026.<br />
-              SIREN&nbsp;: 102&nbsp;705&nbsp;746 — SIRET&nbsp;: 102&nbsp;705&nbsp;746&nbsp;00018.<br />
+              SIREN&nbsp;: 102&nbsp;705&nbsp;746, SIRET&nbsp;: 102&nbsp;705&nbsp;746&nbsp;00018.<br />
               Code APE&nbsp;: 6201Z (Programmation informatique).<br />
               Siège social&nbsp;: 1 rue de Marseille, 93800 Épinay-sur-Seine, France.<br />
               Contact&nbsp;: <a href={`mailto:${site.email}`} className="text-[var(--accent)]">{site.email}</a><br />
