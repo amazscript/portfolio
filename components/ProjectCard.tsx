@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/lib/projects";
 import { Badge } from "@/components/ui";
@@ -11,12 +12,13 @@ function ProjectVisual({ project }: { project: Project }) {
   return (
     <div className="relative aspect-[16/10] overflow-hidden border-b border-[var(--border)]">
       {project.image ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        // alt vide : le titre du projet est affiché juste en dessous et le lien porte un aria-label.
+        <Image
           src={project.image}
-          alt={project.title}
-          loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover grayscale transition-all duration-500 group-hover:scale-[1.03] group-hover:grayscale-0"
+          alt=""
+          fill
+          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+          className="object-cover grayscale transition-all duration-500 group-hover:scale-[1.03] group-hover:grayscale-0"
         />
       ) : (
         <div aria-hidden="true" className="absolute inset-0 bg-[var(--surface-2)]">
