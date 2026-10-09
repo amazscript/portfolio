@@ -5,7 +5,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ContactForm } from "@/components/ContactForm";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Reveal";
-import { Mail, MapPin, Clock, ShieldCheck, CheckCircle, Github, Linkedin } from "@/components/icons";
+import { Mail, MapPin, Phone, Clock, ShieldCheck, CheckCircle, Github, Linkedin } from "@/components/icons";
 import { site } from "@/lib/site";
 import { breadcrumbSchema } from "@/lib/schema";
 
@@ -89,6 +89,18 @@ export default function ContactPage() {
                         <Mail size={16} />
                       </span>
                       {site.email}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={`tel:${site.phone.international}`}
+                      data-track="phone_click"
+                      className="inline-flex items-center gap-2.5 text-[var(--fg-soft)] transition-colors hover:text-[var(--accent)]"
+                    >
+                      <span className="grid h-8 w-8 place-items-center rounded-lg bg-[var(--surface-2)] text-[var(--accent)]">
+                        <Phone size={16} />
+                      </span>
+                      {site.phone.display}
                     </a>
                   </li>
                   <li className="inline-flex items-center gap-2.5 text-[var(--fg-soft)]">

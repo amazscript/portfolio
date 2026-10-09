@@ -21,6 +21,7 @@ export function personSchema() {
     name: site.name,
     jobTitle: site.role,
     email: `mailto:${site.email}`,
+    telephone: site.phone.international,
     url: site.url,
     image: `${site.url}/apropos/denis.webp`,
     knowsAbout: site.stack,
@@ -37,6 +38,7 @@ export function professionalServiceSchema() {
     description: site.description,
     url: site.url,
     email: `mailto:${site.email}`,
+    telephone: site.phone.international,
     areaServed: [
       { "@type": "AdministrativeArea", name: "Île-de-France" },
       { "@type": "Country", name: "France" },

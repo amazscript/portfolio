@@ -5,6 +5,8 @@ export const site = {
   url: "https://decilapdenis.fr",
   locale: "fr_FR",
   email: "contact@decilapdenis.fr",
+  /** Même numéro que la fiche Google Business (cohérence nom / ville / téléphone). */
+  phone: { display: "07 49 49 59 16", international: "+33749495916" },
   area: "Île-de-France (93)",
   /** Version courte de la zone, pour les titres où « (93) » alourdit la phrase. */
   region: "Île-de-France",
