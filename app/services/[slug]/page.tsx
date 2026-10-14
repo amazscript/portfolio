@@ -12,6 +12,7 @@ import { projects } from "@/lib/projects";
 import { site } from "@/lib/site";
 import { serviceSchema, breadcrumbSchema, faqSchema } from "@/lib/schema";
 import { FaqList } from "@/components/FaqList";
+import { openGraphFor } from "@/lib/metadata";
 
 /** SSG : une page pré-rendue par prestation (cocon SEO). */
 export function generateStaticParams() {
@@ -30,13 +31,11 @@ export async function generateMetadata({
     title: { absolute: s.metaTitle },
     description: s.metaDescription,
     alternates: { canonical: `/services/${s.slug}` },
-    // Redéfinir openGraph écrase l'image par défaut : on la remet explicitement.
-    openGraph: {
+    openGraph: openGraphFor({
+      path: `/services/${s.slug}`,
       title: s.metaTitle,
       description: s.metaDescription,
-      type: "website",
-      images: ["/opengraph-image"],
-    },
+    }),
   };
 }
 

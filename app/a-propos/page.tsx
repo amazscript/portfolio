@@ -19,12 +19,17 @@ import {
 } from "@/components/icons";
 import { site } from "@/lib/site";
 import { breadcrumbSchema, personSchema } from "@/lib/schema";
+import { openGraphFor } from "@/lib/metadata";
+
+const title = "À propos : développeur full-stack freelance";
+const description =
+  "Denis Decilap, développeur full-stack freelance en Île-de-France : parcours, méthode de travail et stack (Laravel, Symfony, Vue, React, Next.js, Python).";
 
 export const metadata: Metadata = {
-  title: "À propos : développeur full-stack freelance",
-  description:
-    "Denis Decilap, développeur full-stack freelance en Île-de-France : parcours, méthode de travail et stack (Laravel, Symfony, Vue, React, Next.js, Python).",
+  title,
+  description,
   alternates: { canonical: "/a-propos" },
+  openGraph: openGraphFor({ path: "/a-propos", title: `${title} · Denis Decilap`, description }),
 };
 
 const highlights = [

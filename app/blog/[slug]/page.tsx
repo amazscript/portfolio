@@ -10,6 +10,7 @@ import { ArrowRight, Clock, User } from "@/components/icons";
 import { posts, getPost, getAllPosts } from "@/lib/blog";
 import { site } from "@/lib/site";
 import { articleSchema, breadcrumbSchema } from "@/lib/schema";
+import { openGraphFor } from "@/lib/metadata";
 
 /** SSG : une page pré-rendue par article. */
 export function generateStaticParams() {
@@ -29,7 +30,13 @@ export async function generateMetadata({
     title: { absolute: p.seoTitle ?? p.title },
     description: p.metaDescription ?? p.excerpt,
     alternates: { canonical: `/blog/${p.slug}` },
-    openGraph: { title: p.title, description: p.excerpt, type: "article" },
+    openGraph: openGraphFor({
+      path: `/blog/${p.slug}`,
+      title: p.title,
+      description: p.excerpt,
+      type: "article",
+      withDefaultImage: false,
+    }),
   };
 }
 

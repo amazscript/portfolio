@@ -10,12 +10,17 @@ import { Icon, Check, ArrowUpRight } from "@/components/icons";
 import { services } from "@/lib/services";
 import { faqs } from "@/lib/faq";
 import { breadcrumbSchema, faqSchema } from "@/lib/schema";
+import { openGraphFor } from "@/lib/metadata";
+
+const title = "Services de développement web sur mesure";
+const description =
+  "Sites vitrines, applications métier, e-commerce, apps mobiles, API et IA : un développeur full-stack freelance, de la conception à la mise en ligne.";
 
 export const metadata: Metadata = {
-  title: "Services de développement web sur mesure",
-  description:
-    "Sites vitrines, applications métier, e-commerce, apps mobiles, API et IA : un développeur full-stack freelance, de la conception à la mise en ligne.",
+  title,
+  description,
   alternates: { canonical: "/services" },
+  openGraph: openGraphFor({ path: "/services", title: `${title} · Denis Decilap`, description }),
 };
 
 export default function ServicesPage() {

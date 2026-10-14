@@ -17,6 +17,7 @@ import {
 } from "@/components/icons";
 import { projects, getProject, getAllSorted } from "@/lib/projects";
 import { breadcrumbSchema, projectSchema } from "@/lib/schema";
+import { openGraphFor } from "@/lib/metadata";
 
 /** SSG : une page pré-rendue par projet. */
 export function generateStaticParams() {
@@ -35,7 +36,13 @@ export async function generateMetadata({
     title: p.title,
     description: p.metaDescription ?? `${p.tagline}. ${p.result}`,
     alternates: { canonical: `/projets/${p.slug}` },
-    openGraph: { title: p.title, description: p.tagline, type: "article" },
+    openGraph: openGraphFor({
+      path: `/projets/${p.slug}`,
+      title: p.title,
+      description: p.tagline,
+      type: "article",
+      withDefaultImage: false,
+    }),
   };
 }
 

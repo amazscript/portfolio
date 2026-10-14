@@ -10,12 +10,17 @@ import { BlogExplorer } from "@/components/BlogExplorer";
 import { ArrowRight, Clock } from "@/components/icons";
 import { getAllPosts, getFeaturedPost } from "@/lib/blog";
 import { breadcrumbSchema } from "@/lib/schema";
+import { openGraphFor } from "@/lib/metadata";
+
+const title = "Blog : conseils pour vos projets web";
+const description =
+  "Conseils concrets pour vos projets web : budget, délais, migration sans perte de SEO, choix de stack et IA. Par un développeur full-stack freelance.";
 
 export const metadata: Metadata = {
-  title: "Blog : conseils pour vos projets web",
-  description:
-    "Conseils concrets pour vos projets web : budget, délais, migration sans perte de SEO, choix de stack et IA. Par un développeur full-stack freelance.",
+  title,
+  description,
   alternates: { canonical: "/blog" },
+  openGraph: openGraphFor({ path: "/blog", title: `${title} · Denis Decilap`, description }),
 };
 
 export default function BlogPage() {
