@@ -22,7 +22,7 @@ export const site = {
    * Portrait affiché dans le hero. Mettre `null` pour afficher le visuel de
    * repli (monogramme) tant qu'aucune photo n'est disponible.
    */
-  portrait: "/apropos/denis.webp" as string | null,
+  portrait: "/apropos/denis-profil.webp" as string | null,
   /** Balise <title> de l'accueil — 60 caractères max, sinon Google la tronque. */
   title: "Développeur web freelance, création de site internet en IDF",
   /** Méta-description — 120 à 160 caractères pour ne pas être coupée dans les résultats. */

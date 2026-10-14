@@ -75,7 +75,7 @@ export default function AProposPage() {
             <div className="grid gap-8 md:grid-cols-[220px_1fr] md:items-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/apropos/denis-profil.webp"
+                src={site.portrait ?? "/apropos/denis-profil.webp"}
                 alt={`Photo de ${site.name}, ${site.role} freelance en ${site.area}`}
                 width={220}
                 height={260}
