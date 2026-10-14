@@ -1,12 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 
 /**
  * Révèle son contenu en fondu-montée quand il entre dans le viewport.
- * La préférence « réduire les animations » est gérée globalement par
- * MotionProvider ; on rend donc toujours le même élément (voir son commentaire).
+ * En CSS (.reveal-item / .is-visible dans globals.css) plutôt qu'avec Framer Motion :
+ * aucun attribut style posé sur la balise, et la préférence « réduire les animations »
+ * est gérée par la feuille de style. Le délai est appliqué au moment du déclenchement.
  */
 export function Reveal({
   children,
@@ -17,15 +17,30 @@ export function Reveal({
   delay?: number;
   className?: string;
 }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        timer = setTimeout(() => element.classList.add("is-visible"), delay);
+        observer.disconnect();
+      },
+      { rootMargin: "0px 0px -40px 0px" }
+    );
+    observer.observe(element);
+    return () => {
+      observer.disconnect();
+      if (timer) clearTimeout(timer);
+    };
+  }, [delay]);
+
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -40px 0px" }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: delay / 1000 }}
-    >
+    <div ref={ref} className={`reveal-item ${className}`}>
       {children}
-    </motion.div>
+    </div>
   );
 }
