@@ -25,7 +25,7 @@ export function personSchema() {
     url: site.url,
     image: `${site.url}${site.portrait ?? "/apropos/denis-profil.webp"}`,
     knowsAbout: site.stack,
-    sameAs: [site.social.github, site.social.linkedin],
+    sameAs: [site.social.github, site.social.linkedin, site.social.googleBusiness],
     address: postalAddress,
   };
 }
@@ -46,6 +46,8 @@ export function professionalServiceSchema() {
     address: postalAddress,
     knowsAbout: site.stack,
     priceRange: "€€",
+    hasMap: site.social.googleBusiness,
+    sameAs: [site.social.googleBusiness, site.social.linkedin, site.social.github],
     provider: { "@type": "Person", name: site.name },
     /** Catalogue des prestations proposées (aide Google à comprendre l'offre). */
     makesOffer: services.map((s) => ({

@@ -31,6 +31,8 @@ export const site = {
   social: {
     github: "https://github.com/amazscript",
     linkedin: "https://www.linkedin.com/in/denisdecilap/",
+    /** Fiche Google Business Profile — lien permanent par identifiant (cid), stable même si le nom change. */
+    googleBusiness: "https://www.google.com/maps?cid=4283830414892660219",
   },
 } as const;
 
