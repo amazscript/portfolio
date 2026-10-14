@@ -6,12 +6,17 @@ import { ProjectsExplorer } from "@/components/ProjectsExplorer";
 import { JsonLd } from "@/components/JsonLd";
 import { getAllSorted } from "@/lib/projects";
 import { breadcrumbSchema } from "@/lib/schema";
+import { openGraphFor } from "@/lib/metadata";
+
+const title = "Projets web sur mesure : cas d'étude";
+const description =
+  "Projets full-stack en production : marketplace et API e-commerce avec paiements Stripe, système de réservation, plugin de devis WooCommerce, extension Chrome.";
 
 export const metadata: Metadata = {
-  title: "Projets web sur mesure : cas d'étude",
-  description:
-    "Réalisations full-stack en production : API Laravel, applications Vue et Node, plugins WooCommerce, extensions Chrome. Chaque projet est un cas d'étude.",
+  title,
+  description,
   alternates: { canonical: "/projets" },
+  openGraph: openGraphFor({ path: "/projets", title: `${title} · Denis Decilap`, description }),
 };
 
 export default function ProjetsPage() {

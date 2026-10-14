@@ -8,12 +8,17 @@ import { Reveal } from "@/components/Reveal";
 import { Mail, MapPin, Phone, Clock, ShieldCheck, CheckCircle, Github, Linkedin } from "@/components/icons";
 import { site } from "@/lib/site";
 import { breadcrumbSchema } from "@/lib/schema";
+import { openGraphFor } from "@/lib/metadata";
+
+const title = "Contact et devis de projet web";
+const description =
+  "Contactez Denis Decilap, développeur full-stack freelance en Île-de-France. Réponse sous 24 h pour vos projets de site, application ou API.";
 
 export const metadata: Metadata = {
-  title: "Contact et devis de projet web",
-  description:
-    "Contactez Denis Decilap, développeur full-stack freelance en Île-de-France. Réponse sous 24 h pour vos projets de site, application ou API.",
+  title,
+  description,
   alternates: { canonical: "/contact" },
+  openGraph: openGraphFor({ path: "/contact", title: `${title} · Denis Decilap`, description }),
 };
 
 /**

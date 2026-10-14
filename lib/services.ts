@@ -212,7 +212,7 @@ export const services: Service[] = [
     icon: "cpu",
     metaTitle: "Agent IA sur mesure pour votre entreprise | Freelance",
     metaDescription:
-      "Agents IA sur mesure : ils répondent, cherchent dans vos documents et automatisent vos tâches. Cloud ou 100 % local. Développeur freelance en Île-de-France.",
+      "Agents IA sur mesure : ils répondent, cherchent dans vos données et automatisent vos tâches. Modèle cloud ou 100 % local avec Ollama. Freelance en IDF.",
     h1: "Agents IA sur mesure pour votre entreprise",
     intro:
       "L'IA n'est plus réservée aux géants de la tech. Un agent IA bien ciblé s'ajoute à vos outils pour automatiser des tâches, répondre à vos clients ou chercher intelligemment dans vos données. Et il agit, au lieu de seulement discuter.",

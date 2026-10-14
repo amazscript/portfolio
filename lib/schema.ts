@@ -117,6 +117,8 @@ export function articleSchema(p: Post) {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: p.title,
+    // Google recommande une image pour les articles : la couverture, sinon l'image de partage générée.
+    image: p.image ? `${site.url}${p.image}` : `${site.url}/blog/${p.slug}/opengraph-image`,
     description: p.excerpt,
     url: `${site.url}/blog/${p.slug}`,
     datePublished: p.date,
@@ -132,12 +134,14 @@ export function articleSchema(p: Post) {
 export function projectSchema(p: Project) {
   return {
     "@context": "https://schema.org",
-    "@type": p.category === "API" || p.category === "Extension" ? "SoftwareApplication" : "CreativeWork",
+    // CreativeWork pour tous : SoftwareApplication exige un prix ou des avis, qu'un cas d'étude n'a pas.
+    "@type": "CreativeWork",
     name: p.title,
     description: p.tagline,
     url: `${site.url}/projets/${p.slug}`,
     author: { "@type": "Person", name: site.name },
     keywords: p.stack.join(", "),
+    ...(p.image ? { image: `${site.url}${p.image}` } : {}),
     ...(p.demoUrl ? { sameAs: p.demoUrl } : {}),
   };
 }

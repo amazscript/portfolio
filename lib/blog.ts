@@ -429,6 +429,8 @@ export const posts: Post[] = [
   },
   {
     slug: "freelance-ou-agence-web-lequel-choisir",
+    metaDescription:
+      "Freelance ou agence web ? Budget, interlocuteur unique, structure des coûts : les vrais critères pour choisir, sans discours commercial.",
     title: "Freelance ou agence web : lequel choisir pour votre projet ?",
     excerpt:
       "Deux options, deux logiques de coût et de relation. Voici les vrais critères pour décider, sans le discours commercial de l'un ou de l'autre.",
@@ -560,6 +562,8 @@ export const posts: Post[] = [
   },
   {
     slug: "pourquoi-votre-site-est-lent",
+    metaDescription:
+      "Site lent : temps de chargement, images non optimisées, Core Web Vitals. Les causes fréquentes, leur coût en visiteurs et en SEO, et comment vous situer.",
     title: "Pourquoi votre site est lent (et ce que ça vous coûte)",
     excerpt:
       "Un site lent fait fuir les visiteurs ET vous fait perdre des places sur Google. Voici les causes les plus fréquentes, et comment savoir où vous en êtes.",

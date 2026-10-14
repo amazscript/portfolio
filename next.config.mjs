@@ -48,7 +48,14 @@ const nextConfig = {
   output: "standalone",
   images: {
     formats: ["image/avif", "image/webp"],
+    // Les images du site ne changent pas sous le même nom (une nouvelle image = un nouveau fichier) :
+    // on peut les garder longtemps en cache au lieu des 60 s par défaut.
+    minimumCacheTTL: 31536000,
   },
+  // Métadonnées (title, canonical…) toujours dans le <head> du HTML envoyé, y compris sur les pages
+  // rendues à la demande comme /contact : sinon Next.js les diffuse après le contenu, hors du <head>,
+  // et les robots qui n'exécutent pas JavaScript (dont ceux des assistants IA) ne les voient pas.
+  htmlLimitedBots: /.*/,
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
