@@ -23,7 +23,7 @@ export function personSchema() {
     email: `mailto:${site.email}`,
     telephone: site.phone.international,
     url: site.url,
-    image: `${site.url}/apropos/denis.webp`,
+    image: `${site.url}${site.portrait ?? "/apropos/denis-profil.webp"}`,
     knowsAbout: site.stack,
     sameAs: [site.social.github, site.social.linkedin],
     address: postalAddress,
