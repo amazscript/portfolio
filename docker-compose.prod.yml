@@ -34,6 +34,16 @@ services:
       - 'traefik.http.middlewares.portfolio-www.redirectregex.regex=^https://www\.decilapdenis\.fr/(.*)'
       - 'traefik.http.middlewares.portfolio-www.redirectregex.replacement=https://decilapdenis.fr/$${1}'
       - 'traefik.http.middlewares.portfolio-www.redirectregex.permanent=true'
+      # http://www → https://apex en une seule redirection, au lieu de deux
+      # (http→https global, puis www→apex). Passe devant la redirection globale de Traefik,
+      # dont la priorité est abaissée à 1 dans /srv/traefik/traefik.yml.
+      - 'traefik.http.routers.portfolio-www-http.rule=Host(`www.decilapdenis.fr`)'
+      - 'traefik.http.routers.portfolio-www-http.entrypoints=web'
+      - 'traefik.http.routers.portfolio-www-http.middlewares=portfolio-www-http'
+      - 'traefik.http.routers.portfolio-www-http.service=portfolio'
+      - 'traefik.http.middlewares.portfolio-www-http.redirectregex.regex=^http://www\.decilapdenis\.fr/(.*)'
+      - 'traefik.http.middlewares.portfolio-www-http.redirectregex.replacement=https://decilapdenis.fr/$${1}'
+      - 'traefik.http.middlewares.portfolio-www-http.redirectregex.permanent=true'
 
 networks:
   web:
