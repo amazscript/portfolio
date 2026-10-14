@@ -101,9 +101,12 @@ export function HomeHero() {
                 <span className="font-medium uppercase tracking-[0.1em] text-[var(--fg-soft)]">
                   Stack&nbsp;:
                 </span>
-                {site.coreStack.map((tech) => (
-                  <span key={tech}>{tech}</span>
-                ))}
+                {/* Vraie liste : plus lisible pour les lecteurs d'écran et les moteurs de réponse IA. */}
+                <ul className="contents">
+                  {site.coreStack.map((tech) => (
+                    <li key={tech}>{tech}</li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>
