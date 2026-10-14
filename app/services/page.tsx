@@ -38,7 +38,7 @@ export default function ServicesPage() {
       <PageHeader
         num="02"
         eyebrow="Services"
-        lines={["Je conçois,", "code", "et déploie"]}
+        lines={["Je conçois, code", "et déploie sur mesure"]}
         intro="Développeur full-stack indépendant : un seul interlocuteur du premier écran à la mise en production. Site vitrine, application métier, e-commerce, mobile, API ou IA, avec une exigence constante de performance, de fiabilité et de référencement."
       />
 

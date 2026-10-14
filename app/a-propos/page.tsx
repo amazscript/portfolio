@@ -23,7 +23,7 @@ import { openGraphFor } from "@/lib/metadata";
 
 const title = "À propos : développeur full-stack freelance";
 const description =
-  "Denis Decilap, développeur full-stack freelance en Île-de-France : parcours, méthode de travail et stack (Laravel, Symfony, Vue, React, Next.js, Python).";
+  "Denis Decilap, développeur full-stack freelance en Île-de-France : je livre des projets en production, avec un code propre (Laravel, Vue, Next.js, Docker).";
 
 export const metadata: Metadata = {
   title,
@@ -66,7 +66,7 @@ export default function AProposPage() {
       <PageHeader
         num="06"
         eyebrow="À propos"
-        lines={["Un besoin,", "un produit", "qui tourne"]}
+        lines={["Développeur freelance :", "du besoin au produit qui tourne"]}
         intro={`Développeur full-stack freelance en ${site.area}. Je résous des problèmes concrets, en autonomie et en allant au fond des choses, du besoin à la mise en production.`}
       />
 

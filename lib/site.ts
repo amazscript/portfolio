@@ -24,7 +24,7 @@ export const site = {
    */
   portrait: "/apropos/denis-profil.webp" as string | null,
   /** Balise <title> de l'accueil — 60 caractères max, sinon Google la tronque. */
-  title: "Développeur web freelance, création de site internet en IDF",
+  title: "Développeur web freelance en IDF | Denis Decilap",
   /** Méta-description — 120 à 160 caractères pour ne pas être coupée dans les résultats. */
   description:
     "Denis Decilap, développeur web freelance en Île-de-France : création de site internet, applications métier et agents IA sur mesure. Devis gratuit sous 24 h.",

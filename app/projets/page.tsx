@@ -10,7 +10,7 @@ import { openGraphFor } from "@/lib/metadata";
 
 const title = "Projets web sur mesure : cas d'étude";
 const description =
-  "Réalisations full-stack en production : API Laravel, applications Vue et Node, plugins WooCommerce, extensions Chrome. Chaque projet est un cas d'étude.";
+  "Projets full-stack en production : marketplace et API e-commerce avec paiements Stripe, système de réservation, plugin de devis WooCommerce, extension Chrome.";
 
 export const metadata: Metadata = {
   title,
