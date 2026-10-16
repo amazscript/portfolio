@@ -118,6 +118,12 @@ prod: ## Déploie en prod sur le VPS (git push main → build & run)
 	if [ "$$before" != "$$after" ]; then $(MAKE) --no-print-directory indexnow || echo "⚠️  IndexNow en échec (le site, lui, est bien déployé)."; \
 	else echo "ℹ️  Rien de nouveau poussé : IndexNow non sollicité."; fi
 
+.PHONY: cv
+cv: ## Régénère le CV PDF publié (public/cv/) depuis cv/cv.html, avec Chrome
+	@"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --disable-gpu \
+		--no-pdf-header-footer --print-to-pdf=public/cv/denis-decilap-cv.pdf "file://$(CURDIR)/cv/cv.html" 2>/dev/null
+	@echo "✅ CV régénéré : public/cv/denis-decilap-cv.pdf (vérifie qu'il tient sur une page)"
+
 .PHONY: indexnow
 indexnow: ## Signale les pages du sitemap à Bing & co (IndexNow)
 	@node scripts/indexnow.mjs

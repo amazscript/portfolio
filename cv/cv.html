@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Denis Decilap · Développeur web fullstack</title>
+<!--
+  Source du CV. Pour régénérer le PDF publié sur le site : make cv
+  (Chrome en mode headless → public/cv/denis-decilap-cv.pdf, format A4, une page).
+-->
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #1f2b6e; --navy-text: #e8ecf8; --band: #7e8ab4; --cyan: #2fb4d8;
+    --title: #1f2b6e; --text: #4a5578; --muted: #7d86a3; --rule: #d7dcea;
+  }
+  html, body { width: 210mm; height: 297mm; }
+  body { font: 9pt/1.36 "Helvetica Neue", Helvetica, Arial, sans-serif; color: var(--text);
+         display: grid; grid-template-columns: 68mm 1fr; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  aside { background: var(--navy); color: var(--navy-text); padding: 10mm 7mm 8mm 7mm; }
+  main { padding: 0 9mm 8mm 8mm; }
+  h2 { font-size: 9.4pt; letter-spacing: .14em; text-transform: uppercase; color: var(--cyan); font-weight: 700;
+       padding-bottom: 1.4mm; border-bottom: 1px solid rgba(255,255,255,.18); margin: 5.5mm 0 2.6mm; }
+  aside h2:first-child { margin-top: 0; }
+  aside p, aside li { font-size: 8.8pt; }
+  aside .justify { text-align: justify; }
+  aside ul { list-style: none; }
+  aside .contact li { display: flex; gap: 3mm; margin-bottom: 1.6mm; }
+  aside .contact b { color: var(--cyan); width: 4mm; flex: none; }
+  aside h3 { font-size: 8.2pt; letter-spacing: .06em; text-transform: uppercase; color: var(--cyan); margin: 2.6mm 0 .6mm; }
+  aside .year { color: #9aa6cf; }
+  header.band { background: var(--band); color: #fff; margin: 0 -9mm 0 -8mm; padding: 8mm 9mm 5mm 12mm;
+                border-bottom: 3px solid var(--navy); }
+  header.band h1 { font-size: 25pt; letter-spacing: .02em; font-weight: 800; }
+  header.band p { font-size: 11pt; letter-spacing: .22em; text-transform: uppercase; opacity: .9; margin-top: 1mm; }
+  main h2 { color: var(--cyan); border-bottom: 1px solid var(--rule); margin-top: 5mm; }
+  .job { margin-bottom: 2.6mm; }
+  .job h3 { color: var(--title); font-size: 10.2pt; font-weight: 700; }
+  .job .meta { color: var(--cyan); font-weight: 700; font-size: 8.8pt; margin-bottom: .8mm; }
+  .job ul { margin-left: 4mm; }
+  .job li { margin-bottom: .5mm; text-align: justify; }
+  .job li::marker { color: var(--cyan); }
+  .job .stack { margin-left: 4mm; font-size: 8.8pt; color: var(--muted); }
+  .job .stack b { color: var(--title); }
+  .job p.desc { text-align: justify; }
+  strong { color: var(--title); }
+</style>
+</head>
+<body>
+<aside>
+  <h2>Profil</h2>
+  <p class="justify">Développeur fullstack freelance, je prends en charge le cycle complet d'un projet : cadrage du besoin, architecture, développement et mise en production. Spécialisé Laravel, Vue.js et Node.js, j'édite aussi mes propres produits SaaS et API. En formation d'architecture logicielle à l'École 42 Paris.</p>
+
+  <h2>Contact</h2>
+  <ul class="contact">
+    <li><b>T</b> 07 49 49 59 16</li>
+    <li><b>@</b> contact@decilapdenis.fr</li>
+    <li><b>W</b> decilapdenis.fr</li>
+    <li><b>in</b> linkedin.com/in/denisdecilap</li>
+    <li><b>●</b> Île-de-France · télétravail</li>
+  </ul>
+
+  <h2>Compétences</h2>
+  <h3>Backend</h3>
+  <p>PHP (Laravel, Symfony) · Node.js (Express, NestJS, Socket.IO) · Java (Spring Boot, Hibernate) · API REST</p>
+  <h3>Frontend</h3>
+  <p>Vue 3 · React / Next.js · Angular · TypeScript · HTML5 · CSS / SCSS · Tailwind CSS · Bootstrap</p>
+  <h3>Mobile &amp; desktop</h3>
+  <p>Flutter · React Native · Ionic · Cordova · Electron</p>
+  <h3>Bases de données</h3>
+  <p>PostgreSQL · MySQL · MongoDB</p>
+  <h3>DevOps &amp; outils</h3>
+  <p>Docker · Git · Jenkins · CI/CD · Linux · VS Code · IntelliJ · Figma</p>
+  <h3>Système</h3>
+  <p>C · C++ · Unix / Linux</p>
+
+  <h2>Certifications</h2>
+  <p>Opquast, qualité web <span class="year">(2021)</span></p>
+  <p>Méthodes agiles <span class="year">(2021)</span></p>
+
+  <h2>Centres d'intérêt</h2>
+  <p>Jeux vidéo · musique · natation · vélo · football</p>
+</aside>
+
+<main>
+  <header class="band">
+    <h1>DECILAP DENIS</h1>
+    <p>Développeur web fullstack</p>
+  </header>
+
+  <h2>Expériences professionnelles</h2>
+  <div class="job">
+    <h3>Développeur fullstack freelance · AmazScript</h3>
+    <p class="meta">Indépendant · amazscript.com · Mars 2026 – aujourd'hui</p>
+    <ul>
+      <li>Conception et développement de <strong>LaraCommerce API</strong>, une API REST e-commerce sous Laravel 12 : plus de 325 endpoints couvrant le catalogue, le panier, les commandes, les paiements et l'authentification.</li>
+      <li>Édition de produits destinés aux développeurs : <strong>LiteQuote</strong> (extension WooCommerce de demande de devis) et <strong>Tab Manager Pro</strong> (extension Chrome connectée à plusieurs fournisseurs d'IA).</li>
+      <li>Projets clients pris en charge de bout en bout : recueil du besoin, rédaction du cahier des charges, développement, intégration des paiements (Stripe), déploiement Docker sur VPS Linux et maintenance.</li>
+    </ul>
+    <p class="stack"><b>Stack :</b> Laravel, Vue 3, Node.js, Next.js, Flutter, PostgreSQL, Docker.</p>
+  </div>
+  <div class="job">
+    <h3>Développeur bénévole · Association MOT-ZAÏQUE</h3>
+    <p class="meta">Bénévolat · 2025 – aujourd'hui</p>
+    <ul>
+      <li>Application Android de communication alternative et améliorée (CAA) destinée aux personnes autistes non verbales.</li>
+      <li>Reprise et extension d'une base de code existante, rédaction du cahier des charges fonctionnel et coordination avec l'équipe associative.</li>
+    </ul>
+  </div>
+  <div class="job">
+    <h3>Assistant développeur web Manufacturing · Louis Vuitton</h3>
+    <p class="meta">Alternance · Novembre 2021 – Novembre 2022</p>
+    <ul>
+      <li>Analyse des besoins fonctionnels décrits dans le cahier des charges.</li>
+      <li>Participation à toutes les phases du développement, de la conception à la mise en production, dans le respect des normes en vigueur.</li>
+      <li>Consommation des Web Services et des API OData exposés par la solution SAP ; déploiement et mise à jour des plugins d'une application Cordova.</li>
+    </ul>
+    <p class="stack"><b>Stack :</b> SAPUI5, OData, Jenkins, Docker.</p>
+  </div>
+  <div class="job">
+    <h3>Magasinier / cariste</h3>
+    <p class="meta">2007 – Octobre 2021</p>
+    <ul>
+      <li>Réception et déchargement des marchandises entrantes, contrôle de conformité avec le bon de commande.</li>
+    </ul>
+  </div>
+
+  <h2>Formations</h2>
+  <div class="job">
+    <h3>École 42 Paris · Expert en architecture logicielle</h3>
+    <p class="meta">Novembre 2024 – en cours (fin prévue en novembre 2026)</p>
+    <p class="desc">Tronc commun validé : fondamentaux du langage C, gestion de la mémoire, algorithmique et programmation système (Unix / Linux). Pédagogie par projets, sans cours magistraux, fondée sur l'entraide et l'évaluation par les pairs.</p>
+  </div>
+  <div class="job">
+    <h3>Concepteur-développeur d'applications · Simplon.co &amp; DSI Louis Vuitton</h3>
+    <p class="meta">Novembre 2021 – Novembre 2022</p>
+    <p class="desc">Développement d'applications multicouches intégrant les recommandations de sécurité, composants d'interface et couche de persistance, déploiement mobile et desktop, tests de non-régression, méthode agile.</p>
+  </div>
+  <div class="job">
+    <h3>Développeur Java &amp; web mobile · Simplon.co</h3>
+    <p class="meta">Janvier – Septembre 2021</p>
+    <p class="desc">Java 8 et 11, Spring Boot, Hibernate, Web Services REST, tests unitaires et fonctionnels, intégration et déploiement continus (CI/CD), administration d'un serveur Apache sur VPS Linux Debian ; architecture frontend Angular, HTML5, SCSS, Bootstrap 4.</p>
+  </div>
+</main>
+</body>
+</html>
