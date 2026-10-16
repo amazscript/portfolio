@@ -22,6 +22,7 @@ export const events = {
   lead: "generate_lead",
   contactCtaClick: "contact_cta_click",
   phoneClick: "phone_click",
+  cvDownload: "cv_download",
   demoClick: "demo_click",
   codeClick: "code_click",
 } as const;
