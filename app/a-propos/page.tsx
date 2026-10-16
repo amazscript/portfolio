@@ -14,6 +14,7 @@ import {
   MapPin,
   Sparkles,
   Github,
+  FileText,
   ArrowUpRight,
   ArrowRight,
 } from "@/components/icons";
@@ -105,14 +106,25 @@ export default function AProposPage() {
                   <Button href="/contact" data-track="contact_cta_click">
                     Me contacter <ArrowRight size={16} className="transition-transform group-hover/btn:translate-x-0.5" />
                   </Button>
-                  <a
-                    href={site.social.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--muted)] transition-colors hover:text-[var(--accent)]"
-                  >
-                    <Github size={16} /> Voir mon code <ArrowUpRight size={13} />
-                  </a>
+                  {/* Liens secondaires groupés : ils restent ensemble quand la ligne passe sous le bouton */}
+                  <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                    <a
+                      href={site.social.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--muted)] transition-colors hover:text-[var(--accent)]"
+                    >
+                      <Github size={16} /> Voir mon code <ArrowUpRight size={13} />
+                    </a>
+                    <a
+                      href={site.cv}
+                      download="CV-Denis-Decilap.pdf"
+                      data-track="cv_download"
+                      className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--muted)] transition-colors hover:text-[var(--accent)]"
+                    >
+                      <FileText size={16} /> Télécharger mon CV
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

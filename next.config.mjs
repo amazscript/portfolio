@@ -57,7 +57,12 @@ const nextConfig = {
   // et les robots qui n'exécutent pas JavaScript (dont ceux des assistants IA) ne les voient pas.
   htmlLimitedBots: /.*/,
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      // Le CV reste téléchargeable mais n'apparaît pas dans Google : il contient des coordonnées
+      // personnelles et ferait doublon avec les pages du site.
+      { source: "/cv/:file*", headers: [{ key: "X-Robots-Tag", value: "noindex" }] },
+    ];
   },
 };
 

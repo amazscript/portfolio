@@ -23,6 +23,8 @@ export const site = {
    * repli (monogramme) tant qu'aucune photo n'est disponible.
    */
   portrait: "/apropos/denis-profil.webp" as string | null,
+  /** CV téléchargeable (PDF). Pour le mettre à jour, remplacer le fichier sous le même nom. */
+  cv: "/cv/denis-decilap-cv.pdf",
   /** Balise <title> de l'accueil — 60 caractères max, sinon Google la tronque. */
   title: "Développeur web freelance en Île-de-France | Denis Decilap",
   /** Méta-description — 120 à 160 caractères pour ne pas être coupée dans les résultats. */
