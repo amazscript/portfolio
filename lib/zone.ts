@@ -29,7 +29,7 @@ export type ZoneLink = { label: string; href: string; external?: boolean };
 
 /** Contenu de la fiche, selon le type de rubrique. */
 export type ZoneCard =
-  | { kind: "about"; text: string; chiffres: Chiffre[]; availability: string }
+  | { kind: "about"; text: string; chiffres: Chiffre[]; availability: string; link: ZoneLink }
   | { kind: "etapes"; items: Etape[] }
   | { kind: "project"; text: string; stack: string[]; links: ZoneLink[] }
   | { kind: "skills"; groups: GroupeCompetences[] }
@@ -81,6 +81,7 @@ export function getZoneBuildings(): ZoneBuilding[] {
       text: `Quatorze ans en logistique au volant d'un chariot, puis la reconversion. Je conçois des sites, des applications métier et des API, du besoin jusqu'à la mise en production, depuis l'${site.area}.`,
       chiffres,
       availability: site.availability,
+      link: { label: "Mon parcours", href: "/a-propos" },
     },
   });
 
@@ -105,6 +106,7 @@ export function getZoneBuildings(): ZoneBuilding[] {
   getAllSorted().forEach((p, i) => {
     const links: ZoneLink[] = [{ label: "Cas d'étude", href: `/projets/${p.slug}` }];
     if (p.demoUrl) links.push({ label: "Voir le site", href: p.demoUrl, external: true });
+    links.push({ label: "Toutes les réalisations", href: "/projets" });
     buildings.push({
       id: `projet-${p.slug}`,
       name: p.shortTitle ?? p.title,

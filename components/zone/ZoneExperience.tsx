@@ -240,6 +240,9 @@ function CardBody({ card, countUp }: { card: ZoneCard; countUp: boolean }) {
             ))}
           </div>
           <span className={styles.badge}>{card.availability}</span>
+          <div className={styles.links}>
+            <ZLink link={card.link} />
+          </div>
         </>
       );
     case "etapes":
