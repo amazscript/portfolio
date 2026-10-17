@@ -70,6 +70,15 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
     }
     return m;
   };
+  const glow = (color: number) => {
+    const key = "glow" + color;
+    let m = materials.get(key);
+    if (!m) {
+      m = new THREE.MeshBasicMaterial({ color, toneMapped: false });
+      materials.set(key, m);
+    }
+    return m;
+  };
   const box = (w: number, h: number, d: number, mat: THREE.Material) => new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
 
   // ---------- sol ----------
@@ -133,7 +142,10 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
     // Lampadaires alternés : mâts et ampoules instanciés
     const lampCount = 4 * N + 4;
     const poles = new THREE.InstancedMesh(new THREE.BoxGeometry(0.15, 5, 0.15), M(0x2a3656), lampCount);
-    const bulbs = new THREE.InstancedMesh(new THREE.BoxGeometry(0.6, 0.18, 0.35), basic(0xffe2a0), lampCount);
+    const heads = new THREE.InstancedMesh(new THREE.BoxGeometry(0.7, 0.16, 0.36), M(0x1f2a46), lampCount);
+    const diffuserGeo = new THREE.PlaneGeometry(0.56, 0.26);
+    diffuserGeo.rotateX(Math.PI / 2); // face vers le bas
+    const bulbs = new THREE.InstancedMesh(diffuserGeo, glow(0xd99a3e), lampCount);
     for (let i = 0; i < lampCount; i++) {
       const t = (i + 0.5) / lampCount;
       const p = curve.getPoint(t);
@@ -144,9 +156,12 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
       poles.setMatrixAt(i, dummy.matrix);
       dummy.position.set(p.x + n.x * 0.8, 5, p.z + n.z * 0.8);
       dummy.updateMatrix();
+      heads.setMatrixAt(i, dummy.matrix);
+      dummy.position.y = 4.91;
+      dummy.updateMatrix();
       bulbs.setMatrixAt(i, dummy.matrix);
     }
-    scene.add(poles, bulbs);
+    scene.add(poles, heads, bulbs);
   })();
 
   // ---------- texte peint sur canvas (enseignes, caisse « DD ») ----------
@@ -182,8 +197,8 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
 
   // ---------- bâtiments ----------
   const palette = [0x2a3a62, 0x334670, 0x2b3e5e, 0x3a3f5c, 0x24395c, 0x30405f, 0x283a60, 0x353f5e, 0x2c3d63];
-  const winM = basic(0xffd27a);
-  const coolWinM = basic(0x7fb4ff);
+  const winM = glow(0xc98a2e);
+  const coolWinM = glow(0x3f6fb8);
   const smoke: THREE.Mesh[] = [];
   const blinkers: THREE.Object3D[] = [];
   const screens: THREE.MeshBasicMaterial[] = [];
@@ -226,7 +241,7 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
       g.add(lb);
       if (s.screen) {
         // Panneau lumineux du blog : écran froid qui « défile » doucement
-        const mat = new THREE.MeshBasicMaterial({ color: 0x7fb4ff });
+        const mat = new THREE.MeshBasicMaterial({ color: 0x2f5fa8, toneMapped: false });
         screens.push(mat);
         const screen = box(s.w * 0.36, s.h * 0.34, 0.1, mat);
         screen.position.set(s.w * 0.2, s.h * 0.32, fz);
@@ -569,7 +584,7 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
     });
     const blinkOn = Math.floor(time * 1.5) % 2 === 0;
     blinkers.forEach((o) => (o.visible = blinkOn));
-    screens.forEach((m) => m.color.setHSL(0.6, 0.8, 0.62 + 0.08 * Math.sin(time * 2)));
+    screens.forEach((m) => m.color.setHSL(0.6, 0.75, 0.16 + 0.03 * Math.sin(time * 2)));
     renderer.render(scene, camera);
   }
   frame();
