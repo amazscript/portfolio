@@ -16,6 +16,8 @@ export type ZoneSceneOptions = {
   signFont: string;
   /** Arrêt devant le bâtiment `index`, ou départ (`index` = -1) vers `next`. */
   onStop: (index: number, next: number) => void;
+  /** Mode diagnostic (?debug=zone) : expose la vitesse du chariot sur le canvas. */
+  debug?: boolean;
 };
 
 export type ZoneScene = {
@@ -25,9 +27,30 @@ export type ZoneScene = {
 };
 
 const SPACING = 28;
+/** Vitesse maximale du chariot, en bâtiments par seconde. */
+const MAX_SPEED = 0.8;
+
+/** Amortisseur critique avec vitesse plafonnée (même principe que SmoothDamp d'Unity). */
+function smoothDamp(current: number, target: number, velocity: number, smoothTime: number, maxSpeed: number, dt: number): [number, number] {
+  const omega = 2 / smoothTime;
+  const x = omega * dt;
+  const exp = 1 / (1 + x + 0.48 * x * x + 0.235 * x * x * x);
+  const maxChange = maxSpeed * smoothTime;
+  const change = Math.max(-maxChange, Math.min(maxChange, current - target));
+  const clampedTarget = current - change;
+  const temp = (velocity + omega * change) * dt;
+  let nextVelocity = (velocity - omega * temp) * exp;
+  let next = clampedTarget + (change + temp) * exp;
+  // Pas de dépassement de la cible
+  if (target - current > 0 === next > target) {
+    next = target;
+    nextVelocity = (next - target) / dt;
+  }
+  return [next, nextVelocity];
+}
 
 export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
-  const { canvas, buildings: specs, reduceMotion, signFont, onStop } = opts;
+  const { canvas, buildings: specs, reduceMotion, signFont, onStop, debug = false } = opts;
   const N = specs.length;
 
   // Rendu identique au prototype (Three r128) : couleurs hex prises telles quelles, sans
@@ -97,6 +120,17 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
   const pts = [new THREE.Vector3(-26, 0, 8), ...stops, new THREE.Vector3((N - 1) * SPACING + 28, 0, 6)];
   const curve = new THREE.CatmullRomCurve3(pts, false, "catmullrom", 0.5);
   const uToT = (u: number) => (u + 1) / (pts.length - 1);
+  // Abscisse curviligne (0 → 1) de chaque arrêt : le chariot avance en mètres réels.
+  // Le paramètre natif de la courbe, lui, va plus vite dans les longs tronçons et les virages.
+  const ARC_DIVISIONS = 200 * pts.length;
+  const lengths = curve.getLengths(ARC_DIVISIONS);
+  const total = lengths[lengths.length - 1];
+  const stopArc = specs.map((_, i) => lengths[Math.round(uToT(i) * ARC_DIVISIONS)] / total);
+  const uToArc = (u: number) => {
+    const i = Math.max(0, Math.min(N - 2, Math.floor(u)));
+    const f = Math.max(0, Math.min(1, u - i));
+    return stopArc[i] + (stopArc[i + 1] - stopArc[i]) * f;
+  };
   const sideOf = (t: number) => {
     const tg = curve.getTangent(t);
     return new THREE.Vector3(-tg.z, 0, tg.x).normalize();
@@ -504,6 +538,7 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
   let u = 0;
   let uTarget = 0;
   let lastShown = -2;
+  let uVel = 0;
   let liftY = 0.2;
   let liftV = 0;
   let pitch = 0;
@@ -547,15 +582,20 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
     const dt = Math.min(0.05, timer.getDelta());
     const time = timer.elapsedTime;
     const prev = u;
-    u += (uTarget - u) * (reduceMotion ? 1 : 1 - Math.pow(0.02, dt));
-    if (Math.abs(uTarget - u) < 1e-4) u = uTarget;
-    const t = uToT(u);
-    const p = curve.getPoint(t);
-    const tg = curve.getTangent(t);
+    if (reduceMotion) u = uTarget;
+    else [u, uVel] = smoothDamp(u, uTarget, uVel, 0.6, MAX_SPEED, dt);
+    if (Math.abs(uTarget - u) < 1e-4 && Math.abs(uVel) < 1e-3) {
+      u = uTarget;
+      uVel = 0;
+    }
+    const arc = uToArc(u);
+    const t = curve.getUtoTmapping(arc, 0); // paramètre natif correspondant, pour sideOf()
+    const p = curve.getPointAt(arc);
+    const tg = curve.getTangentAt(arc);
     fork.position.set(p.x, 0, p.z);
     const yaw = Math.atan2(-tg.z, tg.x);
     fork.rotation.y = yaw;
-    const dist = (u - prev) * SPACING;
+    const dist = (uToArc(u) - uToArc(prev)) * total; // en mètres réels
     wheels.forEach((w) => (w.rotation.z -= dist / 0.42));
 
     // Vitesse et accélération lissées (unités par seconde)
@@ -582,6 +622,7 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
       steer += (steerTarget - steer) * Math.min(1, dt * 6);
     }
     prevYaw = yaw;
+    if (debug) canvas.dataset.speed = speed.toFixed(2);
     carriage.position.y = liftY;
     innerMast.position.y = 1.35 + (liftY - 0.2) * 0.55; // le mât sort en deux temps
     chassis.rotation.z = pitch;

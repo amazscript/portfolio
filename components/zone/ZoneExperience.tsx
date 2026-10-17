@@ -23,8 +23,10 @@ function routeU(p: number, n: number) {
   const u = p * (n - 1);
   const i = Math.min(n - 2, Math.floor(u));
   const f = u - i;
-  const k = Math.min(1, Math.max(0, (f - 0.22) / 0.56));
-  return i + k * k * (3 - 2 * k);
+  // Arrêt sur les 12 % de part et d'autre de chaque bâtiment, trajet en cosinus entre les deux :
+  // pic de vitesse ~2,1× la moyenne (contre ~2,7× avant), sans à-coup.
+  const k = Math.min(1, Math.max(0, (f - 0.12) / 0.76));
+  return i + (1 - Math.cos(Math.PI * k)) / 2;
 }
 
 function scrollProgress() {
@@ -84,6 +86,7 @@ export function ZoneExperience({ buildings }: { buildings: ZoneBuilding[] }) {
           buildings,
           reduceMotion: reduce,
           signFont,
+          debug: new URLSearchParams(window.location.search).get("debug") === "zone",
           onStop: (index, next) => {
             if (index >= 0) {
               setActive(index);
