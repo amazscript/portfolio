@@ -1,0 +1,586 @@
+import * as THREE from "three";
+import type { BuildingShape } from "@/lib/zone";
+
+/**
+ * Scène 3D de la zone industrielle (port du prototype docs « prototype-usine-3d.html »).
+ * Module impératif, sans React : chargé à la demande par ZoneExperience, il ne pèse
+ * que sur l'accueil. Le composant lui transmet la progression ; la scène lui signale
+ * l'arrêt devant un bâtiment ou le départ vers le suivant.
+ */
+
+export type ZoneSceneOptions = {
+  canvas: HTMLCanvasElement;
+  buildings: { name: string; shape: BuildingShape }[];
+  reduceMotion: boolean;
+  /** Famille CSS de la police d'enseigne (police chargée par next/font). */
+  signFont: string;
+  /** Arrêt devant le bâtiment `index`, ou départ (`index` = -1) vers `next`. */
+  onStop: (index: number, next: number) => void;
+};
+
+export type ZoneScene = {
+  setTarget: (u: number) => void;
+  setPaused: (paused: boolean) => void;
+  dispose: () => void;
+};
+
+const SPACING = 28;
+
+export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
+  const { canvas, buildings: specs, reduceMotion, signFont, onStop } = opts;
+  const N = specs.length;
+
+  // Rendu identique au prototype (Three r128) : couleurs hex prises telles quelles, sans
+  // la conversion sRGB → linéaire apparue en r152, qui assombrit toute la scène.
+  THREE.ColorManagement.enabled = false;
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
+  const mobile = window.matchMedia("(max-width: 760px)").matches;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, mobile ? 1.5 : 2));
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.05;
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x0b1326);
+  scene.fog = new THREE.Fog(0x0b1326, 38, 115);
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 300);
+
+  // Depuis r155, les lumières sont en unités physiques : intensités du prototype (r128) × π.
+  scene.add(new THREE.HemisphereLight(0x3a4f88, 0x0b1326, 0.75 * Math.PI));
+  const moon = new THREE.DirectionalLight(0xa9bbff, 0.55 * Math.PI);
+  moon.position.set(-30, 50, 20);
+  scene.add(moon);
+
+  // Matériaux et géométries partagés : créés une fois, réutilisés partout
+  const materials = new Map<string, THREE.Material>();
+  const M = (color: number, o: THREE.MeshStandardMaterialParameters = {}) => {
+    const key = color + JSON.stringify(o);
+    let m = materials.get(key);
+    if (!m) {
+      m = new THREE.MeshStandardMaterial({ color, roughness: 0.8, metalness: 0.1, flatShading: true, ...o });
+      materials.set(key, m);
+    }
+    return m;
+  };
+  const basic = (color: number) => {
+    const key = "basic" + color;
+    let m = materials.get(key);
+    if (!m) {
+      m = new THREE.MeshBasicMaterial({ color });
+      materials.set(key, m);
+    }
+    return m;
+  };
+  const box = (w: number, h: number, d: number, mat: THREE.Material) => new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+
+  // ---------- sol ----------
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(800, 800), M(0x101a30, { roughness: 1 }));
+  ground.rotation.x = -Math.PI / 2;
+  scene.add(ground);
+  const grid = new THREE.GridHelper(800, 160, 0x1a2644, 0x152038);
+  grid.position.y = 0.01;
+  scene.add(grid);
+
+  // ---------- route : un arrêt tous les 28 m, décalage latéral alterné ----------
+  const stops = specs.map((_, i) => {
+    const z = i === 0 ? 0 : (i % 2 ? -1 : 1) * (5 + ((i * 37) % 6));
+    return new THREE.Vector3(i * SPACING, 0, z);
+  });
+  const pts = [new THREE.Vector3(-26, 0, 8), ...stops, new THREE.Vector3((N - 1) * SPACING + 28, 0, 6)];
+  const curve = new THREE.CatmullRomCurve3(pts, false, "catmullrom", 0.5);
+  const uToT = (u: number) => (u + 1) / (pts.length - 1);
+  const sideOf = (t: number) => {
+    const tg = curve.getTangent(t);
+    return new THREE.Vector3(-tg.z, 0, tg.x).normalize();
+  };
+  const dummy = new THREE.Object3D();
+
+  (function road() {
+    const S = 60 * N;
+    const pos: number[] = [];
+    const idx: number[] = [];
+    for (let i = 0; i <= S; i++) {
+      const t = i / S;
+      const p = curve.getPoint(t);
+      const n = sideOf(t);
+      const a = p.clone().addScaledVector(n, 3.4);
+      const b = p.clone().addScaledVector(n, -3.4);
+      pos.push(a.x, 0.02, a.z, b.x, 0.02, b.z);
+      if (i < S) {
+        const k = i * 2;
+        idx.push(k, k + 1, k + 2, k + 1, k + 3, k + 2);
+      }
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+    g.setIndex(idx);
+    g.computeVertexNormals();
+    scene.add(new THREE.Mesh(g, M(0x1a2236, { roughness: 0.95, side: THREE.DoubleSide })));
+
+    // Tirets jaunes : une seule géométrie instanciée
+    const dashCount = 24 * N;
+    const dashes = new THREE.InstancedMesh(new THREE.BoxGeometry(1.4, 0.04, 0.18), basic(0xf4b51f), dashCount);
+    for (let i = 0; i < dashCount; i++) {
+      const t = i / dashCount;
+      const p = curve.getPoint(t);
+      const tg = curve.getTangent(t);
+      dummy.position.set(p.x, 0.05, p.z);
+      dummy.rotation.set(0, Math.atan2(-tg.z, tg.x), 0);
+      dummy.updateMatrix();
+      dashes.setMatrixAt(i, dummy.matrix);
+    }
+    scene.add(dashes);
+
+    // Lampadaires alternés : mâts et ampoules instanciés
+    const lampCount = 4 * N + 4;
+    const poles = new THREE.InstancedMesh(new THREE.BoxGeometry(0.15, 5, 0.15), M(0x2a3656), lampCount);
+    const bulbs = new THREE.InstancedMesh(new THREE.BoxGeometry(0.6, 0.18, 0.35), basic(0xffe2a0), lampCount);
+    for (let i = 0; i < lampCount; i++) {
+      const t = (i + 0.5) / lampCount;
+      const p = curve.getPoint(t);
+      const n = sideOf(t).multiplyScalar(i % 2 ? 4.6 : -4.6);
+      dummy.rotation.set(0, 0, 0);
+      dummy.position.set(p.x + n.x, 2.5, p.z + n.z);
+      dummy.updateMatrix();
+      poles.setMatrixAt(i, dummy.matrix);
+      dummy.position.set(p.x + n.x * 0.8, 5, p.z + n.z * 0.8);
+      dummy.updateMatrix();
+      bulbs.setMatrixAt(i, dummy.matrix);
+    }
+    scene.add(poles, bulbs);
+  })();
+
+  // ---------- texte peint sur canvas (enseignes, caisse « DD ») ----------
+  const textures: THREE.Texture[] = [];
+  function labelTexture(text: string, w = 512, h = 128, bg = "#f4b51f", fg = "#1a1405", size = 78) {
+    const c = document.createElement("canvas");
+    c.width = w;
+    c.height = h;
+    const tex = new THREE.CanvasTexture(c);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.anisotropy = 4;
+    const draw = () => {
+      const g = c.getContext("2d");
+      if (!g) return;
+      g.fillStyle = bg;
+      g.fillRect(0, 0, w, h);
+      g.fillStyle = fg;
+      let fs = size;
+      do {
+        g.font = `900 ${fs}px ${signFont}, Impact, sans-serif`;
+        fs -= 4;
+      } while (g.measureText(text).width > w * 0.9 && fs > 20);
+      g.textAlign = "center";
+      g.textBaseline = "middle";
+      g.fillText(text, w / 2, h / 2 + 4);
+      tex.needsUpdate = true;
+    };
+    draw();
+    document.fonts?.ready.then(draw);
+    textures.push(tex);
+    return tex;
+  }
+
+  // ---------- bâtiments ----------
+  const palette = [0x2a3a62, 0x334670, 0x2b3e5e, 0x3a3f5c, 0x24395c, 0x30405f, 0x283a60, 0x353f5e, 0x2c3d63];
+  const winM = basic(0xffd27a);
+  const coolWinM = basic(0x7fb4ff);
+  const smoke: THREE.Mesh[] = [];
+  const blinkers: THREE.Object3D[] = [];
+  const screens: THREE.MeshBasicMaterial[] = [];
+  const placed: { pos: THREE.Vector3; dir: THREE.Vector3; h: number }[] = [];
+
+  stops.forEach((p, i) => {
+    const s = specs[i].shape;
+    const t = uToT(i);
+    const side = i % 2 ? 1 : -1;
+    const dir = sideOf(t).multiplyScalar(side);
+    const pos = p.clone().addScaledVector(dir, 8 + s.d / 2);
+    const g = new THREE.Group();
+    g.position.copy(pos);
+    g.rotation.y = Math.atan2(-dir.x, -dir.z); // la façade (+z local) regarde la route
+    const body = box(s.w, s.h, s.d, M(palette[i % palette.length]));
+    body.position.y = s.h / 2;
+    g.add(body);
+    const band = box(s.w + 0.05, 0.5, s.d + 0.05, M(0x1b2540));
+    band.position.y = 0.25;
+    g.add(band);
+    const fz = s.d / 2 + 0.02;
+
+    if (s.roof !== "tower") {
+      // Porte sectionnelle à lames, lampe chaude au-dessus, hublots éclairés
+      const dw = Math.min(6, s.w * 0.4);
+      const dh = Math.min(4.6, s.h * 0.65);
+      const door = box(dw, dh, 0.1, M(0x8b96ad, { metalness: 0.4 }));
+      door.position.set(-s.w * 0.18, dh / 2, fz);
+      g.add(door);
+      for (let k = 1; k < 7; k++) {
+        const r = box(dw, 0.05, 0.12, M(0x5e6884));
+        r.position.set(-s.w * 0.18, (dh * k) / 7, fz + 0.02);
+        g.add(r);
+      }
+      const lamp = new THREE.PointLight(0xffb347, 1.6 * Math.PI, 18, 2);
+      lamp.position.set(-s.w * 0.18, dh + 1, fz + 2);
+      g.add(lamp);
+      const lb = box(0.8, 0.2, 0.4, winM);
+      lb.position.set(-s.w * 0.18, dh + 0.6, fz + 0.2);
+      g.add(lb);
+      if (s.screen) {
+        // Panneau lumineux du blog : écran froid qui « défile » doucement
+        const mat = new THREE.MeshBasicMaterial({ color: 0x7fb4ff });
+        screens.push(mat);
+        const screen = box(s.w * 0.36, s.h * 0.42, 0.1, mat);
+        screen.position.set(s.w * 0.2, s.h * 0.5, fz);
+        g.add(screen);
+      } else {
+        for (let k = 0; k < 3; k++) {
+          const w = box(1.4, 0.8, 0.1, winM);
+          w.position.set(s.w * 0.12 + k * 2, s.h * 0.55, fz);
+          g.add(w);
+        }
+      }
+    } else {
+      // Tour de contrôle : cabine vitrée, antenne et balise rouge
+      for (let y = 3.6; y < s.h - 2; y += 2.4) {
+        const w = box(s.w - 1.6, 1, 0.1, coolWinM);
+        w.position.set(0, y, fz);
+        g.add(w);
+      }
+      const cab = box(
+        s.w + 2,
+        2.4,
+        s.d + 2,
+        new THREE.MeshStandardMaterial({ color: 0x7fb4ff, emissive: 0x2d5fb0, emissiveIntensity: 0.6, roughness: 0.2 })
+      );
+      cab.position.y = s.h + 1.2;
+      g.add(cab);
+      const roof = box(s.w + 2.6, 0.4, s.d + 2.6, M(0x1b2540));
+      roof.position.y = s.h + 2.6;
+      g.add(roof);
+      const ant = box(0.12, 4, 0.12, M(0x9aa6bf));
+      ant.position.y = s.h + 4.8;
+      g.add(ant);
+      const red = new THREE.Mesh(new THREE.SphereGeometry(0.25, 8, 8), basic(0xff3b3b));
+      red.position.y = s.h + 6.9;
+      blinkers.push(red);
+      g.add(red);
+      const lamp = new THREE.PointLight(0x7fb4ff, 1.4 * Math.PI, 20, 2);
+      lamp.position.set(0, 3, fz + 3);
+      g.add(lamp);
+    }
+
+    if (s.roof === "flat") {
+      const r = box(s.w + 0.6, 0.5, s.d + 0.6, M(0x1b2540));
+      r.position.y = s.h + 0.25;
+      g.add(r);
+    }
+    if (s.roof === "saw") {
+      const tooth = 4;
+      const count = Math.floor(s.w / tooth);
+      const sh = new THREE.Shape();
+      sh.moveTo(0, 0);
+      sh.lineTo(tooth, 0);
+      sh.lineTo(tooth, 2.6);
+      sh.lineTo(0, 0);
+      const geo = new THREE.ExtrudeGeometry(sh, { depth: s.d, bevelEnabled: false });
+      for (let k = 0; k < count; k++) {
+        const m = new THREE.Mesh(geo, M(0x1f2b48));
+        m.position.set(-s.w / 2 + k * tooth, s.h, -s.d / 2);
+        g.add(m);
+        const glass = box(0.08, 2.4, s.d - 0.4, coolWinM);
+        glass.position.set(-s.w / 2 + (k + 1) * tooth - 0.05, s.h + 1.25, 0);
+        g.add(glass);
+      }
+    }
+    if (s.roof === "gable") {
+      const sh = new THREE.Shape();
+      sh.moveTo(-s.d / 2 - 0.3, 0);
+      sh.lineTo(s.d / 2 + 0.3, 0);
+      sh.lineTo(0, 3);
+      sh.lineTo(-s.d / 2 - 0.3, 0);
+      const m = new THREE.Mesh(new THREE.ExtrudeGeometry(sh, { depth: s.w + 0.6, bevelEnabled: false }), M(0x7a3b2e));
+      m.rotation.y = Math.PI / 2;
+      m.position.set(-s.w / 2 - 0.3, s.h, 0);
+      g.add(m);
+    }
+    if (s.chimneys) {
+      const puffGeo = new THREE.SphereGeometry(1, 8, 6);
+      (
+        [
+          [s.w * 0.3, 6],
+          [s.w * 0.42, 8],
+        ] as const
+      ).forEach(([x, hh], k) => {
+        const c = new THREE.Mesh(new THREE.CylinderGeometry(0.7, 0.9, hh, 12), M(0x5a4a44));
+        c.position.set(x, s.h + hh / 2, -s.d * 0.2);
+        g.add(c);
+        const ring = new THREE.Mesh(new THREE.CylinderGeometry(0.75, 0.75, 0.4, 12), M(0xf4b51f));
+        ring.position.set(x, s.h + hh - 1, -s.d * 0.2);
+        g.add(ring);
+        if (reduceMotion) return; // pas de fumée animée quand l'utilisateur réduit les animations
+        for (let j = 0; j < 7; j++) {
+          const puff = new THREE.Mesh(
+            puffGeo,
+            new THREE.MeshStandardMaterial({ color: 0x8e99b3, transparent: true, opacity: 0.5, roughness: 1 })
+          );
+          puff.userData = { base: new THREE.Vector3(x, s.h + hh, -s.d * 0.2), phase: j / 7 + k * 0.5 };
+          g.add(puff);
+          smoke.push(puff);
+        }
+      });
+    }
+    if (s.truck) {
+      const tr = new THREE.Group();
+      const trailer = box(9, 3.4, 2.6, M(0xd9dee8));
+      trailer.position.set(0, 2.3, 0);
+      const stripe = box(9.02, 0.4, 2.62, M(0xf4b51f));
+      stripe.position.set(0, 1.2, 0);
+      const cabT = box(2.6, 2.8, 2.5, M(0x2f6fd6));
+      cabT.position.set(5.9, 1.9, 0);
+      const ws = box(0.05, 1.1, 2.1, coolWinM);
+      ws.position.set(7.21, 2.5, 0);
+      tr.add(trailer, stripe, cabT, ws);
+      const wheelGeo = new THREE.CylinderGeometry(0.55, 0.55, 0.4, 14);
+      [-3, -1.8, 5.6].forEach((x) =>
+        [-1.2, 1.2].forEach((z) => {
+          const wh = new THREE.Mesh(wheelGeo, M(0x111522));
+          wh.rotation.x = Math.PI / 2;
+          wh.position.set(x, 0.55, z);
+          tr.add(wh);
+        })
+      );
+      tr.position.set(s.w * 0.2, 0, fz + 3.4);
+      g.add(tr);
+    }
+
+    // Enseigne jaune : « 01 · À PROPOS »
+    const signW = Math.min(s.w - 1, 11);
+    const label = `${String(i + 1).padStart(2, "0")} · ${specs[i].name}`.toUpperCase();
+    const sign = new THREE.Mesh(
+      new THREE.PlaneGeometry(signW, signW / 4),
+      new THREE.MeshBasicMaterial({ map: labelTexture(label) })
+    );
+    sign.position.set(0, s.roof === "tower" ? 1.6 : s.h - 1.1, fz + 0.05);
+    if (s.roof === "tower") sign.scale.set(0.9, 0.9, 1);
+    g.add(sign);
+
+    // Palettes et caisses devant la façade
+    for (let k = 0; k < 3; k++) {
+      const pal = box(1.3, 0.25, 1.1, M(0x8a6a3e));
+      pal.position.set(s.w / 2 - 1 - k * 1.6, 0.13, fz + 1.4);
+      g.add(pal);
+      if (k !== 1) {
+        const cr = box(1.1, 0.9, 0.95, M(0xb08850));
+        cr.position.set(s.w / 2 - 1 - k * 1.6, 0.7, fz + 1.4);
+        g.add(cr);
+      }
+    }
+    scene.add(g);
+    placed.push({ pos, dir, h: s.roof === "tower" ? s.h + 3 : s.h });
+  });
+
+  // ---------- chariot élévateur (le cariste, c'est Denis) ----------
+  const fork = new THREE.Group();
+  const yel = M(0xf4b51f, { roughness: 0.5 });
+  const dark = M(0x1d2640);
+  const grey = M(0x9aa6bf, { metalness: 0.6, roughness: 0.4 });
+  const add = <T extends THREE.Object3D>(m: T, x: number, y: number, z: number) => {
+    m.position.set(x, y, z);
+    fork.add(m);
+    return m;
+  };
+  add(box(2.6, 0.95, 1.5, yel), 0, 0.78, 0);
+  add(box(0.7, 1.1, 1.52, M(0xd99a12)), -1.35, 0.9, 0);
+  add(box(1.2, 0.2, 1.1, dark), -0.3, 1.35, 0);
+  (
+    [
+      [-0.75, 0.65],
+      [-0.75, -0.65],
+      [0.65, 0.65],
+      [0.65, -0.65],
+    ] as const
+  ).forEach(([x, z]) => add(box(0.08, 1.5, 0.08, dark), x, 2, z));
+  add(box(1.6, 0.08, 1.5, dark), -0.05, 2.78, 0);
+  const beaconMat = new THREE.MeshBasicMaterial({ color: 0xff8a1f });
+  add(new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.18, 10), beaconMat), -0.1, 2.91, 0);
+  add(box(0.42, 0.58, 0.5, M(0x2f6fd6)), -0.25, 1.72, 0);
+  add(box(0.44, 0.1, 0.52, yel), -0.25, 1.76, 0);
+  add(new THREE.Mesh(new THREE.SphereGeometry(0.21, 14, 12), M(0x6b4a33)), -0.22, 2.2, 0);
+  add(new THREE.Mesh(new THREE.SphereGeometry(0.24, 14, 8, 0, Math.PI * 2, 0, Math.PI / 2), yel), -0.22, 2.24, 0);
+  add(box(0.1, 2.7, 0.1, grey), 1.38, 1.5, 0.42);
+  add(box(0.1, 2.7, 0.1, grey), 1.38, 1.5, -0.42);
+  const carriage = new THREE.Group();
+  carriage.position.set(1.48, 0.2, 0);
+  fork.add(carriage);
+  const cm = (m: THREE.Object3D, x: number, y: number, z: number) => {
+    m.position.set(x, y, z);
+    carriage.add(m);
+  };
+  cm(box(0.08, 0.7, 1.05, grey), 0, 0.35, 0);
+  cm(box(1.25, 0.06, 0.16, grey), 0.62, 0.03, 0.3);
+  cm(box(1.25, 0.06, 0.16, grey), 0.62, 0.03, -0.3);
+  const crateFace = new THREE.MeshStandardMaterial({ map: labelTexture("DD", 256, 256, "#b08850", "#1a1405", 140), roughness: 0.9 });
+  const crateM = M(0xb08850);
+  cm(new THREE.Mesh(new THREE.BoxGeometry(1, 0.85, 0.95), [crateM, crateM, crateM, crateM, crateFace, crateFace]), 0.68, 0.5, 0);
+  const wheels: THREE.Group[] = [];
+  const tyreGeo = new THREE.CylinderGeometry(0.42, 0.42, 0.32, 16);
+  const hubGeo = new THREE.CylinderGeometry(0.18, 0.18, 0.34, 8);
+  (
+    [
+      [-0.85, 0.78],
+      [-0.85, -0.78],
+      [0.85, 0.78],
+      [0.85, -0.78],
+    ] as const
+  ).forEach(([x, z]) => {
+    const w = new THREE.Mesh(tyreGeo, M(0x111522));
+    w.rotation.x = Math.PI / 2;
+    const hub = new THREE.Mesh(hubGeo, grey);
+    hub.rotation.x = Math.PI / 2;
+    const wg = new THREE.Group();
+    wg.add(w, hub);
+    wg.position.set(x, 0.42, z);
+    fork.add(wg);
+    wheels.push(wg);
+  });
+  const shadow = new THREE.Mesh(
+    new THREE.CircleGeometry(2, 24),
+    new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.35 })
+  );
+  shadow.rotation.x = -Math.PI / 2;
+  shadow.position.y = 0.03;
+  fork.add(shadow);
+  const head = new THREE.SpotLight(0xfff1c8, 2.2 * Math.PI, 22, 0.5, 0.6, 1.5);
+  head.position.set(1.4, 1.6, 0);
+  fork.add(head);
+  const headTarget = new THREE.Object3D();
+  headTarget.position.set(8, 0, 0);
+  fork.add(headTarget);
+  head.target = headTarget;
+  scene.add(fork);
+
+  // ---------- boucle de rendu ----------
+  let u = 0;
+  let uTarget = 0;
+  let lastShown = -2;
+  let liftY = 0.2;
+  let paused = false;
+  let first = true;
+  let frameId = 0;
+  const camPos = new THREE.Vector3();
+  const camLook = new THREE.Vector3();
+  const tmp = new THREE.Vector3();
+  const look = new THREE.Vector3();
+  const timer = new THREE.Clock();
+
+  function resize() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    // Écran en portrait : champ de vision élargi pour garder le bâtiment et le chariot dans le cadre
+    camera.fov = camera.aspect < 1 ? 64 : 45;
+    // Décale le cadrage pour laisser la place à la fiche : à droite sur desktop, en bas sur mobile
+    if (w > 760) camera.setViewOffset(w, h, 200, 0, w, h);
+    else camera.setViewOffset(w, h, 0, h * 0.2, w, h);
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener("resize", resize);
+  resize();
+
+  function frame() {
+    frameId = requestAnimationFrame(frame);
+    if (paused) return;
+    const dt = Math.min(0.05, timer.getDelta());
+    const time = timer.elapsedTime;
+    const prev = u;
+    u += (uTarget - u) * (reduceMotion ? 1 : 1 - Math.pow(0.02, dt));
+    if (Math.abs(uTarget - u) < 1e-4) u = uTarget;
+    const t = uToT(u);
+    const p = curve.getPoint(t);
+    const tg = curve.getTangent(t);
+    fork.position.set(p.x, 0, p.z);
+    fork.rotation.y = Math.atan2(-tg.z, tg.x);
+    const dist = (u - prev) * SPACING;
+    wheels.forEach((w) => (w.rotation.z -= dist / 0.42));
+    // À l'arrêt, le chariot lève sa caisse ; en roulant, il la redescend
+    const moving = Math.abs(u - prev) > 2e-4;
+    liftY += ((moving ? 0.2 : 1.05) - liftY) * Math.min(1, dt * 4);
+    carriage.position.y = liftY;
+    fork.rotation.z = reduceMotion ? 0 : Math.max(-0.06, Math.min(0.06, -(u - prev) * 6));
+    beaconMat.color.setHex(Math.floor(time * 2.4) % 2 ? 0xff8a1f : 0x5a2a05);
+
+    // Fiche active : arrêt si le chariot est assez près d'un bâtiment
+    const near = Math.round(u);
+    const shown = Math.abs(u - near) < 0.12 ? near : -1;
+    if (shown !== lastShown) {
+      lastShown = shown;
+      onStop(shown, Math.min(N - 1, uTarget > u ? Math.ceil(u) : Math.floor(u)));
+    }
+
+    // Caméra : du côté opposé au bâtiment à l'arrêt, en poursuite pendant le trajet
+    const i0 = Math.max(0, Math.min(N - 2, Math.floor(u)));
+    const f = u - i0;
+    const bA = placed[i0];
+    const bB = placed[Math.min(N - 1, i0 + 1)];
+    const w0 = Math.max(0, 1 - f * 3);
+    const w1 = Math.max(0, (f - 2 / 3) * 3);
+    const n = sideOf(t);
+    const sideA = bA.dir.dot(n) > 0 ? 1 : -1;
+    const sideB = bB.dir.dot(n) > 0 ? 1 : -1;
+    const sideMix = -(sideA * w0 + sideB * w1);
+    const behind = 6 + 9 * (1 - (w0 + w1));
+    camPos.copy(p).addScaledVector(n, sideMix * 15).addScaledVector(tg, -behind);
+    camPos.y = 7.5 + 2.5 * (1 - (w0 + w1));
+    look.copy(p).addScaledVector(tg, 4);
+    look.y = 1.5;
+    if (w0 > 0) {
+      tmp.copy(bA.pos);
+      tmp.y = bA.h * 0.45;
+      look.lerp(tmp, 0.5 * w0);
+    }
+    if (w1 > 0) {
+      tmp.copy(bB.pos);
+      tmp.y = bB.h * 0.45;
+      look.lerp(tmp, 0.5 * w1);
+    }
+    const k = first || reduceMotion ? 1 : 1 - Math.pow(0.05, dt);
+    camera.position.lerp(camPos, k);
+    camLook.lerp(look, k);
+    first = false;
+    camera.lookAt(camLook);
+
+    smoke.forEach((s) => {
+      const ph = (time * 0.18 + s.userData.phase) % 1;
+      s.position.copy(s.userData.base);
+      s.position.y += ph * 9;
+      s.position.x += ph * 3;
+      s.scale.setScalar(0.6 + ph * 2.2);
+      (s.material as THREE.MeshStandardMaterial).opacity = 0.45 * (1 - ph);
+    });
+    const blinkOn = Math.floor(time * 1.5) % 2 === 0;
+    blinkers.forEach((o) => (o.visible = blinkOn));
+    screens.forEach((m) => m.color.setHSL(0.6, 0.8, 0.62 + 0.08 * Math.sin(time * 2)));
+    renderer.render(scene, camera);
+  }
+  frame();
+
+  return {
+    setTarget(next) {
+      uTarget = Math.max(0, Math.min(N - 1, next));
+    },
+    setPaused(next) {
+      paused = next;
+      if (!next) timer.getDelta(); // évite un saut après une pause
+    },
+    dispose() {
+      cancelAnimationFrame(frameId);
+      window.removeEventListener("resize", resize);
+      scene.traverse((o) => {
+        if (o instanceof THREE.Mesh || o instanceof THREE.InstancedMesh) o.geometry.dispose();
+      });
+      materials.forEach((m) => m.dispose());
+      textures.forEach((t) => t.dispose());
+      renderer.dispose();
+    },
+  };
+}

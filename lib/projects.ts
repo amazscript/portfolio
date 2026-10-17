@@ -1,6 +1,8 @@
 export type Project = {
   slug: string;
   title: string;
+  /** Nom court : plan de la zone 3D et enseigne du bâtiment. Par défaut, le titre. */
+  shortTitle?: string;
   tagline: string;
   /** Méta-description (120-160 car.) — sinon tagline + résultat, souvent trop long. */
   metaDescription?: string;
@@ -25,6 +27,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: "amazscript-marketplace",
+    shortTitle: "AmazScript",
     metaDescription:
       "Cas d'étude : marketplace de scripts en production avec Laravel et Next.js : paiements Stripe, payouts Wise, licences et scan de sécurité des produits.",
     title: "AmazScript Marketplace",
@@ -59,6 +62,7 @@ export const projects: Project[] = [
   },
   {
     slug: "laracommerce-api",
+    shortTitle: "LaraCommerce",
     metaDescription:
       "Cas d'étude : API REST e-commerce Laravel 12 prête pour la production : 325+ endpoints, paiements Stripe, admin Filament et 100 % de couverture de tests.",
     title: "LaraCommerce API",
@@ -92,6 +96,7 @@ export const projects: Project[] = [
   },
   {
     slug: "systeme-reservation",
+    shortTitle: "Réservation",
     metaDescription:
       "Cas d'étude : système de réservation auto-hébergé en Vue 3, Node.js et PostgreSQL : calendrier 6 vues, formulaires sur mesure, zéro double réservation.",
     title: "Système de réservation",
@@ -124,6 +129,7 @@ export const projects: Project[] = [
   },
   {
     slug: "litequote-woocommerce",
+    shortTitle: "LiteQuote",
     metaDescription:
       "Cas d'étude : plugin WooCommerce de devis ultra-léger (moins de 120 KB) qui remplace « Ajouter au panier » par une demande de devis, avec PDF et e-mails.",
     title: "LiteQuote pour WooCommerce",
@@ -156,6 +162,7 @@ export const projects: Project[] = [
   },
   {
     slug: "tab-manager-pro",
+    shortTitle: "Tab Manager",
     metaDescription:
       "Cas d'étude : extension Chrome qui range vos onglets en groupes grâce à l'IA, avec 5 moteurs au choix dont Ollama, qui fonctionne 100 % en local.",
     title: "Tab Manager Pro",

@@ -1,7 +1,13 @@
 import { Container, Button } from "@/components/ui";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 
 export default function NotFound() {
+  // Le 404 global vit hors du groupe (site) : il reprend lui-même l'en-tête et le pied de page.
   return (
+    <>
+      <Header />
+      <main id="main">
     <Container className="flex min-h-[60vh] flex-col items-center justify-center py-24 text-center">
       <p className="text-6xl font-extrabold text-[var(--accent)]">404</p>
       <h1 className="mt-4 text-2xl font-bold">Page introuvable</h1>
@@ -15,5 +21,8 @@ export default function NotFound() {
         </Button>
       </div>
     </Container>
+      </main>
+      <Footer />
+    </>
   );
 }

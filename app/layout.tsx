@@ -34,8 +34,6 @@ const plexMono = IBM_Plex_Mono({
   preload: false,
 });
 import { MotionProvider } from "@/components/MotionProvider";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
 import { Analytics } from "@/components/Analytics";
 import { CookieConsent } from "@/components/CookieConsent";
@@ -112,11 +110,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Aller au contenu
         </a>
-        <MotionProvider>
-          <Header />
-          <main id="main">{children}</main>
-          <Footer />
-        </MotionProvider>
+        <MotionProvider>{children}</MotionProvider>
         <Analytics />
         <CookieConsent />
       </body>

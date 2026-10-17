@@ -19,6 +19,7 @@ import {
   ArrowRight,
 } from "@/components/icons";
 import { site } from "@/lib/site";
+import { competences } from "@/lib/profil";
 import { breadcrumbSchema, personSchema } from "@/lib/schema";
 import { openGraphFor } from "@/lib/metadata";
 
@@ -45,11 +46,8 @@ const method = [
   { icon: ShieldCheck, title: "Soigner la qualité", text: "Code propre, testé, documenté, et des démos qui tournent." },
 ];
 
-const skills = [
-  { icon: Server, group: "Back-end", items: ["Laravel / PHP", "Node.js / Express", "PostgreSQL / MySQL", "API REST / OpenAPI"] },
-  { icon: Code, group: "Front-end", items: ["Vue 3", "Next.js / React", "TypeScript", "Tailwind CSS"] },
-  { icon: Bolt, group: "Outils & méthode", items: ["Docker", "Git", "Tests automatisés", "SEO technique"] },
-];
+const skillIcons = { server: Server, code: Code, bolt: Bolt };
+const skills = competences.map((c) => ({ ...c, icon: skillIcons[c.icon] }));
 
 export default function AProposPage() {
   return (

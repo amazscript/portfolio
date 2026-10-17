@@ -1,0 +1,536 @@
+<title>Zone industrielle Decilap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<style>
+/* Layout : scène 3D fixe en plein écran, le scroll fait avancer le chariot sur la route ; un panneau de fiche s'ouvre devant chaque bâtiment. */
+:root{
+  --night:#0b1326; --steel:#16213a; --steel-2:#1f2c4a; --line:#2c3b5e;
+  --fg:#e7ecf5; --muted:#93a0bb; --safety:#f4b51f; --safety-ink:#1a1405;
+  --f-display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+html{background:var(--night)}
+body{background:var(--night);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.5;overflow-x:hidden}
+a{color:var(--safety)}
+:focus-visible{outline:2px solid var(--safety);outline-offset:3px}
+
+#scene{position:fixed;inset:0;width:100%;height:100%;display:block}
+#spacer{height:1400vh}
+
+.topbar{position:fixed;inset:0 0 auto;z-index:20;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding-block:calc(10px + env(safe-area-inset-top,0px)) 10px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  background:linear-gradient(rgba(11,19,38,.92) 55%,transparent)}
+.brand{font-family:var(--f-display);font-weight:900;font-size:20px;letter-spacing:.04em;text-transform:uppercase;margin-right:auto;white-space:nowrap}
+.brand span{color:var(--safety)}
+.plan{display:flex;gap:4px;flex-wrap:wrap}
+.plan button,.mode{font:500 11px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+  background:var(--steel);border:1px solid var(--line);border-radius:3px;padding:7px 8px;cursor:pointer}
+.plan button[aria-current="true"]{color:var(--safety-ink);background:var(--safety);border-color:var(--safety)}
+.mode{color:var(--fg)}
+.plan button:hover,.mode:hover{border-color:var(--safety)}
+@media (max-width:1240px){.plan .full{display:none}}
+
+/* fiches */
+#panels{position:fixed;z-index:10;top:84px;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));width:400px;
+  display:flex;flex-direction:column;justify-content:center;pointer-events:none}
+.card{pointer-events:auto;max-height:100%;overflow:auto;background:rgba(22,33,58,.94);border:1px solid #3b4d78;border-radius:6px;
+  padding:22px 20px 20px;position:relative;box-shadow:0 20px 50px rgba(0,0,0,.45);animation:in .45s cubic-bezier(.2,.9,.3,1)}
+.card::before{content:"";position:absolute;left:-1px;right:-1px;top:-1px;height:7px;border-radius:6px 6px 0 0;
+  background:repeating-linear-gradient(-45deg,var(--safety) 0 9px,#111 9px 18px)}
+@keyframes in{from{transform:translateY(18px);opacity:.2}}
+.sign{display:flex;align-items:center;gap:10px;font:500 11px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.sign b{font-family:var(--f-display);font-weight:900;font-size:15px;letter-spacing:.08em;color:var(--safety-ink);background:var(--safety);padding:5px 8px;border-radius:2px}
+.card h2{margin:12px 0 10px;font-family:var(--f-display);font-weight:900;text-transform:uppercase;line-height:.95;font-size:40px;text-wrap:balance}
+.card h2 em{font-style:normal;color:var(--safety)}
+.card p{margin:0;color:var(--muted)}
+.items{display:grid;gap:10px;margin-top:14px}
+.item{background:var(--steel-2);border:1px solid var(--line);border-radius:4px;padding:12px 12px 11px;min-width:0}
+.item h3{margin:2px 0 4px;font-family:var(--f-display);font-weight:700;font-size:20px;text-transform:uppercase;letter-spacing:.02em;line-height:1.05}
+.item p{font-size:13.5px}
+.tag{font:500 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--safety)}
+.stack{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+.stack span{font:500 11px/1 var(--f-mono);background:var(--night);border:1px solid var(--line);border-radius:2px;padding:4px 6px}
+.links{display:flex;gap:14px;margin-top:10px;font-size:13px;font-weight:600}
+.links a{text-decoration:none}.links a:hover{text-decoration:underline}
+.badge{display:inline-flex;align-items:center;gap:8px;font:500 12px/1 var(--f-mono);margin-top:14px}
+.badge::before{content:"";width:8px;height:8px;border-radius:50%;background:#3ccf7a;box-shadow:0 0 0 4px rgba(60,207,122,.18)}
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;list-style:none;margin:6px 0 0;padding:0;font-size:13.5px;font-weight:600}
+.counts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.count{font-family:var(--f-display);font-weight:900;font-size:44px;line-height:1;color:var(--safety);font-variant-numeric:tabular-nums}
+.ticker{font:500 10.5px/1.35 var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:6px}
+.contact{display:grid;gap:8px;margin-top:14px}
+.contact div{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.contact code{font:500 15px var(--f-mono);color:var(--fg);user-select:all}
+.copy{font:600 12px var(--f-body);color:var(--safety-ink);background:var(--safety);border:0;border-radius:3px;padding:6px 10px;cursor:pointer}
+
+.status{position:fixed;z-index:9;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);
+  display:flex;align-items:center;gap:10px;font:500 12px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--safety);
+  background:rgba(11,19,38,.85);border:1px solid var(--line);border-radius:30px;padding:10px 16px;white-space:nowrap}
+.status i{display:block;width:12px;height:19px;border:2px solid currentColor;border-radius:7px;position:relative}
+.status i::after{content:"";position:absolute;left:50%;top:3px;width:2px;height:4px;margin-left:-1px;background:currentColor;animation:wheel 1.4s infinite}
+@keyframes wheel{to{transform:translateY(6px);opacity:0}}
+
+@media (max-width:760px){
+  #panels{top:auto;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));width:auto;height:46%;justify-content:flex-end}
+  .card h2{font-size:32px}
+  .status{bottom:auto;top:calc(110px + env(safe-area-inset-top,0px))}
+}
+
+/* vue classique */
+.classic #scene,.classic #spacer,.classic .status{display:none}
+.classic #panels{position:static;width:auto;height:auto;max-width:720px;margin:0 auto;display:grid;gap:22px;
+  padding-block:110px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.classic .card{max-height:none;animation:none;box-shadow:none}
+.classic .card[hidden]{display:block!important}
+.note{color:var(--muted);font-size:13px;margin:0}
+@media (prefers-reduced-motion:reduce){.card,.status i::after{animation:none}}
+</style>
+
+<canvas id="scene" aria-hidden="true"></canvas>
+
+<header class="topbar">
+  <div class="brand">Zone <span>Decilap</span></div>
+  <nav class="plan" id="plan" aria-label="Plan de la zone"></nav>
+  <button class="mode" id="mode" type="button" aria-pressed="false">Vue classique</button>
+</header>
+
+<div id="spacer"></div>
+
+<div class="status" id="status" aria-live="polite"><i aria-hidden="true"></i><span id="statusText">Faites défiler pour conduire</span></div>
+
+<div id="panels">
+  <section class="card" data-name="À propos" aria-label="À propos">
+    <div class="sign"><b>01</b> À propos</div>
+    <h2>Denis Decilap, <em>développeur</em> full-stack</h2>
+    <p>Quatorze ans en logistique au volant d'un chariot, puis la reconversion. Je conçois des sites, des applications métier et des API, du besoin jusqu'à la mise en production, depuis l'Île-de-France (93).</p>
+    <div class="counts">
+      <div><div class="count" data-to="325" data-suffix="+">325+</div><div class="ticker">endpoints sur une seule API</div></div>
+      <div><div class="count" data-to="5">5</div><div class="ticker">domaines livrés</div></div>
+      <div><div class="count" data-to="0">0</div><div class="ticker">démo hors ligne</div></div>
+    </div>
+    <span class="badge">Disponible pour missions freelance</span>
+  </section>
+
+  <section class="card" data-name="Expérience" aria-label="Expérience" hidden>
+    <div class="sign"><b>02</b> Expérience</div>
+    <h2>Expérience</h2>
+    <div class="items">
+      <div class="item"><span class="tag">2026 → aujourd'hui</span><h3>Développeur freelance · AmazScript</h3><p>Sites, applications métier et API sur mesure. Produits vendus en ligne (LaraCommerce API, LiteQuote, Tab Manager Pro).</p></div>
+      <div class="item"><span class="tag">Alternance</span><h3>Développeur web · Louis Vuitton</h3><p>DSI Manufacturing, développement d'outils web internes.</p></div>
+      <div class="item"><span class="tag">2007 → 2021</span><h3>Magasinier cariste</h3><p>Quatorze ans de logistique : flux, rigueur et délais tenus.</p></div>
+    </div>
+  </section>
+
+  <section class="card" data-name="Formation" aria-label="Formation" hidden>
+    <div class="sign"><b>03</b> Formation</div>
+    <h2>Formation</h2>
+    <div class="items">
+      <div class="item"><span class="tag">En cours</span><h3>École 42 Paris</h3><p>Cursus architecture logicielle.</p></div>
+      <div class="item"><span class="tag">Niveau 6 (bac +3/4)</span><h3>Concepteur-développeur d'applications</h3><p>Titre professionnel, obtenu en alternance chez Louis Vuitton.</p></div>
+      <div class="item"><span class="tag">Simplon</span><h3>Développeur Java / Spring Boot</h3><p>Première formation au développement.</p></div>
+    </div>
+  </section>
+
+  <section class="card" data-name="Marketplace" aria-label="Projet AmazScript Marketplace" hidden>
+    <div class="sign"><b>04</b> Réalisations · Marketplace</div>
+    <h2>AmazScript Marketplace</h2>
+    <p>Marketplace full-stack opérée en production pour vendre des scripts. Les auteurs sont payés à l'international et chaque produit est scanné avant publication.</p>
+    <div class="stack"><span>Laravel 12</span><span>Next.js 14</span><span>TypeScript</span><span>PostgreSQL</span><span>Stripe</span><span>Wise</span></div>
+    <div class="links"><a href="https://decilapdenis.fr/projets/amazscript-marketplace" target="_blank" rel="noopener">Cas d'étude</a><a href="https://amazscript.com" target="_blank" rel="noopener">Voir le site</a></div>
+  </section>
+
+  <section class="card" data-name="LaraCommerce" aria-label="Projet LaraCommerce API" hidden>
+    <div class="sign"><b>05</b> Réalisations · API</div>
+    <h2>LaraCommerce API</h2>
+    <p>API REST e-commerce prête pour la production : 325+ endpoints, paiements Stripe, admin Filament et 100 % de couverture de tests.</p>
+    <div class="stack"><span>Laravel 12</span><span>PHP 8.5</span><span>MySQL 8.4</span><span>Redis</span><span>Filament</span></div>
+    <div class="links"><a href="https://decilapdenis.fr/projets/laracommerce-api" target="_blank" rel="noopener">Cas d'étude</a><a href="https://amazscript.com/products/laracommerce-api-complete-e-commerce-backend-laravel-12-x9jkbo" target="_blank" rel="noopener">Voir le produit</a></div>
+  </section>
+
+  <section class="card" data-name="Réservation" aria-label="Projet Système de réservation" hidden>
+    <div class="sign"><b>06</b> Réalisations · Application</div>
+    <h2>Système de réservation</h2>
+    <p>Réservation auto-hébergée : calendrier sur mesure en six vues, formulaires personnalisables et aucune double réservation possible.</p>
+    <div class="stack"><span>Vue 3</span><span>Tailwind v4</span><span>Node.js 20</span><span>Express</span><span>PostgreSQL</span></div>
+    <div class="links"><a href="https://decilapdenis.fr/projets/systeme-reservation" target="_blank" rel="noopener">Cas d'étude</a><a href="https://amazscript.com/products/booking-system-multi-resource-booking-calendar-vuejs-3-nodejs-7qjqp2" target="_blank" rel="noopener">Voir le produit</a></div>
+  </section>
+
+  <section class="card" data-name="Compétences" aria-label="Compétences" hidden>
+    <div class="sign"><b>07</b> Compétences</div>
+    <h2>Compétences</h2>
+    <div class="items">
+      <div class="item"><span class="tag">Back-end</span><ul class="tools"><li>Laravel / PHP</li><li>Node.js / Express</li><li>PostgreSQL / MySQL</li><li>API REST / OpenAPI</li></ul></div>
+      <div class="item"><span class="tag">Front-end</span><ul class="tools"><li>Vue 3</li><li>Next.js / React</li><li>TypeScript</li><li>Tailwind CSS</li></ul></div>
+      <div class="item"><span class="tag">Outils &amp; méthode</span><ul class="tools"><li>Docker</li><li>Git</li><li>Tests automatisés</li><li>SEO technique</li></ul></div>
+    </div>
+  </section>
+
+  <section class="card" data-name="Services" aria-label="Services" hidden>
+    <div class="sign"><b>08</b> Services</div>
+    <h2>Services</h2>
+    <div class="items">
+      <div class="item"><h3>Sites internet &amp; vitrines</h3><p>Rapides, bien référencés et faciles à mettre à jour.</p></div>
+      <div class="item"><h3>Applications web métier</h3><p>Réservation, gestion, tableaux de bord : vos processus dans un outil sur mesure.</p></div>
+      <div class="item"><h3>E-commerce sur mesure</h3><p>Une boutique taillée pour votre catalogue, sans les commissions des plateformes fermées.</p></div>
+    </div>
+    <div class="links"><a href="https://decilapdenis.fr/services" target="_blank" rel="noopener">Tous les services</a></div>
+  </section>
+
+  <section class="card" data-name="Contact" aria-label="Contact" hidden>
+    <div class="sign"><b>09</b> Contact</div>
+    <h2>Contact</h2>
+    <p>Réponse sous 24 h, sans engagement.</p>
+    <div class="contact">
+      <div><code id="mail">contact@decilapdenis.fr</code><button class="copy" type="button" data-copy="mail">Copier</button></div>
+      <div><code id="tel">07 49 49 59 16</code><button class="copy" type="button" data-copy="tel">Copier</button></div>
+    </div>
+    <div class="links"><a href="https://decilapdenis.fr/contact" target="_blank" rel="noopener">Démarrer un projet</a><a href="https://github.com/amazscript" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/denisdecilap/" target="_blank" rel="noopener">LinkedIn</a></div>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(() => {
+  const cards = [...document.querySelectorAll('.card')];
+  const N = cards.length;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const plan = document.getElementById('plan');
+  const modeBtn = document.getElementById('mode');
+  const statusEl = document.getElementById('status'), statusText = document.getElementById('statusText');
+  const spacer = document.getElementById('spacer');
+  const L = cards.map((_, i) => String(i + 1).padStart(2, '0'));
+  let classic = false, activeCard = 0;
+
+  cards.forEach((c, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.innerHTML = L[i] + '<span class="full"> · ' + c.dataset.name + '</span>';
+    b.setAttribute('aria-label', 'Aller à : ' + c.dataset.name);
+    b.addEventListener('click', () => goTo(i));
+    plan.appendChild(b);
+  });
+  const planBtns = [...plan.children];
+
+  function countUp(card) {
+    card.querySelectorAll('.count').forEach(el => {
+      if (el.dataset.done || reduce || classic) return;
+      el.dataset.done = '1';
+      const to = +el.dataset.to, suf = el.dataset.suffix || '';
+      if (!to) return;
+      const t0 = performance.now();
+      const step = t => { const k = Math.min(1, (t - t0) / 1100); el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))) + suf; if (k < 1) requestAnimationFrame(step); };
+      requestAnimationFrame(step);
+    });
+  }
+  function showCard(i) {
+    planBtns.forEach((b, k) => b.setAttribute('aria-current', k === (i < 0 ? activeCard : i) ? 'true' : 'false'));
+    if (classic) return;
+    cards.forEach((c, k) => c.hidden = k !== i);
+    if (i >= 0) { activeCard = i; countUp(cards[i]); statusEl.hidden = i !== 0; statusText.textContent = 'Faites défiler pour conduire'; }
+  }
+  function setTransit(next) { statusEl.hidden = false; statusText.textContent = 'En route vers : ' + cards[next].dataset.name; }
+
+  function setClassic(on) {
+    classic = on;
+    document.body.classList.toggle('classic', on);
+    modeBtn.setAttribute('aria-pressed', on);
+    modeBtn.textContent = on ? 'Visite 3D' : 'Vue classique';
+    if (on) cards.forEach(c => c.hidden = false); else { lastShown = -2; }
+    scrollTo(0, 0);
+  }
+  modeBtn.addEventListener('click', () => setClassic(!classic));
+
+  document.querySelectorAll('.copy').forEach(btn => btn.addEventListener('click', () => {
+    const el = document.getElementById(btn.dataset.copy);
+    const done = () => { btn.textContent = 'Copié'; setTimeout(() => btn.textContent = 'Copier', 1600); };
+    const fallback = () => { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Sélectionné'; };
+    try { navigator.clipboard.writeText(el.textContent).then(done, fallback); } catch (e) { fallback(); }
+  }));
+
+  // progression du scroll → position sur la route, avec un arrêt devant chaque bâtiment
+  function progress() { const max = document.documentElement.scrollHeight - innerHeight; return max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0; }
+  function routeU(p) {
+    const u = p * (N - 1), i = Math.min(N - 2, Math.floor(u)), f = u - i;
+    const k = Math.min(1, Math.max(0, (f - 0.22) / 0.56));
+    return i + k * k * (3 - 2 * k);
+  }
+  function goTo(i) {
+    if (classic) { cards[i].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); return; }
+    const max = document.documentElement.scrollHeight - innerHeight;
+    scrollTo({ top: max * i / (N - 1), behavior: reduce ? 'auto' : 'smooth' });
+  }
+
+  // ---------- 3D ----------
+  if (!window.THREE) { setClassic(true); return; }
+  const canvas = document.getElementById('scene');
+  let renderer;
+  try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true }); } catch (e) { setClassic(true); return; }
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.05;
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x0b1326);
+  scene.fog = new THREE.Fog(0x0b1326, 38, 115);
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 300);
+
+  scene.add(new THREE.HemisphereLight(0x3a4f88, 0x0b1326, 0.75));
+  const moon = new THREE.DirectionalLight(0xa9bbff, 0.55); moon.position.set(-30, 50, 20); scene.add(moon);
+
+  const M = (c, o = {}) => new THREE.MeshStandardMaterial(Object.assign({ color: c, roughness: .8, metalness: .1, flatShading: true }, o));
+  const box = (w, h, d, mat) => new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+
+  // sol
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(600, 600), M(0x101a30, { roughness: 1 }));
+  ground.rotation.x = -Math.PI / 2; scene.add(ground);
+  const grid = new THREE.GridHelper(600, 120, 0x1a2644, 0x152038); grid.position.y = 0.01; scene.add(grid);
+
+  // route
+  const stops = [[0, 0], [28, -11], [56, 5], [84, -9], [112, 7], [140, -4], [168, 9], [196, -7], [224, 4]].map(([x, z]) => new THREE.Vector3(x, 0, z));
+  const pts = [new THREE.Vector3(-26, 0, 8), ...stops, new THREE.Vector3(252, 0, 6)];
+  const curve = new THREE.CatmullRomCurve3(pts, false, 'catmullrom', 0.5);
+  const uToT = u => (u + 1) / (pts.length - 1);
+  const sideOf = t => { const tg = curve.getTangent(t); return new THREE.Vector3(-tg.z, 0, tg.x).normalize(); };
+
+  (function road() {
+    const S = 800, pos = [], idx = [];
+    for (let i = 0; i <= S; i++) {
+      const t = i / S, p = curve.getPoint(t), n = sideOf(t);
+      const a = p.clone().addScaledVector(n, 3.4), b = p.clone().addScaledVector(n, -3.4);
+      pos.push(a.x, .02, a.z, b.x, .02, b.z);
+      if (i < S) { const k = i * 2; idx.push(k, k + 1, k + 2, k + 1, k + 3, k + 2); }
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setIndex(idx); g.computeVertexNormals();
+    scene.add(new THREE.Mesh(g, M(0x1a2236, { roughness: .95, side: THREE.DoubleSide })));
+    const dash = new THREE.BoxGeometry(1.4, .04, .18), dm = new THREE.MeshBasicMaterial({ color: 0xf4b51f });
+    for (let i = 0; i < 220; i++) {
+      const t = i / 220, p = curve.getPoint(t), tg = curve.getTangent(t);
+      const d = new THREE.Mesh(dash, dm); d.position.set(p.x, .05, p.z); d.rotation.y = Math.atan2(-tg.z, tg.x); scene.add(d);
+    }
+    // lampadaires
+    const poleM = M(0x2a3656), bulbM = new THREE.MeshBasicMaterial({ color: 0xffe2a0 });
+    for (let i = 0; i < 40; i++) {
+      const t = (i + .5) / 40, p = curve.getPoint(t), n = sideOf(t).multiplyScalar(i % 2 ? 4.6 : -4.6);
+      const pole = box(.15, 5, .15, poleM); pole.position.set(p.x + n.x, 2.5, p.z + n.z); scene.add(pole);
+      const bulb = box(.6, .18, .35, bulbM); bulb.position.set(p.x + n.x * .8, 5, p.z + n.z * .8); scene.add(bulb);
+    }
+  })();
+
+  // texte sur canvas
+  function labelTexture(text, w = 512, h = 128, bg = '#f4b51f', fg = '#1a1405', size = 78) {
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    const tex = new THREE.CanvasTexture(c); tex.encoding = THREE.sRGBEncoding; tex.anisotropy = 4;
+    const draw = () => {
+      const g = c.getContext('2d');
+      g.fillStyle = bg; g.fillRect(0, 0, w, h);
+      g.fillStyle = fg; let fs = size;
+      do { g.font = `900 ${fs}px "Big Shoulders Display", Impact, sans-serif`; fs -= 4; } while (g.measureText(text).width > w * .9 && fs > 20);
+      g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(text, w / 2, h / 2 + 4);
+      tex.needsUpdate = true;
+    };
+    draw(); if (document.fonts) document.fonts.ready.then(draw);
+    return tex;
+  }
+
+  // bâtiments
+  const palette = [0x2a3a62, 0x334670, 0x2b3e5e, 0x3a3f5c, 0x24395c, 0x30405f, 0x283a60, 0x353f5e, 0x2c3d63];
+  const winM = new THREE.MeshBasicMaterial({ color: 0xffd27a });
+  const coolWinM = new THREE.MeshBasicMaterial({ color: 0x7fb4ff });
+  const smoke = [];
+  const buildings = [];
+  const specs = [
+    { w: 16, d: 10, h: 7, roof: 'flat' }, { w: 22, d: 12, h: 8, roof: 'saw' }, { w: 14, d: 10, h: 7, roof: 'gable' },
+    { w: 18, d: 12, h: 9, roof: 'flat', chimneys: true }, { w: 20, d: 12, h: 8, roof: 'saw' }, { w: 15, d: 10, h: 7, roof: 'flat' },
+    { w: 7, d: 7, h: 16, roof: 'tower' }, { w: 14, d: 10, h: 6, roof: 'gable' }, { w: 16, d: 11, h: 7, roof: 'flat', truck: true }
+  ];
+  const names = cards.map((c, i) => L[i] + ' · ' + c.dataset.name);
+
+  stops.forEach((p, i) => {
+    const s = specs[i], t = uToT(i), side = i % 2 ? 1 : -1;
+    const dir = sideOf(t).multiplyScalar(side);
+    const pos = p.clone().addScaledVector(dir, 8 + s.d / 2);
+    const g = new THREE.Group(); g.position.copy(pos);
+    g.rotation.y = Math.atan2(-dir.x, -dir.z); // la façade (+z local) regarde la route
+    const wallM = M(palette[i]);
+    const body = box(s.w, s.h, s.d, wallM); body.position.y = s.h / 2; g.add(body);
+    // bandeau bas
+    const band = box(s.w + .05, .5, s.d + .05, M(0x1b2540)); band.position.y = .25; g.add(band);
+    const fz = s.d / 2 + .02;
+    // porte sectionnelle
+    if (s.roof !== 'tower') {
+      const dw = Math.min(6, s.w * .4), dh = Math.min(4.6, s.h * .65);
+      const door = box(dw, dh, .1, M(0x8b96ad, { metalness: .4 })); door.position.set(-s.w * .18, dh / 2, fz); g.add(door);
+      for (let k = 1; k < 7; k++) { const r = box(dw, .05, .12, M(0x5e6884)); r.position.set(-s.w * .18, dh * k / 7, fz + .02); g.add(r); }
+      const lamp = new THREE.PointLight(0xffb347, 1.6, 18, 2); lamp.position.set(-s.w * .18, dh + 1, fz + 2); g.add(lamp);
+      const lb = box(.8, .2, .4, winM); lb.position.set(-s.w * .18, dh + .6, fz + .2); g.add(lb);
+      // hublots
+      for (let k = 0; k < 3; k++) { const w = box(1.4, .8, .1, winM); w.position.set(s.w * .12 + k * 2, s.h * .55, fz); g.add(w); }
+    } else {
+      for (let y = 2; y < s.h - 2; y += 2.4) { const w = box(s.w - 1.6, 1, .1, coolWinM); w.position.set(0, y, fz); g.add(w); }
+      const cab = box(s.w + 2, 2.4, s.d + 2, new THREE.MeshStandardMaterial({ color: 0x7fb4ff, emissive: 0x2d5fb0, emissiveIntensity: .6, roughness: .2 }));
+      cab.position.y = s.h + 1.2; g.add(cab);
+      const roof = box(s.w + 2.6, .4, s.d + 2.6, M(0x1b2540)); roof.position.y = s.h + 2.6; g.add(roof);
+      const ant = box(.12, 4, .12, M(0x9aa6bf)); ant.position.y = s.h + 4.8; g.add(ant);
+      const red = new THREE.Mesh(new THREE.SphereGeometry(.25, 8, 8), new THREE.MeshBasicMaterial({ color: 0xff3b3b })); red.position.y = s.h + 6.9; red.userData.blink = true; g.add(red);
+      const lamp = new THREE.PointLight(0x7fb4ff, 1.4, 20, 2); lamp.position.set(0, 3, fz + 3); g.add(lamp);
+    }
+    // toits
+    if (s.roof === 'flat') { const r = box(s.w + .6, .5, s.d + .6, M(0x1b2540)); r.position.y = s.h + .25; g.add(r); }
+    if (s.roof === 'saw') {
+      const tooth = 4, count = Math.floor(s.w / tooth);
+      for (let k = 0; k < count; k++) {
+        const sh = new THREE.Shape(); sh.moveTo(0, 0); sh.lineTo(tooth, 0); sh.lineTo(tooth, 2.6); sh.lineTo(0, 0);
+        const geo = new THREE.ExtrudeGeometry(sh, { depth: s.d, bevelEnabled: false });
+        const m = new THREE.Mesh(geo, M(0x1f2b48)); m.position.set(-s.w / 2 + k * tooth, s.h, -s.d / 2); g.add(m);
+        const glass = box(.08, 2.4, s.d - .4, coolWinM); glass.position.set(-s.w / 2 + (k + 1) * tooth - .05, s.h + 1.25, 0); g.add(glass);
+      }
+    }
+    if (s.roof === 'gable') {
+      const sh = new THREE.Shape(); sh.moveTo(-s.d / 2 - .3, 0); sh.lineTo(s.d / 2 + .3, 0); sh.lineTo(0, 3); sh.lineTo(-s.d / 2 - .3, 0);
+      const geo = new THREE.ExtrudeGeometry(sh, { depth: s.w + .6, bevelEnabled: false });
+      const m = new THREE.Mesh(geo, M(0x7a3b2e)); m.rotation.y = Math.PI / 2; m.position.set(-s.w / 2 - .3, s.h, 0); g.add(m);
+    }
+    if (s.chimneys) {
+      [[s.w * .3, 6], [s.w * .42, 8]].forEach(([x, hh], k) => {
+        const c = new THREE.Mesh(new THREE.CylinderGeometry(.7, .9, hh, 12), M(0x5a4a44)); c.position.set(x, s.h + hh / 2, -s.d * .2); g.add(c);
+        const ring = new THREE.Mesh(new THREE.CylinderGeometry(.75, .75, .4, 12), M(0xf4b51f)); ring.position.set(x, s.h + hh - 1, -s.d * .2); g.add(ring);
+        for (let j = 0; j < 7; j++) {
+          const puff = new THREE.Mesh(new THREE.SphereGeometry(1, 8, 6), new THREE.MeshStandardMaterial({ color: 0x8e99b3, transparent: true, opacity: .5, roughness: 1 }));
+          puff.userData = { base: new THREE.Vector3(x, s.h + hh, -s.d * .2), phase: j / 7 + k * .5 };
+          g.add(puff); smoke.push(puff);
+        }
+      });
+    }
+    if (s.truck) {
+      const tr = new THREE.Group();
+      const trailer = box(9, 3.4, 2.6, M(0xd9dee8)); trailer.position.set(0, 2.3, 0); tr.add(trailer);
+      const stripe = box(9.02, .4, 2.62, M(0xf4b51f)); stripe.position.set(0, 1.2, 0); tr.add(stripe);
+      const cabT = box(2.6, 2.8, 2.5, M(0x2f6fd6)); cabT.position.set(5.9, 1.9, 0); tr.add(cabT);
+      const ws = box(.05, 1.1, 2.1, coolWinM); ws.position.set(7.21, 2.5, 0); tr.add(ws);
+      [-3, -1.8, 5.6].forEach(x => [-1.2, 1.2].forEach(z => { const wh = new THREE.Mesh(new THREE.CylinderGeometry(.55, .55, .4, 14), M(0x111522)); wh.rotation.x = Math.PI / 2; wh.position.set(x, .55, z); tr.add(wh); }));
+      tr.position.set(s.w * .2, 0, fz + 3.4); tr.rotation.y = 0; g.add(tr);
+    }
+    // enseigne
+    const signW = Math.min(s.w - 1, 11);
+    const sign = new THREE.Mesh(new THREE.PlaneGeometry(signW, signW / 4), new THREE.MeshBasicMaterial({ map: labelTexture(names[i].toUpperCase()) }));
+    sign.position.set(0, s.roof === 'tower' ? 1.6 : s.h - 1.1, fz + .05);
+    if (s.roof === 'tower') { sign.scale.set(.9, .9, 1); }
+    g.add(sign);
+    // palettes
+    for (let k = 0; k < 3; k++) {
+      const pal = box(1.3, .25, 1.1, M(0x8a6a3e)); pal.position.set(s.w / 2 - 1 - k * 1.6, .13, fz + 1.4); g.add(pal);
+      if (k !== 1) { const cr = box(1.1, .9, .95, M(0xb08850)); cr.position.set(s.w / 2 - 1 - k * 1.6, .7, fz + 1.4); g.add(cr); }
+    }
+    scene.add(g);
+    buildings.push({ group: g, pos, dir, h: s.roof === 'tower' ? s.h + 3 : s.h });
+  });
+
+  // ---------- chariot élévateur ----------
+  const fork = new THREE.Group();
+  const yel = M(0xf4b51f, { roughness: .5 }), dark = M(0x1d2640), grey = M(0x9aa6bf, { metalness: .6, roughness: .4 });
+  const add = (m, x, y, z) => { m.position.set(x, y, z); fork.add(m); return m; };
+  add(box(2.6, .95, 1.5, yel), 0, .78, 0);
+  add(box(.7, 1.1, 1.52, M(0xd99a12)), -1.35, .9, 0);
+  add(box(1.2, .2, 1.1, dark), -.3, 1.35, 0);
+  [[-.75, .65], [-.75, -.65], [.65, .65], [.65, -.65]].forEach(([x, z]) => add(box(.08, 1.5, .08, dark), x, 2, z));
+  add(box(1.6, .08, 1.5, dark), -.05, 2.78, 0);
+  const beacon = add(new THREE.Mesh(new THREE.CylinderGeometry(.12, .12, .18, 10), new THREE.MeshBasicMaterial({ color: 0xff8a1f })), -.1, 2.91, 0);
+  add(box(.42, .58, .5, M(0x2f6fd6)), -.25, 1.72, 0);
+  add(box(.44, .1, .52, yel), -.25, 1.76, 0);
+  add(new THREE.Mesh(new THREE.SphereGeometry(.21, 14, 12), M(0x6b4a33)), -.22, 2.2, 0);
+  add(new THREE.Mesh(new THREE.SphereGeometry(.24, 14, 8, 0, Math.PI * 2, 0, Math.PI / 2), yel), -.22, 2.24, 0);
+  add(box(.1, 2.7, .1, grey), 1.38, 1.5, .42);
+  add(box(.1, 2.7, .1, grey), 1.38, 1.5, -.42);
+  const carriage = new THREE.Group(); carriage.position.set(1.48, .2, 0); fork.add(carriage);
+  const cm = (m, x, y, z) => { m.position.set(x, y, z); carriage.add(m); };
+  cm(box(.08, .7, 1.05, grey), 0, .35, 0);
+  cm(box(1.25, .06, .16, grey), .62, .03, .3);
+  cm(box(1.25, .06, .16, grey), .62, .03, -.3);
+  const crateFace = new THREE.MeshStandardMaterial({ map: labelTexture('DD', 256, 256, '#b08850', '#1a1405', 140), roughness: .9 });
+  const crateM = M(0xb08850);
+  cm(new THREE.Mesh(new THREE.BoxGeometry(1, .85, .95), [crateM, crateM, crateM, crateM, crateFace, crateFace]), .68, .5, 0);
+  const wheels = [];
+  [[-.85, .78], [-.85, -.78], [.85, .78], [.85, -.78]].forEach(([x, z]) => {
+    const w = new THREE.Mesh(new THREE.CylinderGeometry(.42, .42, .32, 16), M(0x111522)); w.rotation.x = Math.PI / 2;
+    const hub = new THREE.Mesh(new THREE.CylinderGeometry(.18, .18, .34, 8), grey); hub.rotation.x = Math.PI / 2;
+    const wg = new THREE.Group(); wg.add(w, hub); wg.position.set(x, .42, z); fork.add(wg); wheels.push(wg);
+  });
+  const shadow = new THREE.Mesh(new THREE.CircleGeometry(2, 24), new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: .35 }));
+  shadow.rotation.x = -Math.PI / 2; shadow.position.y = .03; fork.add(shadow);
+  const head = new THREE.SpotLight(0xfff1c8, 2.2, 22, .5, .6, 1.5); head.position.set(1.4, 1.6, 0); fork.add(head);
+  const headTarget = new THREE.Object3D(); headTarget.position.set(8, 0, 0); fork.add(headTarget); head.target = headTarget;
+  scene.add(fork);
+
+  // ---------- boucle ----------
+  let u = routeU(progress()), uTarget = u, lastShown = -2, liftY = .2;
+  const camPos = new THREE.Vector3(), camLook = new THREE.Vector3(), tmp = new THREE.Vector3(), look = new THREE.Vector3();
+  let first = true;
+
+  function resize() {
+    const w = innerWidth, h = innerHeight;
+    renderer.setSize(w, h, false); camera.aspect = w / h;
+    // décale le cadrage pour laisser la place à la fiche
+    if (w > 760) camera.setViewOffset(w, h, 200, 0, w, h);
+    else camera.setViewOffset(w, h, 0, h * .2, w, h);
+    camera.updateProjectionMatrix();
+  }
+  addEventListener('resize', resize); resize();
+  addEventListener('scroll', () => { uTarget = routeU(progress()); }, { passive: true });
+
+  const clock = new THREE.Clock();
+  function frame() {
+    requestAnimationFrame(frame);
+    if (classic) return;
+    const dt = Math.min(.05, clock.getDelta()), time = clock.elapsedTime;
+    const prev = u;
+    u += (uTarget - u) * (reduce ? 1 : 1 - Math.pow(.02, dt));
+    if (Math.abs(uTarget - u) < 1e-4) u = uTarget;
+    const t = uToT(u), p = curve.getPoint(t), tg = curve.getTangent(t);
+    fork.position.set(p.x, 0, p.z);
+    fork.rotation.y = Math.atan2(-tg.z, tg.x);
+    const dist = (u - prev) * 30;
+    wheels.forEach(w => w.rotation.z -= dist / .42);
+    const moving = Math.abs(u - prev) > 2e-4;
+    liftY += ((moving ? .2 : 1.05) - liftY) * Math.min(1, dt * 4);
+    carriage.position.y = liftY;
+    fork.rotation.z = reduce ? 0 : Math.max(-.06, Math.min(.06, -(u - prev) * 6));
+    beacon.material.color.setHex(Math.floor(time * 2.4) % 2 ? 0xff8a1f : 0x5a2a05);
+
+    // fiche active
+    const near = Math.round(u), atStop = Math.abs(u - near) < .12;
+    const shown = atStop ? near : -1;
+    if (shown !== lastShown) { lastShown = shown; if (shown >= 0) showCard(shown); else { cards.forEach(c => c.hidden = true); setTransit(Math.min(N - 1, uTarget > u ? Math.ceil(u) : Math.floor(u))); showCard(-1); } }
+
+    // caméra : côté opposé au bâtiment à l'arrêt, poursuite en transit
+    const i0 = Math.min(N - 2, Math.floor(u)), f = u - i0;
+    const bA = buildings[i0], bB = buildings[i0 + 1];
+    const w0 = Math.max(0, 1 - f * 3), w1 = Math.max(0, (f - 2 / 3) * 3);
+    const n = sideOf(t);
+    const sideA = bA.dir.dot(n) > 0 ? 1 : -1, sideB = bB.dir.dot(n) > 0 ? 1 : -1;
+    const sideMix = -(sideA * w0 + sideB * w1);
+    const behind = 6 + 9 * (1 - (w0 + w1));
+    camPos.copy(p).addScaledVector(n, sideMix * 15).addScaledVector(tg, -behind); camPos.y = 7.5 + 2.5 * (1 - (w0 + w1));
+    look.copy(p).addScaledVector(tg, 4); look.y = 1.5;
+    if (w0 > 0) { tmp.copy(bA.pos); tmp.y = bA.h * .45; look.lerp(tmp, .5 * w0); }
+    if (w1 > 0) { tmp.copy(bB.pos); tmp.y = bB.h * .45; look.lerp(tmp, .5 * w1); }
+    const k = first || reduce ? 1 : 1 - Math.pow(.05, dt);
+    camera.position.lerp(camPos, k); camLook.lerp(look, k); first = false;
+    camera.lookAt(camLook);
+
+    smoke.forEach(s => {
+      const ph = (time * .18 + s.userData.phase) % 1;
+      s.position.copy(s.userData.base); s.position.y += ph * 9; s.position.x += ph * 3;
+      s.scale.setScalar(.6 + ph * 2.2); s.material.opacity = .45 * (1 - ph);
+    });
+    scene.traverse(o => { if (o.userData.blink) o.visible = Math.floor(time * 1.5) % 2 === 0; });
+    renderer.render(scene, camera);
+  }
+  showCard(0);
+  frame();
+})();
+</script>
