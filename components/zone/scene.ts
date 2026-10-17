@@ -243,7 +243,9 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
     const t = uToT(i);
     const side = i % 2 ? 1 : -1;
     const dir = sideOf(t).multiplyScalar(side);
-    const pos = p.clone().addScaledVector(dir, 8 + s.d / 2);
+    // Recul supplémentaire quand un camion est garé devant : il doit rester hors de la route
+    const setback = s.truck ? 5 : 0;
+    const pos = p.clone().addScaledVector(dir, 8 + s.d / 2 + setback);
     const g = new THREE.Group();
     g.position.copy(pos);
     g.rotation.y = Math.atan2(-dir.x, -dir.z); // la façade (+z local) regarde la route
@@ -397,7 +399,9 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
           tr.add(wh);
         })
       );
-      tr.position.set(s.w * 0.2, 0, fz + 3.4);
+      // Centré sur la façade (remorque + cabine = 11,7 de long) : la cabine ne dépasse pas
+      // le coin du bâtiment, là où la route tourne
+      tr.position.set(-1.35, 0, fz + 3.4);
       g.add(tr);
     }
 
