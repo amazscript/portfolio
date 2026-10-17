@@ -137,6 +137,9 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
   };
   const dummy = new THREE.Object3D();
 
+  const ROAD_HALF_WIDTH = 3.4;
+  const roadSamples = Array.from({ length: 40 * N + 1 }, (_, i) => curve.getPoint(i / (40 * N)));
+
   (function road() {
     const S = 60 * N;
     const pos: number[] = [];
@@ -145,8 +148,8 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
       const t = i / S;
       const p = curve.getPoint(t);
       const n = sideOf(t);
-      const a = p.clone().addScaledVector(n, 3.4);
-      const b = p.clone().addScaledVector(n, -3.4);
+      const a = p.clone().addScaledVector(n, ROAD_HALF_WIDTH);
+      const b = p.clone().addScaledVector(n, -ROAD_HALF_WIDTH);
       pos.push(a.x, 0.02, a.z, b.x, 0.02, b.z);
       if (i < S) {
         const k = i * 2;
@@ -243,9 +246,26 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
     const t = uToT(i);
     const side = i % 2 ? 1 : -1;
     const dir = sideOf(t).multiplyScalar(side);
-    // Recul supplémentaire quand un camion est garé devant : il doit rester hors de la route
-    const setback = s.truck ? 5 : 0;
-    const pos = p.clone().addScaledVector(dir, 8 + s.d / 2 + setback);
+    const pos = p.clone().addScaledVector(dir, 8 + s.d / 2);
+    // Recul jusqu'à ce que l'emprise (camion compris) dégage la route sur tout son tracé :
+    // dans un virage, les coins d'un bâtiment large mordraient sinon sur la chaussée.
+    const front = s.d / 2 + (s.truck ? 4.7 : 0);
+    const footprintToRoad = () => {
+      let min = Infinity;
+      for (const q of roadSamples) {
+        const vx = q.x - pos.x;
+        const vz = q.z - pos.z;
+        const along = Math.abs(vx * -dir.z + vz * dir.x); // axe de la façade
+        const across = -(vx * dir.x + vz * dir.z); // vers la route
+        const dx = Math.max(along - s.w / 2, 0);
+        const dz = Math.max(-s.d / 2 - across, across - front, 0);
+        min = Math.min(min, Math.hypot(dx, dz));
+      }
+      return min;
+    };
+    for (let guard = 0; guard < 40 && footprintToRoad() < ROAD_HALF_WIDTH + 1.5; guard++) {
+      pos.addScaledVector(dir, 0.5);
+    }
     const g = new THREE.Group();
     g.position.copy(pos);
     g.rotation.y = Math.atan2(-dir.x, -dir.z); // la façade (+z local) regarde la route
