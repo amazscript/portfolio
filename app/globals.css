@@ -6,54 +6,54 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: var(--font-geist, "Geist"), ui-sans-serif, system-ui, -apple-system,
+  --font-sans: var(--font-plex-sans, "IBM Plex Sans"), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-display: var(--font-geist, "Geist"), var(--font-sans);
-  --font-mono: var(--font-jetbrains, "JetBrains Mono"), ui-monospace, "SF Mono", Menlo, monospace;
+  --font-display: var(--font-big-shoulders, "Big Shoulders Display"), "Arial Narrow", var(--font-sans);
+  --font-mono: var(--font-plex-mono, "IBM Plex Mono"), ui-monospace, "SF Mono", Menlo, monospace;
 
-  /* Formes — base 0.5rem, cartes plus généreuses (cf. design system Stitch) */
-  --radius-card: 1.5rem;
+  /* Formes — angles nets, façon tôle et signalétique (6 px) */
+  --radius-card: 0.375rem;
 
   /* Largeur de contenu et rythme vertical */
   --container-max: 1200px;
 }
 
 /* ---------------------------------------------------------------------------
-   Tokens de couleur — « Architect Dark ».
-   Slate profond en fond, bleu périwinkle pour l'interactif, émeraude réservée
-   aux états positifs (disponibilité, succès). La profondeur vient de la
-   superposition de surfaces et du flou, pas d'ombres lourdes.
+   Tokens de couleur — « Zone industrielle de nuit ».
+   Bleu nuit acier en fond, jaune sécurité réservé à l'action et aux repères
+   (boutons, numéros, accents), vert uniquement pour la disponibilité.
 --------------------------------------------------------------------------- */
 
-/* Mode clair — variante dérivée, cohérente avec la palette sombre */
+/* Mode clair « béton de jour ». Le jaune est illisible en texte sur fond clair
+   (1,6:1) : l'accent y devient un ocre foncé qui passe le contraste AA. */
 :root {
   color-scheme: light;
-  --bg: #f6f8fc;
-  --bg-subtle: #eef2f9;
+  --bg: #f3f1ea;
+  --bg-subtle: #e9e6dc;
   --surface: #ffffff;
-  --surface-2: #eef2f9;
-  --surface-3: #e2e8f3;
-  --border: rgba(11, 19, 38, 0.1);
-  --border-strong: rgba(11, 19, 38, 0.18);
+  --surface-2: #ece9df;
+  --surface-3: #e0dccf;
+  --border: rgba(26, 20, 5, 0.12);
+  --border-strong: rgba(26, 20, 5, 0.22);
   --fg: #0b1326;
-  --fg-soft: #1e293b;
-  --muted: #52607a;
+  --fg-soft: #1f2c4a;
+  --muted: #4f5a70;
 
-  --accent: #1d4ed8;
+  --accent: #8a5a00;
   --accent-fg: #ffffff;
-  --accent-strong: #1e40af;
-  --accent-soft: color-mix(in srgb, var(--accent) 10%, transparent);
+  --accent-strong: #6b4500;
+  --accent-soft: color-mix(in srgb, #f4b51f 22%, transparent);
+  --safety: #f4b51f;
+  --safety-ink: #1a1405;
 
-  --success: #047857;
+  --success: #1d7a46;
   --success-fg: #ffffff;
 
-  /* Verre dépoli : opaque à 70 % pour rester lisible sur fond clair */
-  --glass-bg: rgba(255, 255, 255, 0.72);
-  --glass-border: rgba(11, 19, 38, 0.08);
+  --glass-bg: rgba(243, 241, 234, 0.82);
+  --glass-border: rgba(26, 20, 5, 0.1);
 
-  /* Ombres ambiantes : très diffuses, faible opacité, teintées de l'accent */
-  --shadow-card: 0 1px 2px rgba(11, 19, 38, 0.04);
-  --shadow-card-hover: 0 20px 40px -12px rgba(29, 78, 216, 0.18);
+  --shadow-card: 0 1px 2px rgba(26, 20, 5, 0.06);
+  --shadow-card-hover: 0 18px 36px -14px rgba(26, 20, 5, 0.28);
   --glow: none;
   --brand-gradient: linear-gradient(0deg, var(--accent), var(--accent));
 }
@@ -61,29 +61,31 @@
 :root.dark {
   color-scheme: dark;
   --bg: #0b1326;
-  --bg-subtle: #060e20;
-  --surface: #131b2e;
-  --surface-2: #1e293b;
-  --surface-3: #222a3d;
-  --border: rgba(255, 255, 255, 0.1);
-  --border-strong: rgba(255, 255, 255, 0.18);
-  --fg: #f8fafc;
-  --fg-soft: #dae2fd;
-  --muted: #94a3b8;
+  --bg-subtle: #081022;
+  --surface: #16213a;
+  --surface-2: #1f2c4a;
+  --surface-3: #26365a;
+  --border: #2c3b5e;
+  --border-strong: #3b4d78;
+  --fg: #e7ecf5;
+  --fg-soft: #c9d2e6;
+  --muted: #93a0bb;
 
-  --accent: #adc6ff;
-  --accent-fg: #002e6a;
-  --accent-strong: #4d8eff;
-  --accent-soft: color-mix(in srgb, var(--accent) 14%, transparent);
+  --accent: #f4b51f;
+  --accent-fg: #1a1405;
+  --accent-strong: #ffc94d;
+  --accent-soft: color-mix(in srgb, #f4b51f 13%, transparent);
+  --safety: #f4b51f;
+  --safety-ink: #1a1405;
 
-  --success: #4edea3;
-  --success-fg: #003824;
+  --success: #3ccf7a;
+  --success-fg: #04210f;
 
-  --glass-bg: rgba(30, 41, 59, 0.55);
-  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(11, 19, 38, 0.82);
+  --glass-border: #2c3b5e;
 
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-card-hover: 0 20px 40px rgba(0, 0, 0, 0.4);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-card-hover: 0 22px 44px -16px rgba(0, 0, 0, 0.6);
   --glow: none;
   --brand-gradient: linear-gradient(0deg, var(--accent), var(--accent));
 }
@@ -101,10 +103,17 @@ body {
   overflow-x: hidden;
 }
 
-/* Titres en Geist, chasse resserrée — la précision typographique porte l'identité */
-h1, h2, h3, .font-display {
+/* Titres en Big Shoulders : capitales condensées, interlignage serré, façon signalétique */
+h1, h2, .font-display {
   font-family: var(--font-display);
-  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  line-height: 0.95;
+}
+/* Les h3 (titres de cartes, questions de FAQ) restent en texte courant pour la lisibilité */
+h3 {
+  font-family: var(--font-sans);
+  letter-spacing: 0;
 }
 
 ::selection {
@@ -156,11 +165,16 @@ h1, h2, h3, .font-display {
   box-shadow: var(--shadow-card-hover);
 }
 
-/* Halo radial du hero : bleu en haut à droite, émeraude en bas à gauche */
+/* Éclairage du hero : halo de lampadaire jaune en haut à droite, nuit ailleurs */
 .hero-gradient {
   background:
-    radial-gradient(circle at top right, color-mix(in srgb, var(--accent-strong) 16%, transparent), transparent 42%),
-    radial-gradient(circle at bottom left, color-mix(in srgb, var(--success) 7%, transparent), transparent 42%);
+    radial-gradient(circle at 85% 0%, color-mix(in srgb, var(--safety) 12%, transparent), transparent 45%),
+    linear-gradient(180deg, var(--bg-subtle), var(--bg) 70%);
+}
+
+/* Bande de hachures de sécurité jaune et noire, à 45° */
+.hazard-stripe {
+  background: repeating-linear-gradient(-45deg, var(--safety) 0 9px, #111 9px 18px);
 }
 
 /* Métadonnée technique en monospace — « construit par un dev » */

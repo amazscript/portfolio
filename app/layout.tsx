@@ -1,20 +1,37 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, JetBrains_Mono } from "next/font/google";
+import { Big_Shoulders, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/site";
 
-/** Geist porte titres et corps de texte : neutre, technique, très lisible. */
-const geist = Geist({
+/** Big Shoulders (ex-« Big Shoulders Display ») : titres et chiffres, en capitales, façon signalétique d'entrepôt. */
+const bigShoulders = Big_Shoulders({
   subsets: ["latin"],
+  weight: ["700", "900"],
   display: "swap",
-  variable: "--font-geist",
+  variable: "--font-big-shoulders",
+  // Next.js n'a pas les métriques de cette police pour caler une police de secours :
+  // on en désigne une condensée, pour limiter le décalage au moment où elle se charge.
+  adjustFontFallback: false,
+  fallback: ["Arial Narrow", "Roboto Condensed", "sans-serif-condensed", "sans-serif"],
 });
 
-/** JetBrains Mono est réservée aux métadonnées techniques (tags, chiffres, overlines). */
-const jetbrains = JetBrains_Mono({
+/** IBM Plex Sans : texte courant, sobre et très lisible. */
+const plexSans = IBM_Plex_Sans({
   subsets: ["latin"],
+  weight: ["400", "600"],
   display: "swap",
-  variable: "--font-jetbrains",
+  variable: "--font-plex-sans",
+});
+
+/** IBM Plex Mono : étiquettes, dates, numéros et stack technique. */
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["500"],
+  display: "swap",
+  variable: "--font-plex-mono",
+  // Petites étiquettes seulement : pas de préchargement, pour laisser la bande passante
+  // aux polices du titre et du texte (élément LCP).
+  preload: false,
 });
 import { MotionProvider } from "@/components/MotionProvider";
 import { Header } from "@/components/Header";
@@ -81,7 +98,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="fr"
-      className={`dark ${geist.variable} ${jetbrains.variable}`}
+      className={`dark ${bigShoulders.variable} ${plexSans.variable} ${plexMono.variable}`}
       suppressHydrationWarning
     >
       <head>

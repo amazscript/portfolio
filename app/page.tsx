@@ -152,7 +152,8 @@ export default function HomePage() {
       <section className="pb-24">
         <Container>
           <Reveal>
-            <div className="glass-card rounded-[var(--radius-card)] px-6 py-16 text-center sm:px-16 sm:py-20">
+            <div className="glass-card relative overflow-hidden rounded-[var(--radius-card)] px-6 py-16 text-center sm:px-16 sm:py-20">
+              <div aria-hidden="true" className="hazard-stripe absolute inset-x-0 top-0 h-1.5" />
               <h2 className="mx-auto max-w-2xl font-display text-3xl font-bold leading-[1.15] tracking-[-0.02em] sm:text-5xl">
                 Prêt à lancer votre prochain projet&nbsp;?
               </h2>

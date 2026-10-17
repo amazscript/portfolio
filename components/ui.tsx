@@ -94,9 +94,15 @@ export function StatusPill({ children }: { children: ReactNode }) {
 /** Surtitre de section — 12px, gras, capitales très espacées (style `label-caps`). */
 export function Eyebrow({ children, num }: { children: ReactNode; num?: string }) {
   return (
-    <span className="inline-flex items-center gap-3 font-mono text-xs font-bold uppercase tracking-[0.1em] text-[var(--accent)]">
-      {num && <span aria-hidden="true">{num}</span>}
-      <span className="h-px w-8 bg-[var(--accent)] opacity-50" aria-hidden="true" />
+    <span className="inline-flex items-center gap-3 font-mono text-xs font-bold uppercase tracking-[0.12em] text-[var(--accent)]">
+      {num ? (
+        // Plaque d'enseigne : numéro sur fond jaune sécurité, comme sur les bâtiments de la visite
+        <span aria-hidden="true" className="rounded-[2px] bg-[var(--safety)] px-1.5 py-0.5 text-[var(--safety-ink)]">
+          {num}
+        </span>
+      ) : (
+        <span className="h-px w-8 bg-[var(--accent)] opacity-50" aria-hidden="true" />
+      )}
       {children}
     </span>
   );
@@ -122,8 +128,9 @@ export function CtaBanner({
 }) {
   return (
     <div
-      className={`glass-card flex flex-col items-start gap-8 rounded-[var(--radius-card)] p-10 sm:flex-row sm:items-center sm:justify-between sm:p-14 ${className}`}
+      className={`glass-card relative flex flex-col items-start gap-8 overflow-hidden rounded-[var(--radius-card)] p-10 sm:flex-row sm:items-center sm:justify-between sm:p-14 ${className}`}
     >
+      <div aria-hidden="true" className="hazard-stripe absolute inset-x-0 top-0 h-1.5" />
       <div>
         <h2 className="font-display text-2xl font-bold tracking-[-0.02em] sm:text-3xl">{title}</h2>
         <p className="mt-3 max-w-md text-[var(--muted)]">{intro}</p>

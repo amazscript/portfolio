@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Eyebrow } from "@/components/ui";
 
 /**
  * En-tête de page interne — même langage que le hero de l'accueil :
@@ -30,10 +31,8 @@ export function PageHeader({
   return (
     <section className="hero-gradient border-b border-[var(--border)]">
       <div className="mx-auto w-full max-w-[var(--container-max)] px-5 py-16 sm:px-6 sm:py-24">
-        <p className="hero-enter flex items-center gap-3 font-mono text-xs font-bold uppercase tracking-[0.1em] text-[var(--accent)]">
-          {num && <span aria-hidden="true">{num}</span>}
-          <span aria-hidden="true" className="h-px w-8 bg-[var(--accent)] opacity-50" />
-          {eyebrow}
+        <p className="hero-enter">
+          <Eyebrow num={num}>{eyebrow}</Eyebrow>
         </p>
 
         <div className="mt-6 grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-12">
