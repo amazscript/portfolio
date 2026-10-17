@@ -209,7 +209,7 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
     if (s.roof !== "tower") {
       // Porte sectionnelle à lames, lampe chaude au-dessus, hublots éclairés
       const dw = Math.min(6, s.w * 0.4);
-      const dh = Math.min(4.6, s.h * 0.65);
+      const dh = Math.min(4.6, s.h * 0.5);
       const door = box(dw, dh, 0.1, M(0x8b96ad, { metalness: 0.4 }));
       door.position.set(-s.w * 0.18, dh / 2, fz);
       g.add(door);
@@ -228,8 +228,8 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
         // Panneau lumineux du blog : écran froid qui « défile » doucement
         const mat = new THREE.MeshBasicMaterial({ color: 0x7fb4ff });
         screens.push(mat);
-        const screen = box(s.w * 0.36, s.h * 0.42, 0.1, mat);
-        screen.position.set(s.w * 0.2, s.h * 0.5, fz);
+        const screen = box(s.w * 0.36, s.h * 0.34, 0.1, mat);
+        screen.position.set(s.w * 0.2, s.h * 0.32, fz);
         g.add(screen);
       } else {
         for (let k = 0; k < 3; k++) {
@@ -352,14 +352,23 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
       g.add(tr);
     }
 
-    // Enseigne jaune : « 01 · À PROPOS »
-    const signW = Math.min(s.w - 1, 11);
+    // Enseigne jaune : « 01 · À PROPOS ». Placée entre la lampe de porte et le toit, et
+    // légèrement en avant de la façade : sans chevauchement ni scintillement (z-fighting).
+    let signW = Math.min(s.w - 1, 11);
+    let signY = s.h - 1.1;
+    if (s.roof !== "tower") {
+      const bottom = Math.min(4.6, s.h * 0.5) + 0.95; // haut de la lampe de porte + marge
+      const top = s.h - 0.15;
+      const signH = Math.min(signW / 4, top - bottom);
+      signW = signH * 4;
+      signY = top - signH / 2;
+    }
     const label = `${String(i + 1).padStart(2, "0")} · ${specs[i].name}`.toUpperCase();
     const sign = new THREE.Mesh(
       new THREE.PlaneGeometry(signW, signW / 4),
       new THREE.MeshBasicMaterial({ map: labelTexture(label) })
     );
-    sign.position.set(0, s.roof === "tower" ? 1.6 : s.h - 1.1, fz + 0.05);
+    sign.position.set(0, s.roof === "tower" ? 1.6 : signY, fz + 0.12);
     if (s.roof === "tower") sign.scale.set(0.9, 0.9, 1);
     g.add(sign);
 
@@ -511,7 +520,8 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
 
     // Fiche active : arrêt si le chariot est assez près d'un bâtiment
     const near = Math.round(u);
-    const shown = Math.abs(u - near) < 0.12 ? near : -1;
+    const gap = Math.abs(u - near);
+    const shown = lastShown === near ? (gap < 0.16 ? near : -1) : gap < 0.1 ? near : -1;
     if (shown !== lastShown) {
       lastShown = shown;
       onStop(shown, Math.min(N - 1, uTarget > u ? Math.ceil(u) : Math.floor(u)));

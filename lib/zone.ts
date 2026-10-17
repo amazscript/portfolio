@@ -144,7 +144,7 @@ export function getZoneBuildings(): ZoneBuilding[] {
       name: "Blog",
       sign: "Blog",
       title: "Blog",
-      shape: { w: 14, d: 9, h: 5.5, roof: "flat", screen: true },
+      shape: { w: 14, d: 9, h: 6.5, roof: "flat", screen: true },
       card: {
         kind: "blog",
         items: posts.map((p) => ({ title: p.title, date: p.dateLabel, href: `/blog/${p.slug}` })),
