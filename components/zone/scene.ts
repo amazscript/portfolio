@@ -404,12 +404,15 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
 
   // ---------- chariot élévateur (le cariste, c'est Denis) ----------
   const fork = new THREE.Group();
+  // Châssis suspendu : tout sauf les roues et l'ombre, pour le tangage et les vibrations
+  const chassis = new THREE.Group();
+  fork.add(chassis);
   const yel = M(0xf4b51f, { roughness: 0.5 });
   const dark = M(0x1d2640);
   const grey = M(0x9aa6bf, { metalness: 0.6, roughness: 0.4 });
   const add = <T extends THREE.Object3D>(m: T, x: number, y: number, z: number) => {
     m.position.set(x, y, z);
-    fork.add(m);
+    chassis.add(m);
     return m;
   };
   add(box(2.6, 0.95, 1.5, yel), 0, 0.78, 0);
@@ -432,9 +435,18 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
   add(new THREE.Mesh(new THREE.SphereGeometry(0.24, 14, 8, 0, Math.PI * 2, 0, Math.PI / 2), yel), -0.22, 2.24, 0);
   add(box(0.1, 2.7, 0.1, grey), 1.38, 1.5, 0.42);
   add(box(0.1, 2.7, 0.1, grey), 1.38, 1.5, -0.42);
+  // Mât télescopique : le montant intérieur sort quand la caisse monte
+  const innerMast = new THREE.Group();
+  innerMast.add(box(0.07, 2.3, 0.07, grey).translateZ(0.3), box(0.07, 2.3, 0.07, grey).translateZ(-0.3));
+  innerMast.position.set(1.43, 1.35, 0);
+  chassis.add(innerMast);
+  // Feux stop : s'allument au freinage
+  const brakeMat = new THREE.MeshBasicMaterial({ color: 0x4a0d0d, toneMapped: false });
+  add(box(0.06, 0.16, 0.24, brakeMat), -1.71, 0.95, 0.5);
+  add(box(0.06, 0.16, 0.24, brakeMat), -1.71, 0.95, -0.5);
   const carriage = new THREE.Group();
   carriage.position.set(1.48, 0.2, 0);
-  fork.add(carriage);
+  chassis.add(carriage);
   const cm = (m: THREE.Object3D, x: number, y: number, z: number) => {
     m.position.set(x, y, z);
     carriage.add(m);
@@ -446,6 +458,7 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
   const crateM = M(0xb08850);
   cm(new THREE.Mesh(new THREE.BoxGeometry(1, 0.85, 0.95), [crateM, crateM, crateM, crateM, crateFace, crateFace]), 0.68, 0.5, 0);
   const wheels: THREE.Group[] = [];
+  const steerers: THREE.Group[] = [];
   const tyreGeo = new THREE.CylinderGeometry(0.42, 0.42, 0.32, 16);
   const hubGeo = new THREE.CylinderGeometry(0.18, 0.18, 0.34, 8);
   (
@@ -460,11 +473,16 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
     w.rotation.x = Math.PI / 2;
     const hub = new THREE.Mesh(hubGeo, grey);
     hub.rotation.x = Math.PI / 2;
-    const wg = new THREE.Group();
-    wg.add(w, hub);
-    wg.position.set(x, 0.42, z);
-    fork.add(wg);
-    wheels.push(wg);
+    // Roulement (rotation z) dans un pivot de direction (rotation y) : les roues arrière
+    // braquent, comme sur un vrai chariot élévateur
+    const roll = new THREE.Group();
+    roll.add(w, hub);
+    const pivot = new THREE.Group();
+    pivot.add(roll);
+    pivot.position.set(x, 0.42, z);
+    fork.add(pivot);
+    wheels.push(roll);
+    if (x < 0) steerers.push(pivot);
   });
   const shadow = new THREE.Mesh(
     new THREE.CircleGeometry(2, 24),
@@ -475,7 +493,7 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
   fork.add(shadow);
   const head = new THREE.SpotLight(0xfff1c8, 2.2 * Math.PI, 22, 0.5, 0.6, 1.5);
   head.position.set(1.4, 1.6, 0);
-  fork.add(head);
+  chassis.add(head);
   const headTarget = new THREE.Object3D();
   headTarget.position.set(8, 0, 0);
   fork.add(headTarget);
@@ -487,6 +505,18 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
   let uTarget = 0;
   let lastShown = -2;
   let liftY = 0.2;
+  let liftV = 0;
+  let pitch = 0;
+  let pitchV = 0;
+  let steer = 0;
+  let speed = 0;
+  let accel = 0;
+  let prevYaw = 0;
+  /** Ressort amorti (sous-amorti = petit rebond) : renvoie [position, vitesse]. */
+  const spring = (x: number, v: number, target: number, k: number, c: number, dt: number): [number, number] => {
+    const nv = v + ((target - x) * k - v * c) * dt;
+    return [x + nv * dt, nv];
+  };
   let paused = false;
   let first = true;
   let frameId = 0;
@@ -523,14 +553,42 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
     const p = curve.getPoint(t);
     const tg = curve.getTangent(t);
     fork.position.set(p.x, 0, p.z);
-    fork.rotation.y = Math.atan2(-tg.z, tg.x);
+    const yaw = Math.atan2(-tg.z, tg.x);
+    fork.rotation.y = yaw;
     const dist = (u - prev) * SPACING;
     wheels.forEach((w) => (w.rotation.z -= dist / 0.42));
-    // À l'arrêt, le chariot lève sa caisse ; en roulant, il la redescend
-    const moving = Math.abs(u - prev) > 2e-4;
-    liftY += ((moving ? 0.2 : 1.05) - liftY) * Math.min(1, dt * 4);
+
+    // Vitesse et accélération lissées (unités par seconde)
+    const newSpeed = dt > 0 ? dist / dt : 0;
+    accel += ((dt > 0 ? (newSpeed - speed) / dt : 0) - accel) * Math.min(1, dt * 8);
+    speed = newSpeed;
+    const moving = Math.abs(speed) > 0.08;
+
+    if (reduceMotion) {
+      liftY = moving ? 0.2 : 1.05;
+      pitch = 0;
+      steer = 0;
+    } else {
+      // Caisse : levée à l'arrêt, avec un léger rebond en haut
+      [liftY, liftV] = spring(liftY, liftV, moving ? 0.2 : 1.05, 38, 7, dt);
+      // Tangage : le nez plonge au freinage, se lève à l'accélération
+      const pitchTarget = Math.max(-0.07, Math.min(0.07, accel * 0.006));
+      [pitch, pitchV] = spring(pitch, pitchV, pitchTarget, 70, 9, dt);
+      // Direction : les roues arrière braquent dans les virages
+      let dYaw = yaw - prevYaw;
+      if (dYaw > Math.PI) dYaw -= 2 * Math.PI;
+      if (dYaw < -Math.PI) dYaw += 2 * Math.PI;
+      const steerTarget = dt > 0 ? Math.max(-0.5, Math.min(0.5, (-dYaw / dt) * 0.45)) : 0;
+      steer += (steerTarget - steer) * Math.min(1, dt * 6);
+    }
+    prevYaw = yaw;
     carriage.position.y = liftY;
-    fork.rotation.z = reduceMotion ? 0 : Math.max(-0.06, Math.min(0.06, -(u - prev) * 6));
+    innerMast.position.y = 1.35 + (liftY - 0.2) * 0.55; // le mât sort en deux temps
+    chassis.rotation.z = pitch;
+    // Vibration du moteur en roulant
+    chassis.position.y = reduceMotion ? 0 : 0.012 * Math.sin(time * 34) * Math.min(1, Math.abs(speed) / 4);
+    steerers.forEach((s) => (s.rotation.y = steer));
+    brakeMat.color.setHex(!reduceMotion && accel < -3 && moving ? 0xff2a2a : 0x4a0d0d);
     beaconMat.color.setHex(Math.floor(time * 2.4) % 2 ? 0xff8a1f : 0x5a2a05);
 
     // Fiche active : arrêt si le chariot est assez près d'un bâtiment
@@ -556,6 +614,12 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
     const behind = 6 + 9 * (1 - (w0 + w1));
     camPos.copy(p).addScaledVector(n, sideMix * 15).addScaledVector(tg, -behind);
     camPos.y = 7.5 + 2.5 * (1 - (w0 + w1));
+    // À l'arrêt, la caméra « respire » : lente dérive latérale, comme tenue à l'épaule
+    if (!reduceMotion) {
+      const still = Math.max(w0, w1);
+      camPos.addScaledVector(tg, Math.sin(time * 0.3) * 0.9 * still);
+      camPos.y += Math.sin(time * 0.23) * 0.25 * still;
+    }
     look.copy(p).addScaledVector(tg, 4);
     look.y = 1.5;
     if (w0 > 0) {
