@@ -138,6 +138,18 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
   const dummy = new THREE.Object3D();
 
   const ROAD_HALF_WIDTH = 3.4;
+  /** Emprise au sol d'un bâtiment, avec ce qui est posé devant sa façade. */
+  type Footprint = { pos: THREE.Vector3; dir: THREE.Vector3; halfW: number; back: number; front: number };
+  const footprints: Footprint[] = [];
+  const distanceToFootprint = (q: THREE.Vector3, f: Footprint) => {
+    const vx = q.x - f.pos.x;
+    const vz = q.z - f.pos.z;
+    const along = Math.abs(vx * -f.dir.z + vz * f.dir.x); // axe de la façade
+    const across = -(vx * f.dir.x + vz * f.dir.z); // vers la route
+    const dx = Math.max(along - f.halfW, 0);
+    const dz = Math.max(-f.back - across, across - f.front, 0);
+    return Math.hypot(dx, dz);
+  };
   const roadSamples = Array.from({ length: 40 * N + 1 }, (_, i) => curve.getPoint(i / (40 * N)));
 
   (function road() {
@@ -176,29 +188,6 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
     }
     scene.add(dashes);
 
-    // Lampadaires alternés : mâts et ampoules instanciés
-    const lampCount = 4 * N + 4;
-    const poles = new THREE.InstancedMesh(new THREE.BoxGeometry(0.15, 5, 0.15), M(0x2a3656), lampCount);
-    const heads = new THREE.InstancedMesh(new THREE.BoxGeometry(0.7, 0.16, 0.36), M(0x1f2a46), lampCount);
-    const diffuserGeo = new THREE.PlaneGeometry(0.56, 0.26);
-    diffuserGeo.rotateX(Math.PI / 2); // face vers le bas
-    const bulbs = new THREE.InstancedMesh(diffuserGeo, glow(0xd99a3e), lampCount);
-    for (let i = 0; i < lampCount; i++) {
-      const t = (i + 0.5) / lampCount;
-      const p = curve.getPoint(t);
-      const n = sideOf(t).multiplyScalar(i % 2 ? 4.6 : -4.6);
-      dummy.rotation.set(0, 0, 0);
-      dummy.position.set(p.x + n.x, 2.5, p.z + n.z);
-      dummy.updateMatrix();
-      poles.setMatrixAt(i, dummy.matrix);
-      dummy.position.set(p.x + n.x * 0.8, 5, p.z + n.z * 0.8);
-      dummy.updateMatrix();
-      heads.setMatrixAt(i, dummy.matrix);
-      dummy.position.y = 4.91;
-      dummy.updateMatrix();
-      bulbs.setMatrixAt(i, dummy.matrix);
-    }
-    scene.add(poles, heads, bulbs);
   })();
 
   // ---------- texte peint sur canvas (enseignes, caisse « DD ») ----------
@@ -249,23 +238,13 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
     const pos = p.clone().addScaledVector(dir, 8 + s.d / 2);
     // Recul jusqu'à ce que l'emprise (camion compris) dégage la route sur tout son tracé :
     // dans un virage, les coins d'un bâtiment large mordraient sinon sur la chaussée.
-    const front = s.d / 2 + (s.truck ? 4.7 : 0);
-    const footprintToRoad = () => {
-      let min = Infinity;
-      for (const q of roadSamples) {
-        const vx = q.x - pos.x;
-        const vz = q.z - pos.z;
-        const along = Math.abs(vx * -dir.z + vz * dir.x); // axe de la façade
-        const across = -(vx * dir.x + vz * dir.z); // vers la route
-        const dx = Math.max(along - s.w / 2, 0);
-        const dz = Math.max(-s.d / 2 - across, across - front, 0);
-        min = Math.min(min, Math.hypot(dx, dz));
-      }
-      return min;
-    };
+    // Devant la façade : caisses (jusqu'à 1,9) ou camion (4,7)
+    const footprint: Footprint = { pos, dir, halfW: s.w / 2, back: s.d / 2, front: s.d / 2 + (s.truck ? 4.7 : 1.9) };
+    const footprintToRoad = () => Math.min(...roadSamples.map((q) => distanceToFootprint(q, footprint)));
     for (let guard = 0; guard < 40 && footprintToRoad() < ROAD_HALF_WIDTH + 1.5; guard++) {
       pos.addScaledVector(dir, 0.5);
     }
+    footprints.push(footprint);
     const g = new THREE.Group();
     g.position.copy(pos);
     g.rotation.y = Math.atan2(-dir.x, -dir.z); // la façade (+z local) regarde la route
@@ -459,6 +438,37 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
     scene.add(g);
     placed.push({ pos, dir, h: s.roof === "tower" ? s.h + 3 : s.h });
   });
+
+  // ---------- lampadaires, posés après les bâtiments pour les éviter ----------
+  // Lampadaires alternés : mâts et ampoules instanciés
+  const lampCount = 4 * N + 4;
+  const poles = new THREE.InstancedMesh(new THREE.BoxGeometry(0.15, 5, 0.15), M(0x2a3656), lampCount);
+  const heads = new THREE.InstancedMesh(new THREE.BoxGeometry(0.7, 0.16, 0.36), M(0x1f2a46), lampCount);
+  const diffuserGeo = new THREE.PlaneGeometry(0.56, 0.26);
+  diffuserGeo.rotateX(Math.PI / 2); // face vers le bas
+  const bulbs = new THREE.InstancedMesh(diffuserGeo, glow(0xd99a3e), lampCount);
+  for (let i = 0; i < lampCount; i++) {
+    // Pas de lampadaire devant un bâtiment : il masquerait ses caisses, sa porte éclaire déjà
+    const offset = i % 2 ? 4.6 : -4.6;
+    const t = (i + 0.5) / lampCount;
+    const base = curve.getPoint(t).addScaledVector(sideOf(t), offset);
+    const clear = footprints.every((f) => distanceToFootprint(base, f) > 9);
+    const p = curve.getPoint(t);
+    const n = sideOf(t).multiplyScalar(offset);
+    dummy.rotation.set(0, 0, 0);
+    dummy.scale.setScalar(clear ? 1 : 0);
+    dummy.position.set(p.x + n.x, 2.5, p.z + n.z);
+    dummy.updateMatrix();
+    poles.setMatrixAt(i, dummy.matrix);
+    dummy.position.set(p.x + n.x * 0.8, 5, p.z + n.z * 0.8);
+    dummy.updateMatrix();
+    heads.setMatrixAt(i, dummy.matrix);
+    dummy.position.y = 4.91;
+    dummy.updateMatrix();
+    bulbs.setMatrixAt(i, dummy.matrix);
+  }
+  dummy.scale.setScalar(1);
+  scene.add(poles, heads, bulbs);
 
   // ---------- chariot élévateur (le cariste, c'est Denis) ----------
   const fork = new THREE.Group();
