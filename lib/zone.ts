@@ -35,7 +35,8 @@ export type ZoneCard =
   | { kind: "skills"; groups: GroupeCompetences[] }
   | { kind: "services"; items: { title: string; text: string; href: string }[]; link: ZoneLink }
   | { kind: "blog"; items: { title: string; date: string; href: string }[]; link: ZoneLink }
-  | { kind: "contact"; text: string; email: string; phone: string; links: ZoneLink[] };
+  | { kind: "contact"; text: string; email: string; phone: string; links: ZoneLink[] }
+  | { kind: "site"; text: string; items: { title: string; text: string; href: string }[]; link: ZoneLink };
 
 export type ZoneBuilding = {
   id: string;
@@ -171,6 +172,27 @@ export function getZoneBuildings(): ZoneBuilding[] {
         { label: "GitHub", href: site.social.github, external: true },
         { label: "LinkedIn", href: site.social.linkedin, external: true },
       ],
+    },
+  });
+
+  // Bout de la route : la sortie de la zone, vers les pages complètes du site
+  buildings.push({
+    id: "site",
+    name: "Le site",
+    sign: "Sortie de zone",
+    title: "Continuer sur le site",
+    highlight: "le site",
+    shape: { w: 18, d: 11, h: 8, roof: "gable" },
+    card: {
+      kind: "site",
+      text: "Fin de la visite. Toutes les rubriques en détail, en version classique.",
+      items: [
+        { title: "Réalisations", text: "Chaque projet en cas d'étude complet.", href: "/projets" },
+        { title: "Services", text: "Ce que je fais, pour qui, et comment.", href: "/services" },
+        { title: "Blog", text: "Conseils et retours d'expérience.", href: "/blog" },
+        { title: "À propos", text: "Mon parcours, du chariot au code.", href: "/a-propos" },
+      ],
+      link: { label: "Voir toutes les réalisations", href: "/projets" },
     },
   });
 
