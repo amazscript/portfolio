@@ -16,7 +16,6 @@ import styles from "./zone.module.css";
  */
 
 const VH_PER_BUILDING = 150;
-const num = (i: number) => String(i + 1).padStart(2, "0");
 
 /** Progression 0 → 1 convertie en position sur la route, avec un temps d'arrêt devant chaque bâtiment. */
 function routeU(p: number, n: number) {
@@ -157,9 +156,7 @@ export function ZoneExperience({ buildings }: { buildings: ZoneBuilding[] }) {
             aria-label={b.name}
             hidden={!classic && active !== i}
           >
-            <div className={styles.sign}>
-              <b>{num(i)}</b> {b.sign}
-            </div>
+            <div className={styles.sign}>{b.sign}</div>
             <Title building={b} level={i === 0 ? 1 : 2} />
             <CardBody card={b.card} countUp={!classic && !reduceMotion && active === i} />
           </section>
@@ -270,6 +267,25 @@ function CardBody({ card, countUp }: { card: ZoneCard; countUp: boolean }) {
                   <Link href={it.href}>{it.title}</Link>
                 </h3>
                 {"text" in it && <p>{it.text}</p>}
+              </div>
+            ))}
+          </div>
+          <div className={styles.links}>
+            <ZLink link={card.link} />
+          </div>
+        </>
+      );
+    case "site":
+      return (
+        <>
+          <p>{card.text}</p>
+          <div className={styles.items}>
+            {card.items.map((it) => (
+              <div key={it.href} className={styles.item}>
+                <h3>
+                  <Link href={it.href}>{it.title}</Link>
+                </h3>
+                <p>{it.text}</p>
               </div>
             ))}
           </div>

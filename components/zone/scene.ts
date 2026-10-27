@@ -415,7 +415,7 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
       signW = signH * 4;
       signY = top - signH / 2;
     }
-    const label = `${String(i + 1).padStart(2, "0")} · ${specs[i].name}`.toUpperCase();
+    const label = specs[i].name.toUpperCase();
     const sign = new THREE.Mesh(
       new THREE.PlaneGeometry(signW, signW / 4),
       new THREE.MeshBasicMaterial({ map: labelTexture(label) })
