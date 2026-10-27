@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ZoneBuilding, ZoneCard, ZoneLink } from "@/lib/zone";
 import type { ZoneScene } from "@/components/zone/scene";
 import { openConsent } from "@/lib/consent";
@@ -49,7 +49,6 @@ export function ZoneExperience({ buildings }: { buildings: ZoneBuilding[] }) {
   const sceneRef = useRef<ZoneScene | null>(null);
   const [classic, setClassic] = useState(false);
   const [active, setActive] = useState(0);
-  const [selected, setSelected] = useState(0);
   const [heading, setHeading] = useState<number | null>(null);
   const [sceneReady, setSceneReady] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
@@ -90,7 +89,6 @@ export function ZoneExperience({ buildings }: { buildings: ZoneBuilding[] }) {
           onStop: (index, next) => {
             if (index >= 0) {
               setActive(index);
-              setSelected(index);
               setHeading(null);
             } else {
               setActive(-1);
@@ -117,23 +115,9 @@ export function ZoneExperience({ buildings }: { buildings: ZoneBuilding[] }) {
     };
   }, [classic, buildings, N]);
 
-  const goTo = useCallback(
-    (i: number) => {
-      const behavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
-      if (classic) {
-        document.getElementById(buildings[i].id)?.scrollIntoView({ behavior });
-        return;
-      }
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      window.scrollTo({ top: (max * i) / (N - 1), behavior });
-    },
-    [classic, reduceMotion, buildings, N]
-  );
-
   const toggleClassic = () => {
     setClassic((c) => !c);
     setActive(0);
-    setSelected(0);
     window.scrollTo(0, 0);
   };
 
@@ -150,20 +134,6 @@ export function ZoneExperience({ buildings }: { buildings: ZoneBuilding[] }) {
         <span className={styles.brand}>
           Zone <span>Decilap</span>
         </span>
-        <nav className={styles.plan} aria-label="Plan de la zone">
-          {buildings.map((b, i) => (
-            <button
-              key={b.id}
-              type="button"
-              aria-current={selected === i ? "true" : "false"}
-              aria-label={`${num(i)} · ${b.name}`}
-              onClick={() => goTo(i)}
-            >
-              {num(i)}
-              <span className={styles.full}>&nbsp;· {b.name}</span>
-            </button>
-          ))}
-        </nav>
         <button type="button" className={styles.mode} aria-pressed={classic} onClick={toggleClassic}>
           {classic ? "Visite 3D" : "Vue classique"}
         </button>

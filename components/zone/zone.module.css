@@ -33,7 +33,7 @@
   display: block;
 }
 
-/* Barre du haut : nom de la zone, plan, bascule de vue */
+/* Barre du haut : nom de la zone, bascule de vue */
 .topbar {
   position: fixed;
   inset: 0 0 auto;
@@ -61,12 +61,6 @@
 .brand span {
   color: var(--safety);
 }
-.plan {
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
-}
-.plan button,
 .mode,
 .siteLink {
   font: 500 11px/1 var(--font-mono);
@@ -83,27 +77,13 @@
   display: inline-flex;
   align-items: center;
 }
-.plan button[aria-current="true"] {
-  color: var(--safety-ink);
-  background: var(--safety);
-  border-color: var(--safety);
-}
 .mode,
 .siteLink {
   color: var(--zfg) !important;
 }
-.plan button:hover,
 .mode:hover,
 .siteLink:hover {
   border-color: var(--safety);
-}
-.full {
-  display: none;
-}
-@media (min-width: 1500px) {
-  .full {
-    display: inline;
-  }
 }
 
 /* Fiches */
