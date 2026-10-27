@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import type { ZoneBuilding, ZoneCard, ZoneLink } from "@/lib/zone";
 import type { ZoneScene } from "@/components/zone/scene";
@@ -44,6 +45,7 @@ function hasWebGL() {
 
 export function ZoneExperience({ buildings }: { buildings: ZoneBuilding[] }) {
   const N = buildings.length;
+  const router = useRouter();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sceneRef = useRef<ZoneScene | null>(null);
   const [classic, setClassic] = useState(false);
@@ -84,6 +86,7 @@ export function ZoneExperience({ buildings }: { buildings: ZoneBuilding[] }) {
           buildings,
           reduceMotion: reduce,
           signFont,
+          start: routeU(scrollProgress(), N),
           debug: new URLSearchParams(window.location.search).get("debug") === "zone",
           onStop: (index, next) => {
             if (index >= 0) {
@@ -94,25 +97,44 @@ export function ZoneExperience({ buildings }: { buildings: ZoneBuilding[] }) {
               setHeading(next);
             }
           },
+          onExit: () => {
+            // Page remise sur l'arrêt précédent : au retour arrière, on ne repart pas aussitôt
+            const max = document.documentElement.scrollHeight - window.innerHeight;
+            window.scrollTo({ top: (max * (N - 2)) / (N - 1), behavior: "instant" });
+            router.push("/projets");
+          },
         });
         sceneRef.current.setTarget(routeU(scrollProgress(), N));
         setSceneReady(true);
       })
       .catch(() => setClassic(true)); // WebGL refusé au dernier moment : on se replie sur la vue classique
 
-    const onScroll = () => sceneRef.current?.setTarget(routeU(scrollProgress(), N));
+    // Un défilement sans geste de l'utilisateur juste avant vient du navigateur, qui restaure la
+    // position au retour arrière (en douceur, sur une seconde) : le chariot y est posé directement.
+    // Limité aux premières secondes : ensuite, l'inertie d'un geste tactile ne doit pas téléporter.
+    const mountedAt = performance.now();
+    let lastInput = -Infinity;
+    const onInput = () => (lastInput = performance.now());
+    const inputEvents = ["wheel", "touchstart", "keydown", "pointerdown"] as const;
+    inputEvents.forEach((e) => window.addEventListener(e, onInput, { passive: true }));
+    const onScroll = () => {
+      const now = performance.now();
+      const fromBrowser = now - mountedAt < 3000 && now - lastInput > 1500;
+      sceneRef.current?.setTarget(routeU(scrollProgress(), N), fromBrowser);
+    };
     const onVisibility = () => sceneRef.current?.setPaused(document.hidden);
     window.addEventListener("scroll", onScroll, { passive: true });
     document.addEventListener("visibilitychange", onVisibility);
     return () => {
       cancelled = true;
       window.removeEventListener("scroll", onScroll);
+      inputEvents.forEach((e) => window.removeEventListener(e, onInput));
       document.removeEventListener("visibilitychange", onVisibility);
       sceneRef.current?.dispose();
       sceneRef.current = null;
       setSceneReady(false);
     };
-  }, [classic, buildings, N]);
+  }, [classic, buildings, N, router]);
 
   const toggleClassic = () => {
     setClassic((c) => !c);
@@ -120,9 +142,13 @@ export function ZoneExperience({ buildings }: { buildings: ZoneBuilding[] }) {
     window.scrollTo(0, 0);
   };
 
-  const statusText =
-    heading === null ? "Faites défiler pour conduire" : `En route vers : ${buildings[heading].name}`;
-  const showStatus = !classic && (active === 0 || heading !== null);
+  const exiting = active >= 0 && buildings[active]?.shape.exit === true;
+  const statusText = exiting
+    ? "Entrée sur le site…"
+    : heading === null
+      ? "Faites défiler pour conduire"
+      : `En route vers : ${buildings[heading].name}`;
+  const showStatus = !classic && (active === 0 || heading !== null || exiting);
 
   return (
     <div className={`${styles.root} ${classic ? styles.classic : ""}`}>
@@ -154,7 +180,7 @@ export function ZoneExperience({ buildings }: { buildings: ZoneBuilding[] }) {
             id={b.id}
             className={styles.card}
             aria-label={b.name}
-            hidden={!classic && active !== i}
+            hidden={!classic && (active !== i || b.shape.exit === true)}
           >
             <div className={styles.sign}>{b.sign}</div>
             <Title building={b} level={i === 0 ? 1 : 2} />

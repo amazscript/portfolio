@@ -16,12 +16,17 @@ export type ZoneSceneOptions = {
   signFont: string;
   /** Arrêt devant le bâtiment `index`, ou départ (`index` = -1) vers `next`. */
   onStop: (index: number, next: number) => void;
+  /** Le chariot est entré dans le bâtiment de sortie (dernier bâtiment, `shape.exit`). */
+  onExit?: () => void;
+  /** Position de départ sur la route (page rechargée ou retour arrière en milieu de visite). */
+  start?: number;
   /** Mode diagnostic (?debug=zone) : expose la vitesse du chariot sur le canvas. */
   debug?: boolean;
 };
 
 export type ZoneScene = {
-  setTarget: (u: number) => void;
+  /** `snap` : saut sans trajet (position restaurée par le navigateur, ancre). */
+  setTarget: (u: number, snap?: boolean) => void;
   setPaused: (paused: boolean) => void;
   dispose: () => void;
 };
@@ -50,7 +55,7 @@ function smoothDamp(current: number, target: number, velocity: number, smoothTim
 }
 
 export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
-  const { canvas, buildings: specs, reduceMotion, signFont, onStop, debug = false } = opts;
+  const { canvas, buildings: specs, reduceMotion, signFont, onStop, onExit, start = 0, debug = false } = opts;
   const N = specs.length;
 
   // Rendu identique au prototype (Three r128) : couleurs hex prises telles quelles, sans
@@ -117,7 +122,13 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
     const z = i === 0 ? 0 : (i % 2 ? -1 : 1) * (5 + ((i * 37) % 6));
     return new THREE.Vector3(i * SPACING, 0, z);
   });
-  const pts = [new THREE.Vector3(-26, 0, 8), ...stops, new THREE.Vector3((N - 1) * SPACING + 28, 0, 6)];
+  // Avec un bâtiment de sortie, la route s'arrête juste après le dernier arrêt, devant sa porte
+  const exitIndex = specs[N - 1]?.shape.exit ? N - 1 : -1;
+  const roadEnd =
+    exitIndex >= 0
+      ? new THREE.Vector3((N - 1) * SPACING + 7, 0, stops[N - 1].z)
+      : new THREE.Vector3((N - 1) * SPACING + 28, 0, 6);
+  const pts = [new THREE.Vector3(-26, 0, 8), ...stops, roadEnd];
   const curve = new THREE.CatmullRomCurve3(pts, false, "catmullrom", 0.5);
   const uToT = (u: number) => (u + 1) / (pts.length - 1);
   // Abscisse curviligne (0 → 1) de chaque arrêt : le chariot avance en mètres réels.
@@ -228,20 +239,23 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
   const smoke: THREE.Mesh[] = [];
   const blinkers: THREE.Object3D[] = [];
   const screens: THREE.MeshBasicMaterial[] = [];
-  const placed: { pos: THREE.Vector3; dir: THREE.Vector3; h: number }[] = [];
+  const placed: { pos: THREE.Vector3; dir: THREE.Vector3; h: number; exit: boolean }[] = [];
+  let exitDoor: THREE.Group | null = null;
+  let exitDoorHeight = 0;
 
   stops.forEach((p, i) => {
     const s = specs[i].shape;
     const t = uToT(i);
     const side = i % 2 ? 1 : -1;
-    const dir = sideOf(t).multiplyScalar(side);
-    const pos = p.clone().addScaledVector(dir, 8 + s.d / 2);
+    // Bâtiment de sortie : en travers du bout de la route, façade face au chariot
+    const dir = s.exit ? curve.getTangent(1) : sideOf(t).multiplyScalar(side);
+    const pos = s.exit ? curve.getPoint(1).addScaledVector(dir, s.d / 2 + 0.3) : p.clone().addScaledVector(dir, 8 + s.d / 2);
     // Recul jusqu'à ce que l'emprise (camion compris) dégage la route sur tout son tracé :
     // dans un virage, les coins d'un bâtiment large mordraient sinon sur la chaussée.
     // Devant la façade : caisses (jusqu'à 1,9) ou camion (4,7)
     const footprint: Footprint = { pos, dir, halfW: s.w / 2, back: s.d / 2, front: s.d / 2 + (s.truck ? 4.7 : 1.9) };
     const footprintToRoad = () => Math.min(...roadSamples.map((q) => distanceToFootprint(q, footprint)));
-    for (let guard = 0; guard < 40 && footprintToRoad() < ROAD_HALF_WIDTH + 1.5; guard++) {
+    for (let guard = 0; !s.exit && guard < 40 && footprintToRoad() < ROAD_HALF_WIDTH + 1.5; guard++) {
       pos.addScaledVector(dir, 0.5);
     }
     footprints.push(footprint);
@@ -258,15 +272,28 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
 
     if (s.roof !== "tower") {
       // Porte sectionnelle à lames, lampe chaude au-dessus, hublots éclairés
-      const dw = Math.min(6, s.w * 0.4);
+      // Sortie : grande porte centrée, dans l'axe de la route, qui se lève à l'arrivée du chariot
+      const dw = s.exit ? 7 : Math.min(6, s.w * 0.4);
       const dh = Math.min(4.6, s.h * 0.5);
+      const doorX = s.exit ? 0 : -s.w * 0.18;
+      const doorGroup = new THREE.Group();
+      doorGroup.position.set(doorX, 0, fz);
       const door = box(dw, dh, 0.1, M(0x8b96ad, { metalness: 0.4 }));
-      door.position.set(-s.w * 0.18, dh / 2, fz);
-      g.add(door);
+      door.position.y = dh / 2;
+      doorGroup.add(door);
       for (let k = 1; k < 7; k++) {
         const r = box(dw, 0.05, 0.12, M(0x5e6884));
-        r.position.set(-s.w * 0.18, (dh * k) / 7, fz + 0.02);
-        g.add(r);
+        r.position.set(0, (dh * k) / 7, 0.02);
+        doorGroup.add(r);
+      }
+      g.add(doorGroup);
+      if (s.exit) {
+        // Intérieur sombre derrière la porte, visible quand elle se lève
+        const inside = box(dw, dh, 0.04, basic(0x05080f));
+        inside.position.set(0, dh / 2, fz + 0.01);
+        g.add(inside);
+        exitDoor = doorGroup;
+        exitDoorHeight = dh;
       }
       const lamp = new THREE.PointLight(0xffb347, 1.6 * Math.PI, 18, 2);
       lamp.position.set(-s.w * 0.18, dh + 1, fz + 2);
@@ -281,7 +308,7 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
         const screen = box(s.w * 0.36, s.h * 0.34, 0.1, mat);
         screen.position.set(s.w * 0.2, s.h * 0.32, fz);
         g.add(screen);
-      } else {
+      } else if (!s.exit) {
         for (let k = 0; k < 3; k++) {
           const w = box(1.4, 0.8, 0.1, winM);
           w.position.set(s.w * 0.12 + k * 2, s.h * 0.55, fz);
@@ -424,8 +451,8 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
     if (s.roof === "tower") sign.scale.set(0.9, 0.9, 1);
     g.add(sign);
 
-    // Palettes et caisses devant la façade
-    for (let k = 0; k < 3; k++) {
+    // Palettes et caisses devant la façade (pas devant la sortie : le chariot y entre)
+    for (let k = 0; k < (s.exit ? 0 : 3); k++) {
       const pal = box(1.3, 0.25, 1.1, M(0x8a6a3e));
       pal.position.set(s.w / 2 - 1 - k * 1.6, 0.13, fz + 1.4);
       g.add(pal);
@@ -436,7 +463,7 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
       }
     }
     scene.add(g);
-    placed.push({ pos, dir, h: s.roof === "tower" ? s.h + 3 : s.h });
+    placed.push({ pos, dir, h: s.roof === "tower" ? s.h + 3 : s.h, exit: !!s.exit });
   });
 
   // ---------- lampadaires, posés après les bâtiments pour les éviter ----------
@@ -569,8 +596,8 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
   scene.add(fork);
 
   // ---------- boucle de rendu ----------
-  let u = 0;
-  let uTarget = 0;
+  let u = Math.max(0, Math.min(N - 1, start));
+  let uTarget = u;
   let lastShown = -2;
   let uVel = 0;
   let liftY = 0.2;
@@ -588,6 +615,11 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
   };
   let paused = false;
   let first = true;
+  // Entrée dans le bâtiment de sortie : armée seulement si l'on n'est pas déjà au bout de la route au
+  // chargement (retour arrière depuis /projets), sinon on y serait renvoyé aussitôt
+  let exitArmed = false;
+  let entering = -1; // secondes écoulées depuis le début de l'entrée, -1 hors entrée
+  let exited = false;
   let frameId = 0;
   const camPos = new THREE.Vector3();
   const camLook = new THREE.Vector3();
@@ -610,6 +642,27 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
   window.addEventListener("resize", resize);
   resize();
 
+  // Trajet d'entrée : fin de la route, puis tout droit jusqu'au fond de la sortie
+  const ENTRY_DOOR = 0.6; // la porte se lève avant que le chariot ne reparte
+  const ENTRY_DRIVE = 2;
+  const exitArcStart = exitIndex >= 0 ? stopArc[exitIndex] : 1;
+  const roadLeft = (1 - exitArcStart) * total;
+  const entryLength = roadLeft + 0.3 + (exitIndex >= 0 ? specs[exitIndex].shape.d : 0) * 0.6;
+  function entryDistance(elapsed: number) {
+    const k = Math.max(0, Math.min(1, (elapsed - ENTRY_DOOR) / ENTRY_DRIVE));
+    return entryLength * k * k * (3 - 2 * k); // démarrage et arrivée en douceur
+  }
+  function entryPoint(travelled: number, outP: THREE.Vector3, outTg: THREE.Vector3) {
+    if (travelled <= roadLeft) {
+      const a = exitArcStart + travelled / total;
+      outP.copy(curve.getPointAt(a));
+      outTg.copy(curve.getTangentAt(a));
+      return;
+    }
+    outTg.copy(curve.getTangentAt(1));
+    outP.copy(curve.getPointAt(1)).addScaledVector(outTg, travelled - roadLeft);
+  }
+
   function frame() {
     frameId = requestAnimationFrame(frame);
     if (paused) return;
@@ -626,10 +679,30 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
     const t = curve.getUtoTmapping(arc, 0); // paramètre natif correspondant, pour sideOf()
     const p = curve.getPointAt(arc);
     const tg = curve.getTangentAt(arc);
-    fork.position.set(p.x, 0, p.z);
-    const yaw = Math.atan2(-tg.z, tg.x);
+    let dist = (uToArc(u) - uToArc(prev)) * total; // en mètres réels
+
+    // Bout de la route : la porte se lève, le chariot entre, puis on rejoint le site
+    if (exitIndex >= 0) {
+      if (uTarget < exitIndex - 0.5) exitArmed = true;
+      if (exitArmed && entering < 0 && uTarget >= exitIndex && exitIndex - u < 0.02) entering = 0;
+    }
+    const forkP = p.clone();
+    const forkTg = tg.clone();
+    if (entering >= 0) {
+      const before = entryDistance(entering);
+      entering += dt;
+      const travelled = entryDistance(entering);
+      dist = travelled - before;
+      entryPoint(travelled, forkP, forkTg);
+      if (exitDoor) exitDoor.position.y = exitDoorHeight * Math.min(1, entering / 0.7);
+      if (!exited && (reduceMotion || entering > ENTRY_DOOR + ENTRY_DRIVE + 0.25)) {
+        exited = true;
+        onExit?.();
+      }
+    }
+    fork.position.set(forkP.x, 0, forkP.z);
+    const yaw = Math.atan2(-forkTg.z, forkTg.x);
     fork.rotation.y = yaw;
-    const dist = (uToArc(u) - uToArc(prev)) * total; // en mètres réels
     wheels.forEach((w) => (w.rotation.z -= dist / 0.42));
 
     // Vitesse et accélération lissées (unités par seconde)
@@ -683,12 +756,15 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
     const w0 = Math.max(0, 1 - f * 3);
     const w1 = Math.max(0, (f - 2 / 3) * 3);
     const n = sideOf(t);
-    const sideA = bA.dir.dot(n) > 0 ? 1 : -1;
-    const sideB = bB.dir.dot(n) > 0 ? 1 : -1;
+    // Bâtiment de sortie dans l'axe de la route : caméra derrière le chariot, pas sur le côté
+    const sideA = bA.exit ? 0 : bA.dir.dot(n) > 0 ? 1 : -1;
+    const sideB = bB.exit ? 0 : bB.dir.dot(n) > 0 ? 1 : -1;
     const sideMix = -(sideA * w0 + sideB * w1);
-    const behind = 6 + 9 * (1 - (w0 + w1));
+    // Devant la sortie, recul supplémentaire pour cadrer toute la façade et son enseigne
+    const exitPull = (bA.exit ? w0 : 0) + (bB.exit ? w1 : 0);
+    const behind = 6 + 9 * (1 - (w0 + w1)) + 9 * exitPull;
     camPos.copy(p).addScaledVector(n, sideMix * 15).addScaledVector(tg, -behind);
-    camPos.y = 7.5 + 2.5 * (1 - (w0 + w1));
+    camPos.y = 7.5 + 2.5 * (1 - (w0 + w1)) + 1.5 * exitPull;
     // À l'arrêt, la caméra « respire » : lente dérive latérale, comme tenue à l'épaule
     if (!reduceMotion) {
       const still = Math.max(w0, w1);
@@ -729,8 +805,15 @@ export function createZoneScene(opts: ZoneSceneOptions): ZoneScene {
   frame();
 
   return {
-    setTarget(next) {
+    setTarget(next, snap = false) {
+      if (entering >= 0) return; // l'entrée dans la sortie va jusqu'au bout
       uTarget = Math.max(0, Math.min(N - 1, next));
+      if (snap) {
+        u = uTarget;
+        uVel = 0;
+        first = true; // caméra placée directement, sans travelling
+        exitArmed = uTarget < exitIndex - 0.5;
+      }
     },
     setPaused(next) {
       paused = next;

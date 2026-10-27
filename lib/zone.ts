@@ -23,6 +23,8 @@ export type BuildingShape = {
   truck?: boolean;
   /** Panneau lumineux sur la façade (bâtiment du blog). */
   screen?: boolean;
+  /** Bâtiment qui ferme la route : le chariot y entre et l'on rejoint le site classique. */
+  exit?: boolean;
 };
 
 export type ZoneLink = { label: string; href: string; external?: boolean };
@@ -182,10 +184,10 @@ export function getZoneBuildings(): ZoneBuilding[] {
     sign: "Sortie de zone",
     title: "Continuer sur le site",
     highlight: "le site",
-    shape: { w: 18, d: 11, h: 8, roof: "gable" },
+    shape: { w: 18, d: 12, h: 9, roof: "gable", exit: true },
     card: {
       kind: "site",
-      text: "Fin de la visite. Toutes les rubriques en détail, en version classique.",
+      text: "Toutes les rubriques en détail : réalisations, services, articles et parcours.",
       items: [
         { title: "Réalisations", text: "Chaque projet en cas d'étude complet.", href: "/projets" },
         { title: "Services", text: "Ce que je fais, pour qui, et comment.", href: "/services" },
