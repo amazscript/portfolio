@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import type { ZoneBuilding, ZoneCard, ZoneLink } from "@/lib/zone";
 import type { ZoneScene } from "@/components/zone/scene";
 import { openConsent } from "@/lib/consent";
@@ -29,6 +29,29 @@ function routeU(p: number, n: number) {
   return i + (1 - Math.cos(Math.PI * k)) / 2;
 }
 
+// Retour arrière vers l'accueil : le navigateur restaure la position en défilement doux depuis le
+// haut de page, et le chariot repartait de loin. La position est donc mémorisée ici et remise
+// instantanément, avant que la scène ne démarre.
+const POSITION_KEY = "zone-position";
+let cameBack = false;
+if (typeof window !== "undefined") window.addEventListener("popstate", () => (cameBack = true));
+
+function readPosition() {
+  try {
+    return Number(sessionStorage.getItem(POSITION_KEY)) || 0;
+  } catch {
+    return 0; // stockage bloqué (navigation privée stricte) : pas de reprise, rien de cassé
+  }
+}
+
+function savePosition(y: number) {
+  try {
+    sessionStorage.setItem(POSITION_KEY, String(Math.round(y)));
+  } catch {
+    // stockage bloqué : tant pis pour la reprise
+  }
+}
+
 function scrollProgress() {
   const max = document.documentElement.scrollHeight - window.innerHeight;
   return max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
@@ -53,6 +76,17 @@ export function ZoneExperience({ buildings }: { buildings: ZoneBuilding[] }) {
   const [heading, setHeading] = useState<number | null>(null);
   const [sceneReady, setSceneReady] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
+
+  useLayoutEffect(() => {
+    if (!cameBack) return;
+    cameBack = false;
+    const saved = readPosition();
+    if (saved <= 0) return;
+    const html = document.documentElement;
+    html.style.scrollBehavior = "auto"; // le CSS global demande un défilement doux
+    window.scrollTo(0, saved);
+    html.style.scrollBehavior = "";
+  }, []);
 
   // Préférences et capacités du navigateur
   useEffect(() => {
@@ -101,6 +135,8 @@ export function ZoneExperience({ buildings }: { buildings: ZoneBuilding[] }) {
             // Page remise sur l'arrêt précédent : au retour arrière, on ne repart pas aussitôt
             const max = document.documentElement.scrollHeight - window.innerHeight;
             window.scrollTo({ top: (max * (N - 2)) / (N - 1), behavior: "instant" });
+            leaving = true;
+            savePosition(window.scrollY);
             router.push("/projets");
           },
         });
@@ -117,7 +153,18 @@ export function ZoneExperience({ buildings }: { buildings: ZoneBuilding[] }) {
     const onInput = () => (lastInput = performance.now());
     const inputEvents = ["wheel", "touchstart", "keydown", "pointerdown"] as const;
     inputEvents.forEach((e) => window.addEventListener(e, onInput, { passive: true }));
+    // Au clic sur un lien interne, la position est figée : la page suivante remonte en haut
+    let leaving = false;
+    const onClick = (event: MouseEvent) => {
+      const newTab = event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0;
+      if (!newTab && (event.target as Element | null)?.closest("a[href^='/']")) {
+        leaving = true;
+        savePosition(window.scrollY);
+      }
+    };
+    document.addEventListener("click", onClick, true);
     const onScroll = () => {
+      if (!leaving) savePosition(window.scrollY);
       const now = performance.now();
       const fromBrowser = now - mountedAt < 3000 && now - lastInput > 1500;
       sceneRef.current?.setTarget(routeU(scrollProgress(), N), fromBrowser);
@@ -129,6 +176,7 @@ export function ZoneExperience({ buildings }: { buildings: ZoneBuilding[] }) {
       cancelled = true;
       window.removeEventListener("scroll", onScroll);
       inputEvents.forEach((e) => window.removeEventListener(e, onInput));
+      document.removeEventListener("click", onClick, true);
       document.removeEventListener("visibilitychange", onVisibility);
       sceneRef.current?.dispose();
       sceneRef.current = null;
