@@ -8,7 +8,7 @@ export type Project = {
   metaDescription?: string;
   featured: boolean;
   order: number;
-  category: "Marketplace" | "API" | "Application" | "E-commerce" | "Extension" | "Migration";
+  category: "Marketplace" | "API" | "Application" | "Site & back-office" | "E-commerce" | "Extension" | "Migration";
   stack: string[];
   result: string;
   /** Lien de l'image (URL externe ou /fichier dans public/) — optionnel, sinon visuel généré. */
@@ -93,6 +93,42 @@ export const projects: Project[] = [
     ],
     learned:
       "Maintenir une API lisible à 325+ endpoints avec 100% de couverture impose une discipline stricte de modularité, de nommage et de tests, un socle qui accélère chaque nouvelle intégration front.",
+  },
+  {
+    slug: "bipol-co-france",
+    shortTitle: "BIPOL' & Co",
+    metaDescription:
+      "Cas d'étude : site public et back-office sur mesure pour une association nationale de santé mentale, publication statique découplée et RGPD sans reCAPTCHA.",
+    title: "BIPOL' & Co France",
+    tagline:
+      "Site public statique et back-office français pour une association nationale, conçus pour être tenus seule par une bénévole non technique.",
+    featured: true,
+    order: 2,
+    category: "Site & back-office",
+    stack: ["Astro 5", "NestJS 11", "TypeScript", "PostgreSQL 17", "Prisma 6", "Tailwind CSS", "Docker", "nginx"],
+    result:
+      "Un site en ligne depuis novembre 2026, mis à jour en autonomie par la présidente de l'association. Le site public ne touche jamais la base de données, il reste debout même si le back-office s'arrête.",
+    image: "/projets/bipol-co-france.webp",
+    demoUrl: "https://www.bipolcofrance.fr",
+    problem:
+      "Une association nationale d'entraide pour les personnes vivant avec un trouble bipolaire, animée par des bénévoles eux-mêmes concernés, sans budget ni compétence technique interne. Il fallait un site crédible à la fois pour un public fragile et pour des professionnels de santé, maintenable sans prestataire : un CMS classique aurait transformé chaque correction d'horaire en appel au développeur.",
+    solution: [
+      "Site public entièrement statique en Astro 5, 18 pages générées, 26 composants, aucun framework JavaScript côté client. Événements, articles, partenaires et catégories sont lus dans des fichiers de données, jamais dans une base.",
+      "Back-office NestJS 11, Prisma 6 et PostgreSQL 17, rédigé intégralement en français jusqu'aux noms de variables, 33 routes et 8 modèles de données, avec des formulaires écrits pour quelqu'un qui n'a jamais administré un site.",
+      "Publication en un clic. Le back-office exporte la base vers les fichiers du site, relance la construction Astro en arrière-plan et bascule la nouvelle version. Un verrou interdit deux constructions simultanées, et l'interface signale en permanence s'il reste des modifications pas encore en ligne.",
+      "Médiathèque d'images sécurisée. Aucun fichier reçu n'est servi tel quel, sharp le ré-encode systématiquement en WebP redimensionné, ce qui neutralise au passage un fichier piégé déguisé en image.",
+      "Formulaire de contact protégé sans reCAPTCHA, pour éviter le transfert de données vers Google et le bandeau de consentement qu'il impose. Pièges invisibles sur le champ, le délai de saisie et les liens, plus une limitation de débit nginx par adresse IP appliquée aux seules requêtes d'envoi.",
+      "Exploitation sur VPS en Docker Compose, déploiement par script qui vérifie la configuration nginx avant de la recharger, en-têtes de sécurité et politique de sécurité du contenu générée au build avec l'empreinte de chaque script intégré.",
+    ],
+    decisions:
+      "Découplage strict entre le site public et la base de données, parce que le vrai risque d'un projet associatif n'est pas la charge mais l'abandon : un site statique survit à une base éteinte, à un back-office en panne et à un serveur que plus personne ne surveille. Refus de reCAPTCHA par conformité RGPD, la CNIL ayant déjà sanctionné son usage sans consentement préalable. Interface d'administration et code en français pour coller au vocabulaire métier de l'association et permettre une reprise par un autre développeur sans traduction mentale.",
+    metrics: [
+      { label: "Pages statiques", value: "18" },
+      { label: "Routes back-office", value: "33" },
+      { label: "Framework JS côté client", value: "aucun" },
+    ],
+    learned:
+      "Le livrable n'est pas le site, c'est l'autonomie de la personne qui le tient. La moitié des décisions techniques se sont jouées sur une phrase d'aide, un libellé de bouton ou un message expliquant pourquoi une modification n'est pas encore visible. Sur ce type de projet, la qualité se mesure à ce que le système continue de faire quand plus personne ne le regarde.",
   },
   {
     slug: "systeme-reservation",
@@ -202,4 +238,4 @@ export const getAllSorted = () => [...projects].sort((a, b) => a.order - b.order
 
 export const getProject = (slug: string) => projects.find((p) => p.slug === slug);
 
-export const categories = ["Tous", "Marketplace", "API", "Application", "E-commerce", "Extension", "Migration"] as const;
+export const categories = ["Tous", "Marketplace", "API", "Application", "Site & back-office", "E-commerce", "Extension", "Migration"] as const;

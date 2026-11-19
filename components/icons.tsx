@@ -150,6 +150,7 @@ export const iconMap = {
   marketplace: Cart,
   api: Server,
   application: Layers,
+  "site & back-office": Globe,
   "e-commerce": Cart,
   extension: Puzzle,
   migration: Refresh,
